@@ -1,0 +1,103 @@
+---
+// src/layouts/TwoColumnLayout.astro
+
+import Layout from './Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AsideTitle from '../components/AsideTitle.astro';
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{ text: string; href: string }>;
+  asideTitle: {
+    line1: string;
+    line2: string;
+  };
+  subtitle?: string;
+  additionalClasses?: string;
+  showcaseImage?: string;
+  bgImage?: string;
+  bgImageClasses?: string;
+  layout_body_classes?: string;
+}
+
+const { 
+  title, 
+  breadcrumbs, 
+  asideTitle, 
+  subtitle, 
+  additionalClasses = '',
+  showcaseImage='',
+  bgImage,
+  bgImageClasses = '',
+  layout_body_classes = ''
+} = Astro.props;
+---
+
+<Layout 
+  title={title}
+  body_classes={layout_body_classes}
+>
+  <main class="w-full max-w-[1600px] mx-auto flex flex-col gap-8">
+    {bgImage && (
+      <div class={`absolute inset-0 z-0 flex ${bgImageClasses}`}>
+        <img src={bgImage} alt="Background" class="w-full h-full object-cover" />
+      </div>
+    )}
+    {showcaseImage && (
+      <section class="flex-1 flex m-20 justify-center pt-5">
+        <img src={showcaseImage} alt="Showcase" />
+      </section>
+    )}
+    <section class={`basis ${additionalClasses} relative`}>
+      <aside class="left-column" transition:animate="fade">
+        <div class="left-column--contents">
+          <Breadcrumbs 
+            crumbs={breadcrumbs}
+            transition:persist 
+            transition:name="breadcrumbs" 
+          />
+          <AsideTitle 
+            line1={asideTitle.line1}
+            line2={asideTitle.line2}
+          />
+          {subtitle && <p class="subtitle">{subtitle}</p>}
+          <slot name="left-column-extra" />
+        </div>
+      </aside>
+      <div class="right-column" transition:animate="slide">
+        <slot />
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .basis {
+    @apply w-full flex gap-8 mx-auto;
+  }
+  .left-column {
+    @apply w-full max-w-[400px] flex flex-col items-center justify-start gap-10 relative z-10;
+    height: calc(100vh - 40px); /* Adjust if needed based on your padding/margins */
+  }
+  .left-column--contents {
+    @apply flex-1 w-full mx-auto py-20;
+    position: sticky;
+    top: 0;
+  }
+  .right-column {
+    @apply flex-1 py-20 flex flex-col items-start justify-center gap-10 overflow-y-auto relative z-10 hide-scrollbar;
+  }
+  .subtitle {
+    @apply mt-2;
+  }
+  .hide-scrollbar {
+    @apply overflow-auto;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+</style>
