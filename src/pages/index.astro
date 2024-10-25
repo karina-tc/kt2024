@@ -8,7 +8,8 @@ const breadcrumbs = [
 ];
 ---
 
-<TwoColumnLayout 
+<TwoColumnLayout
+  layout_body_classes="bg-[url('/hero.png')] bg-cover"
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
   pageTitle={{
@@ -16,6 +17,8 @@ const breadcrumbs = [
     line2: "Pixel Philosopher"
   }}
   subtitle="USA Based · Listening to Music"
+  bgImage="/kt.png"
+  bgImageClasses="[&>img]:w-[900px] [&>img]:h-[900px] [&>img]:ml-auto items-end mix-blend-overlay opacity-40"
 >
   <h2 class="sticky-label">My Manifesto</h2>
   <article class="flex flex-1 gap-8">
@@ -26,7 +29,7 @@ const breadcrumbs = [
         <Button type="link" href="/work">My Work</Button>
         <Button type="link" href="/thoughts">My Thoughts</Button>
         <Button type="link" href="/cv">CV</Button>
-        <Button type="button" onClick={() => alert('Contact clicked!')}>Contact</Button>
+        <Button type="link" href="/">Contact</Button>
       </nav>
     </Card>
   </article>

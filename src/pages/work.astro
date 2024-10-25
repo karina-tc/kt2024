@@ -21,7 +21,8 @@ const projectsByYear = workProjects.reduce((acc, project) => {
 const sortedYears = Object.keys(projectsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 ---
 
-<TwoColumnLayout 
+<TwoColumnLayout
+  layout_body_classes="bg-[url('/hero.png')] bg-cover"
   title="Karina Tovar - My Work"
   breadcrumbs={breadcrumbs}
   pageTitle={{
@@ -46,10 +47,7 @@ const sortedYears = Object.keys(projectsByYear).sort((a, b) => parseInt(b) - par
               image={project.image}
               alt_text={project.alt_text}
             >
-              <div class="flex gap-4">
-                <Button type="link" href="/project-details">View Project</Button>
-                <Button type="link" href="/presentation">Watch Presentation</Button>
-              </div>
+              <Button type="link" href="/project-details" additionalClasses="w-full">View Project</Button>
             </Card>
           ))}
         </div>
@@ -75,6 +73,6 @@ const sortedYears = Object.keys(projectsByYear).sort((a, b) => parseInt(b) - par
     @apply bg-[#F9F7F5] p-1 sticky left-0 z-10;
   }
   .year-connector {
-    @apply bg-gray-300 w-full h-[2px];
+    @apply bg-gray-300 w-full h-[1px];
   }
 </style>

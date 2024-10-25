@@ -14,23 +14,45 @@ interface Props {
   };
   subtitle?: string;
   additionalClasses?: string;
+  bgImage?: string;
+  bgImageClasses?: string;
+  layout_body_classes?: string;
 }
 
-const { title, breadcrumbs, pageTitle, subtitle, additionalClasses = '' } = Astro.props;
+const { 
+  title, 
+  breadcrumbs, 
+  pageTitle, 
+  subtitle, 
+  additionalClasses = '',
+  bgImage,
+  bgImageClasses = '',
+  layout_body_classes = ''
+} = Astro.props;
 ---
 
-<Layout title={title}>
-  <main class={`basis ${additionalClasses}`}>
+<Layout 
+  title={title}
+  body_classes={layout_body_classes}
+>
+  <main class={`basis ${additionalClasses} relative`}>
+    {bgImage && (
+      <div class={`absolute inset-0 z-0 flex ${bgImageClasses}`}>
+        <img src={bgImage} alt="Background" class="w-full h-full object-cover" />
+      </div>
+    )}
     <section class="left-column">
-      <Breadcrumbs crumbs={breadcrumbs} />
-      <PageTitle 
-        line1={pageTitle.line1}
-        line2={pageTitle.line2}
-      />
-      {subtitle && <p class="subtitle">{subtitle}</p>}
-      <slot name="left-column-extra" />
+      <div class="left-column--contents">
+        <Breadcrumbs crumbs={breadcrumbs} />
+        <PageTitle 
+          line1={pageTitle.line1}
+          line2={pageTitle.line2}
+        />
+        {subtitle && <p class="subtitle">{subtitle}</p>}
+        <slot name="left-column-extra" />
+      </div>
     </section>
-    <section class="right-column my-auto">
+    <section class="right-column">
       <slot />
     </section>
   </main>
@@ -38,13 +60,16 @@ const { title, breadcrumbs, pageTitle, subtitle, additionalClasses = '' } = Astr
 
 <style>
   .basis {
-    @apply w-screen h-screen flex gap-10 mx-auto;
+    @apply w-screen h-screen flex gap-8 mx-auto;
   }
   .left-column {
-    @apply flex-1 max-w-[580px] p-20 flex flex-col items-start justify-center gap-10;
+    @apply w-1/3 p-20 flex flex-col items-center justify-center gap-10 relative z-10;
+  }
+  .left-column--contents {
+    @apply w-full max-w-fit mx-auto;
   }
   .right-column {
-    @apply flex-1 py-20 flex flex-col items-start justify-center gap-10 overflow-scroll relative hide-scrollbar;
+    @apply flex-1 py-20 flex flex-col items-start justify-center gap-10 overflow-scroll relative my-auto z-10 hide-scrollbar;
   }
   .subtitle {
     @apply mt-2;

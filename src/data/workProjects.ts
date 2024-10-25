@@ -7,32 +7,44 @@ export interface Project {
     body: string;
     image?: string;
     alt_text?: string;
+    href?: string;
   }
   
   export const workProjects: Project[] = [
     {
       year: "2024",
       brow_text: "Tropic",
-      title: "Another project title",
-      body: "Description of another project...",
+      title: "Building a product-led insights platform for finance and procurement teams",
+      body: "FinTech · 2023 - Current",
       image: "https://placehold.co/400",
-      alt_text: "Project image"
-    },
-    {
-      year: "2024",
-      brow_text: "Tropic",
-      title: "Another project title",
-      body: "Description of another project...",
-      image: "https://placehold.co/400",
-      alt_text: "Project image"
+      alt_text: "Project image",
+      href: "#"
     },
     {
       year: "2023",
-      brow_text: "OldCo",
-      title: "Past project title",
-      body: "Description of a past project...",
+      brow_text: "Mystery + Glue",
+      title: "Pouring data into workplace interactions for HR teams to build a sense of community in their employees",
+      body: "Events & HR · 2023 - 2022",
       image: "https://placehold.co/400",
-      alt_text: "Project image"
+      alt_text: "Project image",
+      href: "#"
     },
-    // Add more projects as needed
+    {
+      year: "2022",
+      brow_text: "Teikametrics",
+      title: "Restructuring PPC advertising through empathy for medium and small size businesses",
+      body: "AdTech · 2020 - 2022",
+      image: "https://placehold.co/400",
+      alt_text: "Project image",
+      href: "#"
+    },
+    {
+      year: "2020",
+      brow_text: "Rejoiner",
+      title: "Making foundational changes to email marketing through rule based, fluid and intuitive workflows",
+      body: "MarTech · 2015 - 2020",
+      image: "https://placehold.co/400",
+      alt_text: "Project image",
+      href: "#"
+    },
   ];

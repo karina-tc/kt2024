@@ -38,7 +38,8 @@ const thoughts = [
 const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories))];
 ---
 
-<TwoColumnLayout 
+<TwoColumnLayout
+  layout_body_classes="bg-[url('/hero.png')] bg-cover"
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
   additionalClasses="[&>.right-column]:h-full"
@@ -76,7 +77,7 @@ const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories
 
   // Hover effect
   rows.forEach(row => {
-    let hoverTimer;
+    let hoverTimer: string | number | NodeJS.Timeout | undefined;
 
     row.addEventListener('mouseenter', () => {
       clearTimeout(hoverTimer);
@@ -101,35 +102,43 @@ const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories
   categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
       const category = button.getAttribute('data-category');
-      
+
       // Remove active class from all buttons and add to clicked button
       categoryButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
 
       // Filter and sort rows
       const filteredRows = Array.from(rows).filter(row => {
-        const shouldShow = category === 'all' || row.getAttribute('data-categories').includes(category);
-        row.style.display = shouldShow ? '' : 'none';
+        const categories = row.getAttribute('data-categories') || '';
+        const shouldShow = category === 'all' || (category && categories.includes(category));
+        if (row instanceof HTMLElement) {
+          row.style.display = shouldShow ? '' : 'none';
+        }
         return shouldShow;
       });
 
       // Sort filtered rows by date (most recent first)
-      filteredRows.sort((a, b) => {
-        const dateA = new Date(a.getAttribute('data-date'));
-        const dateB = new Date(b.getAttribute('data-date'));
-        return dateB - dateA;
+      filteredRows.sort((a: Element, b: Element) => {
+        const dateA = new Date(a.getAttribute('data-date') || '');
+        const dateB = new Date(b.getAttribute('data-date') || '');
+        return dateB.getTime() - dateA.getTime();
       });
 
       // Reorder the rows in the DOM
-      filteredRows.forEach(row => container.appendChild(row));
+      if (container) {
+        filteredRows.forEach(row => container.appendChild(row));
+      }
     });
   });
 
   // Initially trigger 'All' category to sort by most recent
-  document.querySelector('[data-category="all"]').click();
+  (document.querySelector('[data-category="all"]') as HTMLElement)?.click();
 </script>
 
 <style>
+  .categories-list {
+    @apply mt-10;
+  }
   [data-row] {
     transition: opacity 0.3s ease-in-out;
   }
