@@ -7,7 +7,6 @@ import AsideTitle from '../components/AsideTitle.astro';
 
 interface Props {
   title: string;
-  pageTitle: string;
   breadcrumbs: Array<{ text: string; href: string }>;
   asideTitle: {
     line1: string;
@@ -22,7 +21,6 @@ interface Props {
 
 const { 
   title, 
-  pageTitle,
   breadcrumbs, 
   asideTitle, 
   subtitle, 
@@ -46,8 +44,7 @@ const {
     <aside class="left-column" transition:animate="fade">
       <div class="left-column--contents">
         <Breadcrumbs 
-          crumbs={breadcrumbs} 
-          currentPageTitle={pageTitle} 
+          crumbs={breadcrumbs}
           transition:persist 
           transition:name="breadcrumbs" 
         />

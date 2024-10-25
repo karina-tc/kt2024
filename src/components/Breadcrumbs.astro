@@ -6,10 +6,9 @@ export interface Crumb {
 
 interface Props {
   crumbs: Crumb[];
-  currentPageTitle: string;
 }
 
-const { crumbs, currentPageTitle } = Astro.props;
+const { crumbs } = Astro.props;
 
 // Object to map page keys to display titles
 const pageTitles: { [key: string]: string } = {
@@ -18,13 +17,15 @@ const pageTitles: { [key: string]: string } = {
   'about': 'About Me',
 }
 
+// Get the current page title from pageTitles if it exists, otherwise use the last crumb's text
+const lastCrumb = crumbs[crumbs.length - 1];
+const currentPageTitle = pageTitles[lastCrumb.href.replace('/', '')] || lastCrumb.text;
+
 const updatedCrumbs = crumbs.map((crumb, index) => 
   index === crumbs.length - 1 
     ? { ...crumb, text: currentPageTitle }
     : crumb
 );
-
-const lastCrumb = updatedCrumbs[updatedCrumbs.length - 1];
 ---
 
 <nav aria-label="Breadcrumb">
@@ -34,12 +35,16 @@ const lastCrumb = updatedCrumbs[updatedCrumbs.length - 1];
         {index > 0 && <span>&nbsp;/&nbsp;</span>}
         {index === updatedCrumbs.length - 1 ? (
           <div class="relative">
-            <button id="lastCrumbDropdown" class="flex items-center text-gray-900 font-medium" data-page-title={crumb.text}>
-              {crumb.text}
-              <svg class="w-4 h-4 ml-1 transition-transform duration-300" id="chevronIcon" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </button>
+            {Object.keys(pageTitles).includes(lastCrumb.href.replace('/', '')) ? (
+              <button id="lastCrumbDropdown" class="flex items-center text-gray-900 font-medium" data-page-title={crumb.text}>
+                {crumb.text}
+                <svg class="w-4 h-4 ml-1 transition-transform duration-300" id="chevronIcon" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            ) : (
+              <span class="text-gray-900 font-medium">{crumb.text}</span>
+            )}
             <div id="dropdownMenu" class="hidden absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 {Object.entries(pageTitles).map(([key, value]) => {
