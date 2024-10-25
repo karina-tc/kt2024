@@ -50,6 +50,32 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
 <script>
   let activeCategory = 'all';
 
+  function setupDimming() {
+    const rows = document.querySelectorAll('[data-row]');
+    
+    rows.forEach(row => {
+      let hoverTimer: ReturnType<typeof setTimeout>;
+
+      row.addEventListener('mouseenter', () => {
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => {
+          rows.forEach(otherRow => {
+            if (otherRow !== row) {
+              otherRow.classList.add('opacity-50');
+            }
+          });
+        }, 200);
+      });
+
+      row.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimer);
+        rows.forEach(otherRow => {
+          otherRow.classList.remove('opacity-50');
+        });
+      });
+    });
+  }
+
   function updateActiveCategory() {
     const buttons = document.querySelectorAll('.category-button');
     const rows = document.querySelectorAll('[data-row]');
@@ -97,10 +123,16 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
   }
 
   // Run on initial load
-  document.addEventListener('DOMContentLoaded', updateActiveCategory);
+  document.addEventListener('DOMContentLoaded', () => {
+    updateActiveCategory();
+    setupDimming();
+  });
 
   // Run on view transitions
-  document.addEventListener('astro:after-swap', updateActiveCategory);
+  document.addEventListener('astro:after-swap', () => {
+    updateActiveCategory();
+    setupDimming();
+  });
 </script>
 
 <style>
