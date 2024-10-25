@@ -1,0 +1,96 @@
+---
+import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
+import Row from '../components/Row.astro';
+
+const breadcrumbs = [
+  { text: 'Karina Tovar', href: '/' },
+  { text: 'My Thoughts', href: '/thoughts' },
+];
+
+const thoughts = [
+  {
+    title: "Assistive Intelligence and Our Underlord Chatbots",
+    date: "2023-05-01",
+    categories: ["AI", "Technology"],
+    href: "/thoughts/assistive-intelligence"
+  },
+  {
+    title: "The Future of UX Design in a Post-AI World",
+    date: "2023-04-15",
+    categories: ["UX", "Design", "AI"],
+    href: "/thoughts/future-of-ux-design"
+  },
+  {
+    title: "Ethical Considerations in Product Design",
+    date: "2023-03-30",
+    categories: ["Ethics", "Product Design"],
+    href: "/thoughts/ethical-product-design"
+  },
+  {
+    title: "The Rise of No-Code Platforms: Empowering Non-Developers",
+    date: "2023-03-10",
+    categories: ["No-Code", "Development"],
+    href: "/thoughts/rise-of-no-code"
+  }
+];
+---
+
+<TwoColumnLayout 
+  title="Karina Tovar - Product Designer"
+  breadcrumbs={breadcrumbs}
+  pageTitle={{
+    line1: "Product Designer",
+    line2: "Pixel Philosopher"
+  }}
+  subtitle="USA Based · Listening to Music"
+>
+  <section id="thoughts-container" class="flex-1 flex flex-col gap-3">
+    {thoughts.map(thought => (
+      <Row 
+        title={thought.title}
+        date={thought.date}
+        categories={thought.categories}
+        href={thought.href}
+      />
+    ))}
+  </section>
+</TwoColumnLayout>
+
+<script>
+  const rows = document.querySelectorAll('[data-row]');
+  const container = document.getElementById('thoughts-container');
+
+  rows.forEach(row => {
+    let hoverTimer;
+
+    row.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => {
+        rows.forEach(otherRow => {
+          if (otherRow !== row) {
+            otherRow.classList.add('opacity-50');
+          }
+        });
+      }, 200);
+    });
+
+    row.addEventListener('mouseleave', () => {
+      clearTimeout(hoverTimer);
+      rows.forEach(otherRow => {
+        otherRow.classList.remove('opacity-50');
+      });
+    });
+  });
+
+  container.addEventListener('mouseleave', () => {
+    rows.forEach(row => {
+      row.classList.remove('opacity-50');
+    });
+  });
+</script>
+
+<style>
+  [data-row] {
+    transition: opacity 0.3s ease-in-out;
+  }
+</style>
