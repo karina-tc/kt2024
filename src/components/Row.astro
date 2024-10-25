@@ -9,7 +9,15 @@ interface Props {
 const { title, date, categories, href } = Astro.props;
 ---
 
-<a href={href} class="row" data-row data-date={date} data-categories={categories.join(',')}>
+<a 
+  href={href} 
+  class="row" 
+  data-row 
+  data-date={date} 
+  data-categories={categories.join(',')}
+  transition:persist
+  transition:name={`row-${title}`}
+>
   <div class="marker"></div>
   <div class="details">
     <h3>{title}</h3>

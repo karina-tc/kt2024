@@ -3,12 +3,13 @@
 
 import Layout from './Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import PageTitle from '../components/PageTitle.astro';
+import AsideTitle from '../components/AsideTitle.astro';
 
 interface Props {
   title: string;
+  pageTitle: string;
   breadcrumbs: Array<{ text: string; href: string }>;
-  pageTitle: {
+  asideTitle: {
     line1: string;
     line2: string;
   };
@@ -21,8 +22,9 @@ interface Props {
 
 const { 
   title, 
+  pageTitle,
   breadcrumbs, 
-  pageTitle, 
+  asideTitle, 
   subtitle, 
   additionalClasses = '',
   bgImage,
@@ -41,18 +43,23 @@ const {
         <img src={bgImage} alt="Background" class="w-full h-full object-cover" />
       </div>
     )}
-    <section class="left-column">
+    <aside class="left-column" transition:animate="fade">
       <div class="left-column--contents">
-        <Breadcrumbs crumbs={breadcrumbs} />
-        <PageTitle 
-          line1={pageTitle.line1}
-          line2={pageTitle.line2}
+        <Breadcrumbs 
+          crumbs={breadcrumbs} 
+          currentPageTitle={pageTitle} 
+          transition:persist 
+          transition:name="breadcrumbs" 
+        />
+        <AsideTitle 
+          line1={asideTitle.line1}
+          line2={asideTitle.line2}
         />
         {subtitle && <p class="subtitle">{subtitle}</p>}
         <slot name="left-column-extra" />
       </div>
-    </section>
-    <section class="right-column">
+    </aside>
+    <section class="right-column" transition:animate="slide">
       <slot />
     </section>
   </main>

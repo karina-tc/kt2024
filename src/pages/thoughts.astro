@@ -1,49 +1,26 @@
 ---
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
 import Row from '../components/Row.astro';
+import { thoughts } from '../data/thoughts';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' },
   { text: 'My Thoughts', href: '/thoughts' },
 ];
 
-const thoughts = [
-  {
-    title: "Assistive Intelligence and Our Underlord Chatbots",
-    date: "2023-05-01",
-    categories: ["AI", "Technology"],
-    href: "/thoughts/assistive-intelligence"
-  },
-  {
-    title: "The Future of UX Design in a Post-AI World",
-    date: "2023-04-15",
-    categories: ["UX", "Design", "AI"],
-    href: "/thoughts/future-of-ux-design"
-  },
-  {
-    title: "Ethical Considerations in Product Design",
-    date: "2023-03-30",
-    categories: ["Ethics", "Product Design"],
-    href: "/thoughts/ethical-product-design"
-  },
-  {
-    title: "The Rise of No-Code Platforms: Empowering Non-Developers",
-    date: "2023-03-10",
-    categories: ["No-Code", "Development"],
-    href: "/thoughts/rise-of-no-code"
-  }
-];
-
-// Extract unique categories
 const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories))];
+
+// Get the initial category from the URL parameter
+const initialCategory = Astro.url.searchParams.get('category') || 'all';
 ---
 
 <TwoColumnLayout
   layout_body_classes="bg-[url('/hero.png')] bg-cover"
   title="Karina Tovar - Product Designer"
+  pageTitle="My Thoughts"
   breadcrumbs={breadcrumbs}
   additionalClasses="[&>.right-column]:h-full"
-  pageTitle={{
+  asideTitle={{
     line1: "Product Designer",
     line2: "Pixel Philosopher"
   }}
@@ -51,16 +28,16 @@ const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories
 >
   <div slot="left-column-extra" class="categories-list">
     <ul class="flex flex-wrap gap-2">
-      <li class="category-button bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer" data-category="all">All</li>
+      <li class={`category-button ${initialCategory === 'all' ? 'active' : ''} bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer`} data-category="all">All</li>
       {allCategories.map(category => (
-        <li class="category-button bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer" data-category={category}>{category}</li>
+        <li class={`category-button ${initialCategory === category ? 'active' : ''} bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer`} data-category={category}>{category}</li>
       ))}
     </ul>
   </div>
 
   <section id="thoughts-container" class="flex-1 w-full max-w-[640px] flex flex-col gap-3 justify-center">
     {thoughts.map(thought => (
-      <Row 
+      <Row
         title={thought.title}
         date={thought.date}
         categories={thought.categories}
@@ -71,68 +48,59 @@ const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories
 </TwoColumnLayout>
 
 <script>
-  const rows = document.querySelectorAll('[data-row]');
-  const container = document.getElementById('thoughts-container');
-  const categoryButtons = document.querySelectorAll('.category-button');
+  let activeCategory = 'all';
 
-  // Hover effect
-  rows.forEach(row => {
-    let hoverTimer: string | number | NodeJS.Timeout | undefined;
+  function updateActiveCategory() {
+    const buttons = document.querySelectorAll('.category-button');
+    const rows = document.querySelectorAll('[data-row]');
 
-    row.addEventListener('mouseenter', () => {
-      clearTimeout(hoverTimer);
-      hoverTimer = setTimeout(() => {
-        rows.forEach(otherRow => {
-          if (otherRow !== row) {
-            otherRow.classList.add('opacity-50');
-          }
-        });
-      }, 200);
-    });
+    // Get the initial category from the URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    activeCategory = urlParams.get('category') || 'all';
 
-    row.addEventListener('mouseleave', () => {
-      clearTimeout(hoverTimer);
-      rows.forEach(otherRow => {
-        otherRow.classList.remove('opacity-50');
-      });
-    });
-  });
-
-  // Category filtering and sorting
-  categoryButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const category = button.getAttribute('data-category');
-
-      // Remove active class from all buttons and add to clicked button
-      categoryButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-
-      // Filter and sort rows
-      const filteredRows = Array.from(rows).filter(row => {
-        const categories = row.getAttribute('data-categories') || '';
-        const shouldShow = category === 'all' || (category && categories.includes(category));
-        if (row instanceof HTMLElement) {
-          row.style.display = shouldShow ? '' : 'none';
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+        if (category) {
+          activeCategory = category;
+          updateUI();
+          updateURL(category);
         }
-        return shouldShow;
       });
-
-      // Sort filtered rows by date (most recent first)
-      filteredRows.sort((a: Element, b: Element) => {
-        const dateA = new Date(a.getAttribute('data-date') || '');
-        const dateB = new Date(b.getAttribute('data-date') || '');
-        return dateB.getTime() - dateA.getTime();
-      });
-
-      // Reorder the rows in the DOM
-      if (container) {
-        filteredRows.forEach(row => container.appendChild(row));
-      }
     });
-  });
 
-  // Initially trigger 'All' category to sort by most recent
-  (document.querySelector('[data-category="all"]') as HTMLElement)?.click();
+    function updateUI() {
+      buttons.forEach(button => {
+        button.classList.toggle('active', button.getAttribute('data-category') === activeCategory);
+      });
+
+      rows.forEach(row => {
+        const rowCategories = row.getAttribute('data-categories')?.split(',') || [];
+        if (row instanceof HTMLElement) {
+          row.style.display = (activeCategory === 'all' || rowCategories.includes(activeCategory)) ? 'flex' : 'none';
+        }
+      });
+    }
+
+    function updateURL(category: string) {
+      const url = new URL(window.location.href);
+      if (category === 'all') {
+        url.searchParams.delete('category');
+      } else {
+        url.searchParams.set('category', category);
+      }
+      history.pushState({}, '', url);
+    }
+
+    // Initial UI update
+    updateUI();
+  }
+
+  // Run on initial load
+  document.addEventListener('DOMContentLoaded', updateActiveCategory);
+
+  // Run on view transitions
+  document.addEventListener('astro:after-swap', updateActiveCategory);
 </script>
 
 <style>
@@ -140,7 +108,7 @@ const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories
     @apply mt-10 max-w-80;
   }
   [data-row] {
-    transition: opacity 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
   .category-button {
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;

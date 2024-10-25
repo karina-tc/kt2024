@@ -6,9 +6,10 @@ export interface Crumb {
 
 interface Props {
   crumbs: Crumb[];
+  currentPageTitle: string;
 }
 
-const { crumbs } = Astro.props;
+const { crumbs, currentPageTitle } = Astro.props;
 
 // Object to map page keys to display titles
 const pageTitles: { [key: string]: string } = {
@@ -17,20 +18,13 @@ const pageTitles: { [key: string]: string } = {
   'about': 'About Me',
 }
 
-function getLastCrumbText(text: string): string {
-  return pageTitles[text.toLowerCase()] || text;
-}
-
 const updatedCrumbs = crumbs.map((crumb, index) => 
   index === crumbs.length - 1 
-    ? { ...crumb, text: getLastCrumbText(crumb.text) }
+    ? { ...crumb, text: currentPageTitle }
     : crumb
 );
 
 const lastCrumb = updatedCrumbs[updatedCrumbs.length - 1];
-
-console.log('Last Crumb:', lastCrumb);
-console.log('Page Titles:', pageTitles);
 ---
 
 <nav aria-label="Breadcrumb">
@@ -40,7 +34,7 @@ console.log('Page Titles:', pageTitles);
         {index > 0 && <span>&nbsp;/&nbsp;</span>}
         {index === updatedCrumbs.length - 1 ? (
           <div class="relative">
-            <button id="lastCrumbDropdown" class="flex items-center text-gray-900 font-medium">
+            <button id="lastCrumbDropdown" class="flex items-center text-gray-900 font-medium" data-page-title={crumb.text}>
               {crumb.text}
               <svg class="w-4 h-4 ml-1 transition-transform duration-300" id="chevronIcon" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -50,7 +44,6 @@ console.log('Page Titles:', pageTitles);
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 {Object.entries(pageTitles).map(([key, value]) => {
                   const shouldRender = key.toLowerCase() !== lastCrumb.text.toLowerCase();
-                  console.log(`Key: ${key}, Value: ${value}, Should Render: ${shouldRender}`);
                   return shouldRender && (
                     <a
                       href={`/${key}`}
@@ -94,21 +87,29 @@ console.log('Page Titles:', pageTitles);
 </style>
 
 <script>
-  const dropdown = document.getElementById('lastCrumbDropdown');
-  const menu = document.getElementById('dropdownMenu');
-  const chevronIcon = document.getElementById('chevronIcon');
+  function updateBreadcrumbs() {
+    const dropdown = document.getElementById('lastCrumbDropdown');
+    const menu = document.getElementById('dropdownMenu');
+    const chevronIcon = document.getElementById('chevronIcon');
 
-  if (dropdown && menu && chevronIcon) {
-    dropdown.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-      chevronIcon.classList.toggle('rotate-180');
-    });
+    if (dropdown && menu && chevronIcon) {
+      dropdown.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        chevronIcon.classList.toggle('rotate-180');
+      });
 
-    document.addEventListener('click', (event) => {
-      if (!dropdown.contains(event.target as Node)) {
-        menu.classList.add('hidden');
-        chevronIcon.classList.remove('rotate-180');
-      }
-    });
+      document.addEventListener('click', (event) => {
+        if (!dropdown.contains(event.target as Node)) {
+          menu.classList.add('hidden');
+          chevronIcon.classList.remove('rotate-180');
+        }
+      });
+    }
   }
+
+  // Run on initial load
+  updateBreadcrumbs();
+
+  // Run on view transitions
+  document.addEventListener('astro:after-swap', updateBreadcrumbs);
 </script>

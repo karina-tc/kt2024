@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
 interface Props {
 	title: string;
 	body_classes?: string;
@@ -16,9 +17,11 @@ const { title, body_classes = '' } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+
+    <ViewTransitions />
 	</head>
 	<body class={`${body_classes}`}>
-		<div class="coordinate-grid">
+		<div class="coordinate-grid" transition:persist>
 			<div id="column-coordinates" class="column-coordinates"></div>
 			<div id="row-coordinates" class="row-coordinates"></div>
 			<div id="grid-lines" class="grid-lines"></div>
