@@ -1,0 +1,61 @@
+---
+// src/layouts/TwoColumnLayout.astro
+
+import Layout from './Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageTitle from '../components/PageTitle.astro';
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{ text: string; href: string }>;
+  pageTitle: {
+    line1: string;
+    line2: string;
+  };
+  subtitle?: string;
+}
+
+const { title, breadcrumbs, pageTitle, subtitle } = Astro.props;
+---
+
+<Layout title={title}>
+  <main class="basis">
+    <section class="left-column">
+      <Breadcrumbs crumbs={breadcrumbs} />
+      <PageTitle 
+        line1={pageTitle.line1}
+        line2={pageTitle.line2}
+      />
+      {subtitle && <p class="subtitle">{subtitle}</p>}
+      <slot name="left-column-extra" />
+    </section>
+    <section class="right-column my-auto">
+      <slot />
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .basis {
+    @apply w-screen h-screen flex gap-10 mx-auto;
+  }
+  .left-column {
+    @apply flex-1 max-w-[580px] p-20 flex flex-col items-start justify-center gap-10;
+  }
+  .right-column {
+    @apply flex-1 py-20 flex flex-col items-start justify-center gap-10 overflow-scroll relative hide-scrollbar;
+  }
+  .subtitle {
+    @apply mt-2;
+  }
+  .hide-scrollbar {
+    @apply overflow-auto;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+</style>

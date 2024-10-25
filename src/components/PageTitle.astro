@@ -1,0 +1,25 @@
+---
+// src/components/PageTitle.astro
+
+interface Props {
+  line1: string;
+  line2: string;
+  additionalClasses?: string;
+}
+
+const { line1, line2, additionalClasses = '' } = Astro.props;
+---
+
+<h1 class={`flex flex-col gap-2 ${additionalClasses}`}>
+  <span>{line1}</span>
+  <span>{line2}</span>
+</h1>
+
+<style>
+  h1 {
+    @apply text-5xl;
+  }
+  span {
+    @apply leading-tight;
+  }
+</style>

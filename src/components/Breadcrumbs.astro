@@ -1,0 +1,50 @@
+---
+// src/components/Breadcrumbs.astro
+
+export interface Crumb {
+  text: string;
+  href: string;
+}
+
+interface Props {
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb">
+  <ol class="breadcrumbs">
+    {crumbs.map((crumb, index) => (
+      <li class="flex items-center">
+        {index > 0 && <span>&nbsp;/&nbsp;</span>}
+        {index === crumbs.length - 1 ? (
+          <span>{crumb.text}</span>
+        ) : (
+          <span class="link-block group">
+            <a href={crumb.href}>{crumb.text}</a>
+            <div class="highlight"></div>
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs {
+    @apply flex items-center space-x-1 text-lg text-gray-500 font-light;
+  }
+  .breadcrumbs a {
+    @apply text-gray-900 font-medium;
+  }
+  .divider {
+    @apply font-light;
+  }
+  .link-block {
+    @apply flex flex-col gap-[2px] relative;
+  }
+  .highlight {
+    @apply absolute inset-x-0 bottom-0 h-0.5 bg-gray-300 scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-300;
+  }
+</style>
