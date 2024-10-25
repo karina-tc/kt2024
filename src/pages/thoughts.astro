@@ -33,18 +33,31 @@ const thoughts = [
     href: "/thoughts/rise-of-no-code"
   }
 ];
+
+// Extract unique categories
+const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories))];
 ---
 
 <TwoColumnLayout 
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
+  additionalClasses="[&>.right-column]:h-full"
   pageTitle={{
     line1: "Product Designer",
     line2: "Pixel Philosopher"
   }}
   subtitle="USA Based · Listening to Music"
 >
-  <section id="thoughts-container" class="flex-1 flex flex-col gap-3">
+  <div slot="left-column-extra" class="categories-list">
+    <ul class="flex flex-wrap gap-2">
+      <li class="category-button bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer" data-category="all">All</li>
+      {allCategories.map(category => (
+        <li class="category-button bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer" data-category={category}>{category}</li>
+      ))}
+    </ul>
+  </div>
+
+  <section id="thoughts-container" class="flex-1 w-full max-w-[640px] flex flex-col gap-3 justify-center">
     {thoughts.map(thought => (
       <Row 
         title={thought.title}
@@ -59,7 +72,9 @@ const thoughts = [
 <script>
   const rows = document.querySelectorAll('[data-row]');
   const container = document.getElementById('thoughts-container');
+  const categoryButtons = document.querySelectorAll('.category-button');
 
+  // Hover effect
   rows.forEach(row => {
     let hoverTimer;
 
@@ -82,15 +97,46 @@ const thoughts = [
     });
   });
 
-  container.addEventListener('mouseleave', () => {
-    rows.forEach(row => {
-      row.classList.remove('opacity-50');
+  // Category filtering and sorting
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const category = button.getAttribute('data-category');
+      
+      // Remove active class from all buttons and add to clicked button
+      categoryButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Filter and sort rows
+      const filteredRows = Array.from(rows).filter(row => {
+        const shouldShow = category === 'all' || row.getAttribute('data-categories').includes(category);
+        row.style.display = shouldShow ? '' : 'none';
+        return shouldShow;
+      });
+
+      // Sort filtered rows by date (most recent first)
+      filteredRows.sort((a, b) => {
+        const dateA = new Date(a.getAttribute('data-date'));
+        const dateB = new Date(b.getAttribute('data-date'));
+        return dateB - dateA;
+      });
+
+      // Reorder the rows in the DOM
+      filteredRows.forEach(row => container.appendChild(row));
     });
   });
+
+  // Initially trigger 'All' category to sort by most recent
+  document.querySelector('[data-category="all"]').click();
 </script>
 
 <style>
   [data-row] {
     transition: opacity 0.3s ease-in-out;
+  }
+  .category-button {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  .category-button.active {
+    @apply bg-red-500 text-white;
   }
 </style>

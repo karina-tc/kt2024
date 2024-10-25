@@ -13,13 +13,14 @@ interface Props {
     line2: string;
   };
   subtitle?: string;
+  additionalClasses?: string;
 }
 
-const { title, breadcrumbs, pageTitle, subtitle } = Astro.props;
+const { title, breadcrumbs, pageTitle, subtitle, additionalClasses = '' } = Astro.props;
 ---
 
 <Layout title={title}>
-  <main class="basis">
+  <main class={`basis ${additionalClasses}`}>
     <section class="left-column">
       <Breadcrumbs crumbs={breadcrumbs} />
       <PageTitle 
