@@ -16,7 +16,7 @@ export interface Project {
       brow_text: "Tropic",
       title: "Building a product-led insights platform for finance and procurement teams",
       body: "FinTech · 2023 - Current",
-      image: "https://placehold.co/400",
+      image: "https://placehold.co/400X200",
       alt_text: "Project image",
       href: "#"
     },
@@ -25,7 +25,7 @@ export interface Project {
       brow_text: "Mystery + Glue",
       title: "Pouring data into workplace interactions for HR teams to build a sense of community in their employees",
       body: "Events & HR · 2023 - 2022",
-      image: "https://placehold.co/400",
+      image: "https://placehold.co/400X200",
       alt_text: "Project image",
       href: "#"
     },
@@ -34,7 +34,7 @@ export interface Project {
       brow_text: "Teikametrics",
       title: "Restructuring PPC advertising through empathy for medium and small size businesses",
       body: "AdTech · 2020 - 2022",
-      image: "https://placehold.co/400",
+      image: "https://placehold.co/400X200",
       alt_text: "Project image",
       href: "#"
     },
@@ -43,7 +43,7 @@ export interface Project {
       brow_text: "Rejoiner",
       title: "Making foundational changes to email marketing through rule based, fluid and intuitive workflows",
       body: "MarTech · 2015 - 2020",
-      image: "https://placehold.co/400",
+      image: "https://placehold.co/400X200",
       alt_text: "Project image",
       href: "#"
     },

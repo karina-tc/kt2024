@@ -34,7 +34,7 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
     </ul>
   </div>
 
-  <section id="thoughts-container" class="flex-1 w-full max-w-[640px] flex flex-col gap-3 justify-center">
+  <section id="thoughts-container" class="w-full max-h-[80vh] max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start pr-10">
     {thoughts.map(thought => (
       <Row
         title={thought.title}
@@ -146,5 +146,15 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
   }
   .category-button.active {
     @apply bg-red-500 text-white;
+  }
+  .hide-scrollbar {
+    @apply overflow-auto;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 </style>
