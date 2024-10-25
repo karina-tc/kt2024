@@ -21,7 +21,7 @@ const { title, body_classes = '' } = Astro.props;
     <ViewTransitions />
 	</head>
 	<body class={`${body_classes}`}>
-		<div class="coordinate-grid" transition:persist>
+		<div class="coordinate-grid" transition:persist="grid">
 			<div id="column-coordinates" class="column-coordinates"></div>
 			<div id="row-coordinates" class="row-coordinates"></div>
 			<div id="grid-lines" class="grid-lines"></div>
@@ -92,6 +92,9 @@ const { title, body_classes = '' } = Astro.props;
 
 			// Update on window resize
 			window.addEventListener('resize', updateCoordinates);
+
+			// Update after view transitions
+			document.addEventListener('astro:after-swap', updateCoordinates);
 		</script>
 	</body>
 </html>
