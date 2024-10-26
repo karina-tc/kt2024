@@ -1,5 +1,8 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import CoordinateGrid from '../components/CoordinateGrid.astro';
+import '../styles/layout.css';  // Add this import
+
 interface Props {
 	title: string;
 	body_classes?: string;
@@ -17,85 +20,13 @@ const { title, body_classes = '' } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-
-    <ViewTransitions />
+		<ViewTransitions />
 	</head>
-	<body class={`${body_classes}`}>
-		<div class="coordinate-grid" transition:persist="grid">
-			<div id="column-coordinates" class="column-coordinates"></div>
-			<div id="row-coordinates" class="row-coordinates"></div>
-			<div id="grid-lines" class="grid-lines"></div>
-		</div>
-		<div class="content">
+	<body class={`relative min-h-screen ${body_classes}`}>
+		<CoordinateGrid />
+		<div class="content relative z-10">
 			<slot />
 		</div>
-
-		<script>
-			function updateCoordinates() {
-				const columnCoords = document.getElementById('column-coordinates');
-				const rowCoords = document.getElementById('row-coordinates');
-				const gridLines = document.getElementById('grid-lines');
-
-				const width = window.innerWidth;
-				const height = window.innerHeight;
-				// Clear existing coordinates and grid lines
-				if (columnCoords) columnCoords.innerHTML = '';
-				if (rowCoords) rowCoords.innerHTML = '';
-				if (gridLines) gridLines.innerHTML = '';
-
-				// Generate column coordinates and vertical grid lines
-				for (let i = 0; i <= width; i += 200) {
-					const span = document.createElement('span');
-					span.className = 'coordinate';
-					span.textContent = i.toString();
-					span.style.left = `${(i / width) * 100}%`;
-					columnCoords?.appendChild(span);
-
-					const line = document.createElement('div');
-					line.className = 'grid-line vertical';
-					line.style.left = `${(i / width) * 100}%`;
-					if (gridLines) {
-						gridLines.appendChild(line);
-					}
-				}
-
-				// Generate row coordinates and horizontal grid lines
-				for (let i = 0; i <= height; i += 200) {
-					const span = document.createElement('span');
-					span.className = 'coordinate';
-					span.textContent = numberToLetter(Math.floor(i / 200));
-					span.style.top = `${(i / height) * 100}%`;
-					if (rowCoords) {
-						rowCoords.appendChild(span);
-					}
-
-					const line = document.createElement('div');
-					line.className = 'grid-line horizontal';
-					line.style.top = `${(i / height) * 100}%`;
-					if (gridLines) {
-						gridLines.appendChild(line);
-					}
-				}
-			}
-
-			function numberToLetter(num: number): string {
-				let letter = '';
-				while (num >= 0) {
-					letter = String.fromCharCode(65 + (num % 26)) + letter;
-					num = Math.floor(num / 26) - 1;
-				}
-				return letter;
-			}
-
-			// Initial update
-			updateCoordinates();
-
-			// Update on window resize
-			window.addEventListener('resize', updateCoordinates);
-
-			// Update after view transitions
-			document.addEventListener('astro:after-swap', updateCoordinates);
-		</script>
 	</body>
 </html>
 <style is:global>
@@ -127,31 +58,11 @@ const { title, body_classes = '' } = Astro.props;
 	body {
 		@apply relative min-h-screen;
 	}
-	.coordinate-grid {
-		@apply font-mono absolute top-0 left-0 w-full h-full pointer-events-none bg-blend-overlay opacity-25 text-black text-[10px];
-	}
-	.column-coordinates {
-		@apply absolute py-4 ml-4 top-2 left-0 w-full flex justify-between px-4;
-	}
-	.row-coordinates {
-		@apply pt-32 px-4 absolute top-0 left-2 h-full flex flex-col justify-between py-4;
-	}
-	.coordinate {
-		@apply inline-block;
-	}
 	.content {
 		@apply relative z-10;
 	}
-	.grid-lines {
-		@apply absolute top-0 left-0 w-full h-full opacity-30;
-	}
-	.grid-line {
-		@apply absolute border-dotted border-black;
-	}
-	.grid-line.vertical {
-		@apply h-full border-l;
-	}
-	.grid-line.horizontal {
-		@apply w-full border-t;
-	}
+
+  h2 {
+    @apply text-3xl;
+  }
 </style>

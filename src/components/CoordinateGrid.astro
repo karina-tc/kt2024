@@ -1,0 +1,35 @@
+---
+// Component for the coordinate system with CSS grid lines
+---
+
+
+<div class="coordinate-grid" transition:persist="grid">
+  <div id="column-coordinates" class="column-coordinates"></div>
+  <div id="row-coordinates" class="row-coordinates"></div>
+  <div class="grid-overlay"></div>
+</div>
+
+<script>
+  import { CoordinateSystem } from '../scripts/CoordinateSystem';
+  new CoordinateSystem();
+</script>
+
+
+<style>
+  .coordinate-grid {
+    @apply font-mono absolute top-0 left-0 w-full h-full pointer-events-none bg-blend-overlay opacity-25 text-black text-[10px];
+  }
+  .column-coordinates {
+    @apply absolute py-4 ml-4 top-2 left-0 w-full flex justify-between px-4;
+  }
+  .row-coordinates {
+    @apply pt-32 px-4 absolute top-0 left-2 h-full flex flex-col justify-between py-4;
+  }
+  .coordinate {
+    @apply inline-block;
+  }
+  .grid-overlay {
+    @apply absolute inset-0 opacity-15 bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[length:200px_200px];
+  }
+</style>
+

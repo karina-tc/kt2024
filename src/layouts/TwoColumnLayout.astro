@@ -35,14 +35,14 @@ const {
   title={title}
   body_classes={layout_body_classes}
 >
-  <main class={`basis ${additionalClasses} relative`}>
+  <main class={`two-col-basis ${additionalClasses} relative`}>
     {bgImage && (
       <div class={`absolute inset-0 z-0 flex ${bgImageClasses}`}>
         <img src={bgImage} alt="Background" class="w-full h-full object-cover" />
       </div>
     )}
-    <aside class="left-column" transition:animate="fade">
-      <div class="left-column--contents">
+    <aside class="two-col-left-column" transition:animate="fade">
+      <div class="two-col-left-contents">
         <Breadcrumbs 
           crumbs={breadcrumbs}
           transition:persist 
@@ -52,40 +52,12 @@ const {
           line1={asideTitle.line1}
           line2={asideTitle.line2}
         />
-        {subtitle && <p class="subtitle">{subtitle}</p>}
+        {subtitle && <p class="two-col-subtitle">{subtitle}</p>}
         <slot name="left-column-extra" />
       </div>
     </aside>
-    <section class="right-column" transition:animate="slide">
+    <section class="two-col-right-column" transition:animate="slide">
       <slot />
     </section>
   </main>
 </Layout>
-
-<style>
-  .basis {
-    @apply w-screen h-screen flex gap-8 mx-auto;
-  }
-  .left-column {
-    @apply w-2/5 p-20 flex flex-col items-center justify-center gap-10 relative z-10;
-  }
-  .left-column--contents {
-    @apply w-full min-h-[400px] min-w-[400px] max-w-fit mx-auto;
-  }
-  .right-column {
-    @apply flex-1 flex flex-col items-start justify-center gap-10 overflow-scroll relative my-auto z-10 hide-scrollbar;
-  }
-  .subtitle {
-    @apply mt-2;
-  }
-  .hide-scrollbar {
-    @apply overflow-auto;
-  }
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-</style>
