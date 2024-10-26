@@ -1,0 +1,91 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getThoughts, getThoughtContent } from '../../lib/notion';
+
+export async function getStaticPaths() {
+  const thoughts = await getThoughts();
+  return thoughts.map(thought => ({
+    params: { 
+      slug: thought.href.split('/').pop() 
+    }
+  }));
+}
+
+const { slug } = Astro.params;
+const thought = await getThoughtContent(slug as string);
+
+if (!thought) {
+  return Astro.redirect('/404');
+}
+
+function renderNotionBlock(block: any) {
+  switch (block.type) {
+    case 'paragraph':
+      return `<p>${block.paragraph.rich_text.map((text: any) => text.plain_text).join('')}</p>`;
+    case 'heading_1':
+      return `<h1>${block.heading_1.rich_text.map((text: any) => text.plain_text).join('')}</h1>`;
+    case 'heading_2':
+      return `<h2>${block.heading_2.rich_text.map((text: any) => text.plain_text).join('')}</h2>`;
+    case 'heading_3':
+      return `<h3>${block.heading_3.rich_text.map((text: any) => text.plain_text).join('')}</h3>`;
+    case 'bulleted_list_item':
+      return `<li>${block.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')}</li>`;
+    case 'numbered_list_item':
+      return `<li>${block.numbered_list_item.rich_text.map((text: any) => text.plain_text).join('')}</li>`;
+    default:
+      console.log('Unhandled block type:', block.type);
+      return '';
+  }
+}
+---
+
+<Layout title={thought.title}>
+  <article class="prose prose-lg container">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">{thought.title}</h1>
+      <div class="flex gap-4 text-gray-600">
+        <time>{thought.date}</time>
+        <div class="flex gap-2">
+          {thought.categories.map((category: unknown) => (
+            <span class="bg-gray-100 px-2 py-1 rounded-full text-sm">
+              {category}
+            </span>
+          ))}
+        </div>
+      </div>
+    </header>
+
+    <div class="thought-content">
+      {thought.content.map(block => (
+        <Fragment set:html={renderNotionBlock(block)} />
+      ))}
+    </div>
+  </article>
+</Layout>
+
+<style>
+    .container {
+       @apply mx-auto py-28 w-full max-w-5xl h-full;
+    }
+  .thought-content :global(p) {
+    margin-bottom: 1.5em;
+  }
+  
+  .thought-content :global(h1),
+  .thought-content :global(h2),
+  .thought-content :global(h3) {
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    font-weight: bold;
+  }
+  
+  .thought-content :global(ul),
+  .thought-content :global(ol) {
+    margin-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  
+  .thought-content :global(li) {
+    margin-bottom: 0.5em;
+  }
+</style>
