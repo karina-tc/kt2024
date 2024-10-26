@@ -14,7 +14,7 @@ const { brow_text, title, image, body, alt_text, additionalClasses = '' } = Astr
 <div class={`card ${additionalClasses}`}>
   {brow_text && <p class="brow-text">{brow_text}</p>}
 	{image && <img src={image} alt={alt_text} />}
-  <h2 class="text-xl">{title}</h2>
+  <h2 class="text-2xl">{title}</h2>
 	<div class="flex flex-col gap-4">
 		<p>{body}</p>
 		<slot />

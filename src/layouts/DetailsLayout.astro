@@ -36,13 +36,20 @@ const {
 <Layout title={title} body_classes={layout_body_classes}>
   <main class="layout-main">
     {bgImage && <BackgroundImage src={bgImage} classes={bgImageClasses} />}
-    
+
     {showcaseImage && (
-      <section class="layout-showcase">
-        <img src={showcaseImage} alt="Showcase" />
-      </section>
+    <section class="layout-showcase">
+      <div class="showcase-wrapper relative w-full overflow-hidden">
+        <canvas id="fluid-canvas" class="absolute top-0 left-0 w-full h-full z-10"></canvas>
+        <img 
+          src={showcaseImage} 
+          alt="Showcase" 
+          class="showcase-image w-full h-full object-cover" 
+        />
+      </div>
+    </section>
     )}
-    
+
     <section class={`layout-basis relative ${additionalClasses}`}>
       <aside class="layout-left-column" transition:animate="fade">
         <div class="layout-left-contents">
@@ -56,9 +63,9 @@ const {
           <slot name="left-column-extra" />
         </div>
       </aside>
-      
+
       <div class="layout-right-column" transition:animate="slide">
-        <div class="details-content">
+        <div class="details-content pt-10">
           <slot />
         </div>
       </div>
@@ -66,8 +73,3 @@ const {
   </main>
 </Layout>
 
-<style>
-  .details-content {
-    @apply flex-1 py-10 pb-20;
-  }
-</style>

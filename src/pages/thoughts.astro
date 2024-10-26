@@ -34,7 +34,7 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
     </ul>
   </div>
 
-  <section id="thoughts-container" class="w-full max-h-[80vh] max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start pr-10">
+  <section id="thoughts-container" class="w-full max-h-[80vh] max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start pr-10 py-5 hide-scrollbar">
     {thoughts.map(thought => (
       <Row
         title={thought.title}

@@ -20,7 +20,7 @@
     }
     
     .layout-left-column {
-      @apply w-full max-w-[400px] flex flex-col items-center justify-start gap-10 relative z-10;
+      @apply w-full max-w-[480px] flex flex-col items-center justify-start gap-10 relative z-10;
       height: calc(100vh - 40px);
     }
     
@@ -48,7 +48,7 @@
     }
 
     .two-col-left-contents {
-      @apply w-full min-h-[400px] min-w-[400px] max-w-fit mx-auto;
+      @apply w-full min-h-[400px] min-w-[480px] max-w-fit mx-auto;
     }
 
     .two-col-right-column {
