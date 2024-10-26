@@ -1,0 +1,36 @@
+---
+import * as Icon from '@astropub/icons';
+
+interface Props {
+  href: string;
+  text: string;
+}
+
+const { href, text } = Astro.props;
+---
+
+<a href={href} class="link-wrapper group">
+  <span class="button-circle">
+    <Icon.ArrowLeft size="14" class="icon-arrow" />
+    <span class="icon-circle-fill">&nbsp;</span>
+  </span>
+  <span class="link-text">Back to {text}</span>
+</a>
+
+<style>
+  .link-wrapper {
+    @apply flex items-center gap-2 text-gray-600 w-fit -ml-1;
+  }
+  .button-circle {
+    @apply w-8 h-8 flex items-center justify-center rounded-full bg-white overflow-hidden relative hover:shadow-lg;
+  }
+  .icon-arrow {
+    @apply z-[1] group-hover:text-white transition-colors delay-300
+  }
+  .icon-circle-fill {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-transparent rounded-full transition-all group-hover:w-full group-hover:h-full group-hover:bg-black delay-300;
+  }
+  .link-text {
+    @apply underline-offset-8 underline decoration-slate-200 group-hover:decoration-slate-400 delay-300;
+  }
+</style>

@@ -1,6 +1,8 @@
 ---
+import BackButton from '../../components/BackButton.astro';
 import Layout from '../../layouts/Layout.astro';
 import { getThoughts, getThoughtContent } from '../../lib/notion';
+import { renderNotionBlock } from '../../lib/notionRenderer';
 
 export async function getStaticPaths() {
   const thoughts = await getThoughts();
@@ -17,41 +19,20 @@ const thought = await getThoughtContent(slug as string);
 if (!thought) {
   return Astro.redirect('/404');
 }
-
-function renderNotionBlock(block: any) {
-  switch (block.type) {
-    case 'paragraph':
-      return `<p>${block.paragraph.rich_text.map((text: any) => text.plain_text).join('')}</p>`;
-    case 'heading_1':
-      return `<h1>${block.heading_1.rich_text.map((text: any) => text.plain_text).join('')}</h1>`;
-    case 'heading_2':
-      return `<h2>${block.heading_2.rich_text.map((text: any) => text.plain_text).join('')}</h2>`;
-    case 'heading_3':
-      return `<h3>${block.heading_3.rich_text.map((text: any) => text.plain_text).join('')}</h3>`;
-    case 'bulleted_list_item':
-      return `<li>${block.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')}</li>`;
-    case 'numbered_list_item':
-      return `<li>${block.numbered_list_item.rich_text.map((text: any) => text.plain_text).join('')}</li>`;
-    default:
-      console.log('Unhandled block type:', block.type);
-      return '';
-  }
-}
 ---
 
 <Layout title={thought.title}>
-  <article class="prose prose-lg container">
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold mb-2">{thought.title}</h1>
-      <div class="flex gap-4 text-gray-600">
-        <time>{thought.date}</time>
-        <div class="flex gap-2">
-          {thought.categories.map((category: unknown) => (
-            <span class="bg-gray-100 px-2 py-1 rounded-full text-sm">
-              {category}
-            </span>
-          ))}
-        </div>
+  <article class="prose prose-lg thoughts-container">
+    <BackButton href="/thoughts" text="Thoughts" />
+    <header class="thoughts-header">
+      <h1>{thought.title}</h1>
+      <time>{thought.date}</time>
+      <div class="categories">
+        {thought.categories.map((category: unknown) => (
+          <span class="pill">
+            {category}
+          </span>
+        ))}
       </div>
     </header>
 
@@ -64,9 +45,24 @@ function renderNotionBlock(block: any) {
 </Layout>
 
 <style>
-    .container {
-       @apply mx-auto py-28 w-full max-w-5xl h-full;
-    }
+  .thoughts-container {
+    @apply mx-auto p-10 flex flex-col gap-10 w-full max-w-5xl h-full;
+  }
+  .thoughts-header {
+    @apply flex flex-col justify-center gap-5 text-center;
+  }
+  .thoughts-header h1 {
+    @apply text-6xl font-bold mb-2;
+  }
+  .thoughts-header .categories {
+    @apply flex justify-center flex-wrap gap-2 uppercase text-white text-xs font-mono tracking-widest;
+  }
+  .categories .pill {
+    @apply bg-black px-4 py-1.5 rounded-full;
+  }
+  .thought-content {
+    @apply bg-white p-10 rounded-md;
+  }
   .thought-content :global(p) {
     margin-bottom: 1.5em;
   }
@@ -87,5 +83,40 @@ function renderNotionBlock(block: any) {
   
   .thought-content :global(li) {
     margin-bottom: 0.5em;
+  }
+  
+  .thought-content :global(blockquote) {
+    @apply pl-4 border-l-4 border-gray-300 italic my-6;
+  }
+
+  .thought-content :global(.callout) {
+    @apply p-4 rounded-lg flex gap-3 my-6;
+    background-color: var(--bg-color, theme('colors.gray.100'));
+  }
+
+  /* Set background colors using CSS variables */
+  .thought-content :global([class*="_background"]) {
+    --bg-color: var(--notion-color, theme('colors.gray.100'));
+  }
+
+  .thought-content :global(.blue_background) { --notion-color: theme('colors.blue.100'); }
+  .thought-content :global(.yellow_background) { --notion-color: theme('colors.yellow.100'); }
+  .thought-content :global(.green_background) { --notion-color: theme('colors.green.100'); }
+  .thought-content :global(.red_background) { --notion-color: theme('colors.red.100'); }
+  .thought-content :global(.pink_background) { --notion-color: theme('colors.pink.100'); }
+  .thought-content :global(.purple_background) { --notion-color: theme('colors.purple.100'); }
+  .thought-content :global(.orange_background) { --notion-color: theme('colors.orange.100'); }
+
+  .thought-content :global(.video-wrapper) {
+    @apply relative w-full my-6;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  }
+
+  .thought-content :global(.video-wrapper iframe) {
+    @apply absolute top-0 left-0 w-full h-full rounded-lg;
+  }
+
+  .thought-content :global(.video-player) {
+    @apply w-full my-6 rounded-lg;
   }
 </style>
