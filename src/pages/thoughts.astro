@@ -1,16 +1,18 @@
 ---
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
 import Row from '../components/Row.astro';
-import { thoughts } from '../data/thoughts';
+import { getThoughts } from '../lib/notion';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' },
   { text: 'Thoughts', href: '/thoughts' },
 ];
 
-const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories))];
+// Fetch thoughts from Notion
+const thoughts = await getThoughts();
 
-// Get the initial category from the URL parameter
+// Get unique categories
+const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories))];
 const initialCategory = Astro.url.searchParams.get('category') || 'all';
 ---
 

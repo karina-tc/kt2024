@@ -1,0 +1,181 @@
+---
+import BackButton from '../../components/BackButton.astro';
+import Layout from '../../layouts/Layout.astro';
+import { getThoughts, getThoughtContent } from '../../lib/notion';
+import { renderNotionBlock } from '../../lib/notionRenderer';
+
+export async function getStaticPaths() {
+  const thoughts = await getThoughts();
+  return thoughts.map(thought => ({
+    params: { 
+      slug: thought.href.split('/').pop() 
+    }
+  }));
+}
+
+const { slug } = Astro.params;
+const thought = await getThoughtContent(slug as string);
+
+if (!thought) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={thought.title}>
+  <article class="prose prose-lg thoughts-container">
+    <BackButton href="/thoughts" text="Thoughts" />
+    <header class="thoughts-header">
+      <h1>{thought.title}</h1>
+      <time>{thought.date}</time>
+      <div class="categories">
+        {thought.categories.map((category: unknown) => (
+          <span class="pill">
+            {category}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    {thought.showcase && (
+      <div class="showcase-image-wrapper">
+        <img 
+          src={thought.showcase} 
+          alt={thought.title} 
+          class="showcase-image" 
+        />
+      </div>
+    )}
+
+    <section class="thought-content">
+      {thought.content.map(block => (
+        <Fragment set:html={renderNotionBlock(block)} />
+      ))}
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .thoughts-container {
+    @apply mx-auto p-10 flex flex-col gap-10 w-full max-w-5xl h-full;
+  }
+  .thoughts-header {
+    @apply flex flex-col justify-center gap-5 text-center;
+  }
+  .thoughts-header h1 {
+    @apply text-6xl font-bold mb-2;
+  }
+  .thoughts-header .categories {
+    @apply flex justify-center flex-wrap gap-2 uppercase text-white text-xs font-mono tracking-widest;
+  }
+  .categories .pill {
+    @apply bg-black px-4 py-1.5 rounded-full;
+  }
+  .thought-content {
+    @apply bg-transparent pb-20;
+  }
+  .thought-content :global(p) {
+    margin-bottom: 1.5em;
+  }
+  
+  .thought-content :global(h1),
+  .thought-content :global(h2),
+  .thought-content :global(h3) {
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    font-weight: bold;
+  }
+
+  .thought-content :global(h2) {
+    @apply font-instrument;
+  }
+  
+  .thought-content :global(ul),
+  .thought-content :global(ol) {
+    margin-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  
+  .thought-content :global(li) {
+    margin-bottom: 0.5em;
+  }
+  
+  .thought-content :global(blockquote) {
+    @apply pl-4 border-l-4 border-gray-300 italic my-6;
+  }
+
+  .thought-content :global(.callout) {
+    @apply p-4 rounded-lg flex gap-3 my-6;
+    background-color: var(--bg-color, theme('colors.gray.100'));
+  }
+
+  /* Set background colors using CSS variables */
+  .thought-content :global([class*="_background"]) {
+    --bg-color: var(--notion-color, theme('colors.gray.100'));
+  }
+
+  .thought-content :global(.blue_background) { --notion-color: theme('colors.blue.100'); }
+  .thought-content :global(.yellow_background) { --notion-color: theme('colors.yellow.100'); }
+  .thought-content :global(.green_background) { --notion-color: theme('colors.green.100'); }
+  .thought-content :global(.red_background) { --notion-color: theme('colors.red.100'); }
+  .thought-content :global(.pink_background) { --notion-color: theme('colors.pink.100'); }
+  .thought-content :global(.purple_background) { --notion-color: theme('colors.purple.100'); }
+  .thought-content :global(.orange_background) { --notion-color: theme('colors.orange.100'); }
+
+  .thought-content :global(.video-wrapper) {
+    @apply relative w-full my-6;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  }
+
+  .thought-content :global(.video-wrapper iframe) {
+    @apply absolute top-0 left-0 w-full h-full rounded-lg;
+  }
+
+  .thought-content :global(.video-player) {
+    @apply w-full my-6 rounded-lg;
+  }
+
+  .showcase-image-wrapper {
+    @apply rounded-lg min-h-fit flex items-center justify-center border border-white shadow-lg shadow-orange-300 p-2 bg-white w-full;
+    animation: showcase-slow 1s ease-in forwards;
+  }
+  .showcase-image {
+    @apply max-h-[400px] rounded-md w-full object-cover transition-all;
+    transform-origin: top;
+    animation: showcase-reveal 2s ease-in-out forwards;
+  }
+
+  @keyframes showcase-slow {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: .5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes showcase-reveal {
+    0% {
+      opacity: 0;
+      height: 0;
+      transform: scaleY(0);
+    }
+    79% {
+      opacity: 0;
+      height: 0;
+      transform: scaleY(0);
+    }
+    80% {
+      opacity: 1;
+      height: 40px;
+      transform: scaleY(1.05);
+    }
+    100% {
+      opacity: 1;
+      height: auto;
+      transform: scaleY(1);
+    }
+  }
+</style>
