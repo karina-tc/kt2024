@@ -12,7 +12,7 @@
     }
     
     .layout-showcase {
-      @apply flex-1 flex justify-center mt-20 mb-10 rounded-xl border border-light-border overflow-hidden shadow-xl shadow-orange-300 relative;
+      @apply flex-1 flex justify-center my-10 rounded-xl border border-light-border overflow-hidden shadow-xl shadow-orange-300 relative;
     }
 
     .layout-showcase-tag {
