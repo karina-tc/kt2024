@@ -3,7 +3,10 @@ import Layout from './Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import AsideTitle from '../components/AsideTitle.astro';
 import BackgroundImage from '../components/BackgroundImage.astro';
+import ShowcaseImage from '../components/ShowcaseImage.astro';
+import * as Icon from '@astropub/icons'
 import '../styles/layout.css';
+import { string } from 'astro:schema';
 
 interface Props {
   title: string;
@@ -15,18 +18,23 @@ interface Props {
   subtitle?: string;
   additionalClasses?: string;
   showcaseImage?: string;
+  showcaseImageAlt?: string;
+  showcaseImageClasses?: string;
+  showcaseImageInspiration?: string;
   bgImage?: string;
   bgImageClasses?: string;
   layout_body_classes?: string;
 }
 
-const { 
-  title, 
-  breadcrumbs, 
-  asideTitle, 
-  subtitle, 
+const {
+  title,
+  breadcrumbs,
+  asideTitle,
+  subtitle,
   additionalClasses = '',
   showcaseImage = '',
+  showcaseImageAlt = '',
+  showcaseImageClasses = '',
   bgImage,
   bgImageClasses = '',
   layout_body_classes = ''
@@ -38,25 +46,31 @@ const {
     {bgImage && <BackgroundImage src={bgImage} classes={bgImageClasses} />}
 
     {showcaseImage && (
-    <section class="layout-showcase">
-      <div class="showcase-wrapper relative w-full overflow-hidden">
-        <canvas id="fluid-canvas" class="absolute top-0 left-0 w-full h-full z-10"></canvas>
-        <img 
-          src={showcaseImage} 
-          alt="Showcase" 
-          class="showcase-image w-full h-full object-cover" 
+      <section class={`layout-showcase group/showcase ${showcaseImageClasses}`}>
+        {showcaseImageAlt &&
+          <div class="layout-showcase-tag">
+            <div class="mb-1 flex gap-2 items-center">
+              <Icon.ActivityLog size="14" />
+              <span class="font-bold pt-[2px]">The Prompt:</span>
+            </div>
+            <span>{showcaseImageAlt}</span>
+          </div>
+        }
+        <ShowcaseImage
+          src={showcaseImage}
+          alt={showcaseImageAlt}
+          shineColor="rgba(255, 255, 255, 0.25)"
         />
-      </div>
-    </section>
+      </section>
     )}
 
     <section class={`layout-basis relative ${additionalClasses}`}>
       <aside class="layout-left-column" transition:animate="fade">
         <div class="layout-left-contents">
-          <Breadcrumbs 
+          <Breadcrumbs
             crumbs={breadcrumbs}
-            transition:persist 
-            transition:name="breadcrumbs" 
+            transition:persist
+            transition:name="breadcrumbs"
           />
           <AsideTitle {...asideTitle} />
           {subtitle && <p class="mt-2">{subtitle}</p>}

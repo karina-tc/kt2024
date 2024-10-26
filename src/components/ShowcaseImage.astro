@@ -1,0 +1,67 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  additionalClasses?: string;
+  shineColor?: string;
+  animationDuration?: number;
+}
+
+const {
+  src,
+  alt,
+  additionalClasses = '',
+  shineColor = 'rgba(255, 255, 255, 0.4)',
+  animationDuration = 2.5,
+} = Astro.props;
+---
+
+<div class={`shine-container ${additionalClasses}`} style={`--shine-color: ${shineColor}; --animation-duration: ${animationDuration}s;`}>
+  <img src={src} alt={alt} class="shine-image" />
+  <div class="shine-overlay"></div>
+</div>
+
+<style>
+  .shine-container {
+    @apply relative overflow-hidden rounded-xl w-full;
+    isolation: isolate;
+  }
+
+  .shine-image {
+    @apply w-full h-full object-cover;
+  }
+
+  .shine-overlay {
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--shine-color),
+      transparent
+    );
+    transform: translateX(-100%);
+    animation: shine-initial var(--animation-duration) ease-in;
+  }
+
+  .shine-container:hover .shine-overlay {
+    animation: shine-hover var(--animation-duration) ease-in;
+  }
+
+  @keyframes shine-initial {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(200%);
+    }
+  }
+
+  @keyframes shine-hover {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(200%);
+    }
+  }
+</style>
