@@ -36,11 +36,21 @@ if (!thought) {
       </div>
     </header>
 
-    <div class="thought-content">
+    {thought.showcase && (
+      <div class="rounded-lg min-h-fit flex items-center justify-center border border-white shadow-lg shadow-orange-300 p-2 bg-white w-full [&>img]:object-cover">
+        <img 
+          src={thought.showcase} 
+          alt={thought.title} 
+          class="test max-h-[400px] rounded-md w-full object-contain transition-all" 
+        />
+      </div>
+    )}
+
+    <section class="thought-content">
       {thought.content.map(block => (
         <Fragment set:html={renderNotionBlock(block)} />
       ))}
-    </div>
+    </section>
   </article>
 </Layout>
 
@@ -118,5 +128,32 @@ if (!thought) {
 
   .thought-content :global(.video-player) {
     @apply w-full my-6 rounded-lg;
+  }
+  .test {
+    transform-origin: top;
+    animation: showcase-reveal 2s ease-out forwards;
+  }
+
+  @keyframes showcase-reveal {
+    0% {
+      opacity: 0;
+      height: 0;
+      transform: scaleY(0);
+    }
+    79% {
+      opacity: 0;
+      height: 0;
+      transform: scaleY(0);
+    }
+    80% {
+      opacity: 1;
+      height: 40px;
+      transform: scaleY(1.05);
+    }
+    100% {
+      opacity: 1;
+      height: auto;
+      transform: scaleY(1);
+    }
   }
 </style>

@@ -63,11 +63,22 @@ export async function getThoughtContent(slug: string) {
     block_id: page.id
   });
 
+  // Get the showcase image URL, handling both uploaded and external files
+  const showcaseProperty = (page as any).properties.showcase;
+  let showcaseImage = null;
+  
+  if (showcaseProperty?.files?.length > 0) {
+    const file = showcaseProperty.files[0];
+    // Handle both internal Notion files and external URLs
+    showcaseImage = file.type === 'external' ? file.external.url : file.file.url;
+  }
+
   return {
     title: (page as any).properties.Title.title[0].plain_text,
     date: formatDate((page as any).properties.Date.date.start),
     categories: (page as any).properties.Categories.multi_select.map((cat: any) => cat.name),
-    content: blocks.results
+    content: blocks.results,
+    showcase: showcaseImage  // Changed from showcase_image to showcase
   };
 }
 
