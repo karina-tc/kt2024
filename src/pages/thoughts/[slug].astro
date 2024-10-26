@@ -37,11 +37,11 @@ if (!thought) {
     </header>
 
     {thought.showcase && (
-      <div class="rounded-lg min-h-fit flex items-center justify-center border border-white shadow-lg shadow-orange-300 p-2 bg-white w-full [&>img]:object-cover">
+      <div class="showcase-image-wrapper">
         <img 
           src={thought.showcase} 
           alt={thought.title} 
-          class="test max-h-[400px] rounded-md w-full object-contain transition-all" 
+          class="showcase-image" 
         />
       </div>
     )}
@@ -71,7 +71,7 @@ if (!thought) {
     @apply bg-black px-4 py-1.5 rounded-full;
   }
   .thought-content {
-    @apply bg-white p-10 rounded-md;
+    @apply bg-transparent pb-20;
   }
   .thought-content :global(p) {
     margin-bottom: 1.5em;
@@ -83,6 +83,10 @@ if (!thought) {
     margin-top: 1.5em;
     margin-bottom: 0.75em;
     font-weight: bold;
+  }
+
+  .thought-content :global(h2) {
+    @apply font-instrument;
   }
   
   .thought-content :global(ul),
@@ -129,9 +133,27 @@ if (!thought) {
   .thought-content :global(.video-player) {
     @apply w-full my-6 rounded-lg;
   }
-  .test {
+
+  .showcase-image-wrapper {
+    @apply rounded-lg min-h-fit flex items-center justify-center border border-white shadow-lg shadow-orange-300 p-2 bg-white w-full;
+    animation: showcase-slow 1s ease-in forwards;
+  }
+  .showcase-image {
+    @apply max-h-[400px] rounded-md w-full object-cover transition-all;
     transform-origin: top;
-    animation: showcase-reveal 2s ease-out forwards;
+    animation: showcase-reveal 2s ease-in-out forwards;
+  }
+
+  @keyframes showcase-slow {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: .5;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   @keyframes showcase-reveal {
