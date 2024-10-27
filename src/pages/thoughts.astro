@@ -29,9 +29,9 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
 >
   <div slot="left-column-extra" class="categories-list">
     <ul class="flex flex-wrap gap-2">
-      <li class={`category-button ${initialCategory === 'all' ? 'active' : ''} bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer`} data-category="all">All</li>
+      <li class={`category-button ${initialCategory === 'all' ? 'active' : ''} bg-white px-3 py-1`} data-category="all">All</li>
       {allCategories.map(category => (
-        <li class={`category-button ${initialCategory === category ? 'active' : ''} bg-gray-200 rounded-full px-3 py-1 text-sm cursor-pointer`} data-category={category}>{category}</li>
+        <li class={`category-button ${initialCategory === category ? 'active' : ''} bg-white px-3 py-1`} data-category={category}>{category}</li>
       ))}
     </ul>
   </div>
@@ -43,6 +43,7 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
         date={thought.date}
         categories={thought.categories}
         href={thought.href}
+        content={thought.content}
       />
     ))}
   </section>
@@ -60,10 +61,11 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
     transition: all 0.3s ease-in-out;
   }
   .category-button {
+    @apply text-sm cursor-pointer rounded-full shadow-md shadow-slate-300/50;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   }
   .category-button.active {
-    @apply bg-red-500 text-white;
+    @apply bg-black text-white;
   }
   .hide-scrollbar {
     @apply overflow-auto;

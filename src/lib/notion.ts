@@ -31,15 +31,31 @@ export async function getThoughts() {
     ],
   });
 
-  return response.results.map(page => {
+  // Fetch preview content for each thought
+  const thoughtsWithContent = await Promise.all(response.results.map(async page => {
+    // Fetch first few blocks for preview
+    const blocks = await notion.blocks.children.list({
+      block_id: page.id,
+      page_size: 3 // Fetch first 3 blocks
+    });
+
+    // Convert blocks to plain text, excluding headers
+    const previewText = blocks.results
+      .filter((block: any) => block.type === 'paragraph')
+      .map((block: any) => block.paragraph.rich_text.map((text: any) => text.plain_text).join(''))
+      .join(' ');
+
     const { properties } = page as any;
     return {
       title: properties.Title.title[0].plain_text,
       date: formatDate(properties.Date.date.start),
       categories: properties.Categories.multi_select.map((cat: any) => cat.name),
-      href: `/thoughts/${properties.Slug.rich_text[0].plain_text}`
+      href: `/thoughts/${properties.Slug.rich_text[0].plain_text}`,
+      content: previewText
     };
-  });
+  }));
+
+  return thoughtsWithContent;
 }
 
 export async function getThoughtContent(slug: string) {

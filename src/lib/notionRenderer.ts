@@ -9,7 +9,7 @@ export function renderNotionBlock(block: any) {
     case 'heading_3':
       return `<h3>${block.heading_3.rich_text.map((text: any) => text.plain_text).join('')}</h3>`;
     case 'bulleted_list_item':
-      return `<ul><li>${block.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')}</li></ul>`;
+      return `<li>${block.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')}</li>`;
     case 'numbered_list_item':
       return `<ol><li>${block.numbered_list_item.rich_text.map((text: any) => text.plain_text).join('')}</li></ol>`;
     case 'quote':
@@ -77,4 +77,31 @@ export function renderNotionBlock(block: any) {
       console.log('Unhandled block type:', block.type);
       return '';
   }
+}
+
+export function renderNotionBlocks(blocks: any[]) {
+  let html = '';
+  let isInList = false;
+
+  blocks.forEach((block, index) => {
+    if (block.type === 'bulleted_list_item') {
+      if (!isInList) {
+        html += '<ul class="list-disc list-inside space-y-2">';
+        isInList = true;
+      }
+      html += renderNotionBlock(block);
+    } else {
+      if (isInList) {
+        html += '</ul>';
+        isInList = false;
+      }
+      html += renderNotionBlock(block);
+    }
+  });
+
+  if (isInList) {
+    html += '</ul>';
+  }
+
+  return html;
 }
