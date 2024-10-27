@@ -50,7 +50,9 @@ const {
           line1={asideTitle.line1}
           line2={asideTitle.line2}
         />
-        {subtitle && <p class="two-col-subtitle">{subtitle}</p>}
+        {subtitle && <p class="two-col-subtitle">
+          {subtitle}
+        </p>}
         <slot name="left-column-extra" />
       </div>
     </aside>
