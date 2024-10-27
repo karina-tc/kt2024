@@ -7,9 +7,16 @@ interface Props {
   songName?: string;
   albumArt?: string;
   songUrl?: string;
+  type?: 'track' | 'episode';
 }
 
-const { isPlaying, artist, songName, albumArt, songUrl } = Astro.props;
+const { isPlaying, artist, songName, albumArt, songUrl, type = 'track' } = Astro.props;
+
+// Helper function to get display text
+const getDisplayText = () => {
+  if (isPlaying) return artist;
+  return artist;
+};
 ---
 
 <div class="group relative inline-block">
@@ -17,23 +24,25 @@ const { isPlaying, artist, songName, albumArt, songUrl } = Astro.props;
     <Icon.SpeakerLoud size="14" />
     <span>Listening to</span>
     <span class="underline-offset-4 hover:underline transition-colors cursor-pointer">
-      {isPlaying ? artist : 'the sound of silence'}
+      {getDisplayText}
     </span>
   </span>
   
-  {isPlaying && songName && (
+  {songName && (
     <div class="opacity-0 invisible group-hover:opacity-100 group-hover:visible hover:opacity-100 hover:visible absolute left-0 mt-2 w-72 bg-white rounded-lg shadow-lg p-4 z-50 border border-gray-200 transition-all duration-200">
       <div class="flex items-start gap-4">
         {albumArt && (
           <img 
             src={albumArt} 
-            alt={`${songName} album art`} 
+            alt={`${songName} ${type === 'episode' ? 'cover' : 'album art'}`} 
             class="w-16 h-16 rounded-md object-cover"
           />
         )}
         <div class="flex flex-col">
           <span class="font-medium text-sm text-gray-900">{songName}</span>
-          <span class="text-sm text-gray-500">{artist}</span>
+          <span class="text-sm text-gray-500">
+            {type === 'episode' ? 'Podcast Episode' : artist}
+          </span>
           {songUrl && (
             <a 
               href={songUrl}
@@ -44,7 +53,7 @@ const { isPlaying, artist, songName, albumArt, songUrl } = Astro.props;
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
               </svg>
-              Play on Spotify
+              {type === 'episode' ? 'Listen on Spotify' : 'Play on Spotify'}
             </a>
           )}
         </div>
@@ -78,5 +87,4 @@ const { isPlaying, artist, songName, albumArt, songUrl } = Astro.props;
   .group > div:hover {
     @apply shadow-lg;
   }
-</style>
 </style>
