@@ -1,4 +1,6 @@
 ---
+import * as Icon from '@astropub/icons'
+
 interface Props {
   isPlaying: boolean;
   artist: string;
@@ -11,8 +13,12 @@ const { isPlaying, artist, songName, albumArt, songUrl } = Astro.props;
 ---
 
 <div class="group relative inline-block">
-  <span class="underline-offset-4 hover:underline transition-colors cursor-pointer">
-    {isPlaying ? artist : 'the sound of silence'}
+  <span class="flex items-center gap-1.5">
+    <Icon.SpeakerLoud size="14" />
+    <span>Listening to</span>
+    <span class="underline-offset-4 hover:underline transition-colors cursor-pointer">
+      {isPlaying ? artist : 'the sound of silence'}
+    </span>
   </span>
   
   {isPlaying && songName && (

@@ -4,7 +4,6 @@ import Button from '../components/Button.astro';
 import Card from '../components/Card.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import SpotifyHoverCard from '../components/SpotifyHoverCard.astro';
-import * as Icon from '@astropub/icons'
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' }
@@ -51,8 +50,6 @@ try {
   <div slot="left-column-extra">
     <div class="flex items-center gap-1.5 mt-2">
       <span>USA Based&nbsp;·&nbsp;</span>
-      <Icon.SpeakerLoud size="14" />
-      <span>Listening to</span>
       <SpotifyHoverCard {...spotifyData} />
     </div>
     <SocialIcons className="mt-5" />
