@@ -2,6 +2,8 @@
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
 import Button from '../components/Button.astro';
 import Card from '../components/Card.astro';
+import * as Icon from '@astropub/icons'
+import SocialIcons from '../components/SocialIcons.astro';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' }
@@ -20,6 +22,7 @@ const breadcrumbs = [
   bgImage="/kt.png"
   bgImageClasses="[&>img]:w-[900px] [&>img]:h-[900px] [&>img]:ml-auto items-end mix-blend-overlay opacity-40"
 >
+  <SocialIcons slot="left-column-extra" className="mt-5" />
   <h2 class="sticky-label">My Manifesto</h2>
   <article class="flex flex-1 gap-8">
     <Card 
