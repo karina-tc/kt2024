@@ -12,5 +12,10 @@ export default defineConfig({
   adapter: netlify(),
   vite: {
     envDir: '.',
+    define: {
+      'process.env.SPOTIFY_CLIENT_ID': JSON.stringify(process.env.PUBLIC_SPOTIFY_CLIENT_ID),
+      'process.env.SPOTIFY_CLIENT_SECRET': JSON.stringify(process.env.PUBLIC_SPOTIFY_CLIENT_SECRET),
+      'process.env.SPOTIFY_REFRESH_TOKEN': JSON.stringify(process.env.PUBLIC_SPOTIFY_REFRESH_TOKEN),
+    }
   },
 });

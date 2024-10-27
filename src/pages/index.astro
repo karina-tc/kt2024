@@ -2,12 +2,38 @@
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
 import Button from '../components/Button.astro';
 import Card from '../components/Card.astro';
-import * as Icon from '@astropub/icons'
 import SocialIcons from '../components/SocialIcons.astro';
+import SpotifyHoverCard from '../components/SpotifyHoverCard.astro';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' }
 ];
+
+// Test API endpoint first
+let apiWorking = false;
+try {
+  const testResponse = await fetch(`${Astro.url.origin}/api/test`);
+  const testData = await testResponse.json();
+  apiWorking = testData.message === 'API is working';
+} catch (error) {
+  console.error('Test API failed:', error);
+}
+
+// Fetch Spotify data
+let spotifyData = {
+  isPlaying: false,
+  artist: 'Not playing',
+  songName: '',
+  albumArt: '',
+  songUrl: ''
+};
+
+try {
+  const response = await fetch(`${Astro.url.origin}/api/spotify-now-playing`);
+  spotifyData = await response.json();
+} catch (error) {
+  console.error('Failed to fetch Spotify data:', error);
+}
 ---
 
 <TwoColumnLayout
@@ -18,11 +44,16 @@ const breadcrumbs = [
     line1: "Product Designer",
     line2: "Pixel Philosopher"
   }}
-  subtitle="USA Based · Listening to Music"
   bgImage="/kt.png"
   bgImageClasses="[&>img]:w-[900px] [&>img]:h-[900px] [&>img]:ml-auto items-end mix-blend-overlay opacity-40"
 >
-  <SocialIcons slot="left-column-extra" className="mt-5" />
+  <div slot="left-column-extra">
+    <div class="flex items-center gap-1.5 mt-2">
+      <span>USA Based&nbsp;·&nbsp;</span>
+      <SpotifyHoverCard {...spotifyData} />
+    </div>
+    <SocialIcons className="mt-5" />
+  </div>
   <h2 class="sticky-label">My Manifesto</h2>
   <article class="flex flex-1 gap-8">
     <Card 
