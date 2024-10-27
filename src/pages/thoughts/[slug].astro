@@ -4,6 +4,8 @@ import Layout from '../../layouts/Layout.astro';
 import { getThoughts, getThoughtContent } from '../../lib/notion';
 import { renderNotionBlock } from '../../lib/notionRenderer';
 import * as Icon from '@astropub/icons'
+import Gem from '../../components/Gem.astro';
+import CategoryPill from '../../components/CategoryPill.astro';
 
 export async function getStaticPaths() {
   const thoughts = await getThoughts();
@@ -27,12 +29,13 @@ if (!thought) {
     <BackButton href="/thoughts" text="Thoughts" />
     <header class="thoughts-header">
       <h1>{thought.title}</h1>
-      <time>{thought.date}</time>
-      <div class="categories">
+      <div class="date-container">
+        <Gem />
+        <time>{thought.date}</time>
+      </div>
+      <div class="flex justify-center gap-2">
         {thought.categories.map((category: unknown) => (
-          <span class="pill">
-            {category}
-          </span>
+          <CategoryPill category={category as string} isActive={true} />
         ))}
       </div>
     </header>
@@ -68,12 +71,6 @@ if (!thought) {
   }
   .thoughts-header h1 {
     @apply text-6xl font-bold mb-2;
-  }
-  .thoughts-header .categories {
-    @apply flex justify-center flex-wrap gap-2 uppercase text-white text-xs font-mono tracking-widest;
-  }
-  .categories .pill {
-    @apply bg-black px-4 py-1.5 rounded-full;
   }
   .thought-content {
     @apply bg-transparent pb-20;
@@ -205,5 +202,13 @@ if (!thought) {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .date-container {
+    @apply flex items-center justify-center gap-2;
+  }
+
+  .date-container :global(.gem) {
+    @apply w-4 h-4;
   }
 </style>

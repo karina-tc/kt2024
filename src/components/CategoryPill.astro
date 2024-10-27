@@ -1,0 +1,36 @@
+---
+interface Props {
+  category: string;
+  isButton?: boolean;
+  isActive?: boolean;
+}
+
+const { 
+  category, 
+  isButton = false,
+  isActive = false
+} = Astro.props;
+
+const baseClasses = "flex w-fit justify-center flex-wrap gap-2 uppercase text-xs font-mono tracking-widest rounded-full px-4 py-1.5 transition-all duration-300";
+const buttonClasses = "bg-white text-black cursor-pointer shadow-md shadow-slate-300/50 hover:-translate-y-[1px] hover:shadow-lg hover:bg-black hover:text-white";
+const pillClasses = "bg-black text-white";
+---
+
+{isButton ? (
+  <button type="button" class:list={[baseClasses, buttonClasses, { "category-active": isActive }]} data-category={category}>
+    {category}
+  </button>
+) : (
+  <span class:list={[baseClasses, pillClasses]}>
+    {category}
+  </span>
+)}
+
+<style>
+  .category-button:hover {
+    @apply -translate-y-[1px] shadow-lg bg-black text-white;
+  }
+  .category-active {
+    @apply bg-black text-white;
+  }
+</style>

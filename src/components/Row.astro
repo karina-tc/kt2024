@@ -1,5 +1,6 @@
 ---
 import * as Icon from '@astropub/icons'
+import Gem from './Gem.astro';
 interface Props {
   title: string;
   date: string;
@@ -9,7 +10,6 @@ interface Props {
 }
 
 const { title, date, categories, href, content } = Astro.props;
-console.log('Content received:', content);
 ---
 
 <a 
@@ -21,26 +21,15 @@ console.log('Content received:', content);
   transition:persist
   transition:name={`row-${title}`}
 >
-  
-  {categories.includes('Process') ? (
-    <div class="marker">
-      <Icon.CrumpledPaper size="18" class="group-hover:hidden" />
-      <Icon.RulerHorizontal size="18" class="hidden group-hover:block" />
-    </div>
-  ) : (
-    <div class="marker">
-      <Icon.CrumpledPaper size="18" class="group-hover:hidden" />
-      <Icon.File size="18" class="hidden group-hover:block" />
-    </div>
-  )}
+  <div class="marker !flex !items-center"> 
+    <Gem variant={categories.includes('Process') ? 'process' : 'default'} />
+  </div>
   <div class="details">
     <h3>{title}</h3>
     <p>{date} · {categories.join(', ')}</p>
     {content && (
       <div class="teaser">
-        <p>
-          {`${content.slice(0, 100)}...`}
-        </p>
+        <p>{`${content.slice(0, 100)}...`}</p>
       </div>
     )}
   </div>
@@ -51,11 +40,13 @@ console.log('Content received:', content);
 
 <style>
   .row {
-    @apply bg-light-paper dark:bg-dark-paper text-light-text dark:text-dark-text p-4 rounded-md w-full max-w-[640px] flex items-start gap-5 border border-light-border dark:border-dark-border transition-all ease-in-out hover:shadow-lg cursor-pointer origin-top;
-    transition: all 3s cubic-bezier(0.23, 1, 0.320, 1);
+    @apply bg-light-paper dark:bg-dark-paper text-light-text dark:text-dark-text p-4 rounded-md w-full max-w-[640px] flex items-start gap-5 border border-light-border dark:border-dark-border hover:shadow-lg cursor-pointer origin-top transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)];
+  }
+  .row-hidden {
+    @apply opacity-0 !h-0 !p-0 overflow-hidden absolute;
   }
   .marker {
-    @apply mt-3 block w-5 h-5 min-w-5 min-h-5 transition-all duration-300 ease-in-out;
+    @apply flex items-center mt-3 w-5 h-5 min-w-5 min-h-5 transition-all duration-300 ease-in-out;
   }
   .details {
     @apply py-1 flex-1;

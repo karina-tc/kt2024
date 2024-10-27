@@ -1,0 +1,93 @@
+---
+interface Props {
+  variant?: 'default' | 'process';
+}
+
+const { variant = 'default' } = Astro.props;
+---
+
+<svg width="0" height="0">
+  <defs>
+    <linearGradient id="desert-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f69e51" />
+      <stop offset="50%" style="stop-color:#efbff9" />
+      <stop offset="100%" style="stop-color:#7245cd" />
+    </linearGradient>
+    <linearGradient id="desert-gradient-1-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d88b46" />
+      <stop offset="50%" style="stop-color:#d6a9e0" />
+      <stop offset="100%" style="stop-color:#5f3aab" />
+    </linearGradient>
+    <linearGradient id="desert-gradient-1-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffb76c" />
+      <stop offset="50%" style="stop-color:#ffd4ff" />
+      <stop offset="100%" style="stop-color:#8f5ce0" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<svg class="gem" viewBox="0 0 20 20">
+  <!-- Main diamond shape -->
+  <polygon class="gem-shape gem-1" points="10,0 20,10 10,20 0,10" />
+  <!-- Left facet -->
+  <polygon class="gem-shape gem-1-dark" points="0,10 10,0 10,20" />
+  <!-- Right facet -->
+  <polygon class="gem-shape gem-1-light" points="20,10 10,0 10,20" />
+  <!-- Center line -->
+  <line x1="10" y1="0" x2="10" y2="20" stroke="#ffffff" stroke-width="0.5" opacity="0.3" />
+  <!-- Sparkle elements -->
+  <circle class="sparkle" cx="5" cy="5" r="0.5" />
+  <circle class="sparkle" cx="15" cy="15" r="0.5" />
+  <circle class="sparkle" cx="15" cy="5" r="0.5" />
+  <circle class="sparkle" cx="5" cy="15" r="0.5" />
+</svg>
+
+<style>
+  .gem {
+    @apply w-5 h-5 drop-shadow transition-all duration-300 ease-in-out;
+    visibility: visible !important;
+  }
+
+  .gem-shape {
+    @apply fill-[url(#desert-gradient-1)];
+  }
+
+  .gem-1 { @apply fill-[url(#desert-gradient-1)]; }
+  .gem-1-dark { @apply fill-[url(#desert-gradient-1-dark)]; }
+  .gem-1-light { @apply fill-[url(#desert-gradient-1-light)]; }
+
+  :global(.row:hover) .gem {
+    @apply drop-shadow-lg -translate-y-[1px];
+  }
+
+  @keyframes rotateGradient {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes sparkleEffect {
+    0%, 100% { opacity: 0; r: 0.3; }
+    50% { opacity: 1; r: 0.7; }
+  }
+
+  .sparkle {
+    @apply fill-white opacity-0;
+  }
+
+  :global(.row:hover) .sparkle {
+    animation: sparkleEffect 1.5s ease-in-out infinite;
+  }
+
+  /* Add different delays for each sparkle */
+  :global(.row:hover) .sparkle:nth-child(1) { animation-delay: 0s; }
+  :global(.row:hover) .sparkle:nth-child(2) { animation-delay: 0.2s; }
+  :global(.row:hover) .sparkle:nth-child(3) { animation-delay: 0.4s; }
+  :global(.row:hover) .sparkle:nth-child(4) { animation-delay: 0.6s; }
+
+  /* Update gradient definitions */
+  #desert-gradient-1, #desert-gradient-1-dark, #desert-gradient-1-light {
+    @apply origin-center transition-transform duration-300 ease-in-out;
+    transform: rotate(0deg);
+  }
+</style>
+

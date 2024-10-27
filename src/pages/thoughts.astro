@@ -2,6 +2,7 @@
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
 import Row from '../components/Row.astro';
 import { getThoughts } from '../lib/notion';
+import CategoryPill from '../components/CategoryPill.astro';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' },
@@ -29,9 +30,17 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
 >
   <div slot="left-column-extra" class="categories-list">
     <ul class="flex flex-wrap gap-2">
-      <li class={`category-button ${initialCategory === 'all' ? 'active' : ''} bg-white px-3 py-1`} data-category="all">All</li>
+      <CategoryPill 
+        category="All" 
+        isButton={true} 
+        isActive={initialCategory === 'all'} 
+      />
       {allCategories.map(category => (
-        <li class={`category-button ${initialCategory === category ? 'active' : ''} bg-white px-3 py-1`} data-category={category}>{category}</li>
+        <CategoryPill 
+          category={category} 
+          isButton={true} 
+          isActive={initialCategory === category}
+        />
       ))}
     </ul>
   </div>
@@ -59,13 +68,6 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
   }
   [data-row] {
     transition: all 0.3s ease-in-out;
-  }
-  .category-button {
-    @apply text-sm cursor-pointer rounded-full shadow-md shadow-slate-300/50;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  }
-  .category-button.active {
-    @apply bg-black text-white;
   }
   .hide-scrollbar {
     @apply overflow-auto;

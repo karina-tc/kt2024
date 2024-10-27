@@ -27,34 +27,56 @@ function setupDimming() {
 }
 
 function updateActiveCategory() {
-  const buttons = document.querySelectorAll('.category-button');
+  const buttons = document.querySelectorAll('button[data-category]');
   const rows = document.querySelectorAll('[data-row]');
 
   // Get the initial category from the URL parameter
   const urlParams = new URLSearchParams(window.location.search);
-  activeCategory = urlParams.get('category') || 'all';
+  activeCategory = (urlParams.get('category') || 'all').toLowerCase();
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
       const category = button.getAttribute('data-category');
       if (category) {
-        activeCategory = category;
+        activeCategory = category.toLowerCase();
         updateUI();
-        updateURL(category);
+        updateURL(activeCategory);
       }
     });
   });
 
   function updateUI() {
     buttons.forEach(button => {
-      button.classList.toggle('active', button.getAttribute('data-category') === activeCategory);
+      const buttonCategory = button.getAttribute('data-category')?.toLowerCase();
+      if (buttonCategory === activeCategory) {
+        button.classList.add('category-active');
+      } else {
+        button.classList.remove('category-active');
+      }
     });
 
     rows.forEach(row => {
-      const rowCategories = row.getAttribute('data-categories')?.split(',') || [];
       if (row instanceof HTMLElement) {
-        row.style.display = (activeCategory === 'all' || rowCategories.includes(activeCategory)) ? 'flex' : 'none';
+        const rowCategories = (row.getAttribute('data-categories')?.split(',') || [])
+          .map(cat => cat.toLowerCase().trim());
+        
+        if (activeCategory === 'all' || rowCategories.includes(activeCategory)) {
+          // Make visible
+          row.classList.remove('row-hidden');
+        } else {
+          // Hide visually
+          row.classList.add('row-hidden');
+        }
       }
+    });
+
+    // Force layout recalculation to remove gaps
+    requestAnimationFrame(() => {
+      rows.forEach(row => {
+        if (row instanceof HTMLElement) {
+          row.style.transition = 'all 0.1s ease-in-out';
+        }
+      });
     });
   }
 
@@ -83,4 +105,3 @@ document.addEventListener('DOMContentLoaded', init);
 
 // Run on view transitions
 document.addEventListener('astro:after-swap', init);
-
