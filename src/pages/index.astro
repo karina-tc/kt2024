@@ -98,9 +98,8 @@ const tabsContent: TabContent[] = [
     <div class="space-x-4 pt-2">
       {tabsContent.map(tab => (
         <Button 
-          type="textual" 
+          type="textual-button"
           additionalClasses={`for-${tab.id} ${tab.isDefault ? 'activate' : ''}`} 
-          href="#" 
           data-section={tab.id}
         >
           {tab.buttonText}

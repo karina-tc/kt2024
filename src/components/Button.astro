@@ -4,7 +4,7 @@ import '../styles/global.css';
 interface Props {
   href?: string;
   onClick?: string;
-  type?: 'link' | 'button' | 'textual';
+  type?: 'link' | 'button' | 'textual' | 'textual-button';
   additionalClasses?: string;
   children: any;
   'data-section'?: string;
@@ -31,10 +31,14 @@ const {
   <a href={href} class={`text-based ${additionalClasses}`} data-section={dataSection}>
     <slot />
   </a>
+) : type === 'textual-button' ? (
+  <button class={`text-based ${additionalClasses}`} data-section={dataSection}>
+    <slot />
+  </button>
 ) : (
   <button type="button" class={`group button-wrapper ${additionalClasses}`} onclick={onClick}>
-    <slot></slot>
-    <div class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
+    <slot />
+    <div class="button-effect">
       <div class="button-glow"></div>
     </div>
   </button>
