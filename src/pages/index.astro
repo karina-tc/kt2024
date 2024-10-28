@@ -54,23 +54,22 @@ try {
     </div>
     <SocialIcons className="mt-5" />
   </div>
-  <h2 class="sticky-label">My Manifesto</h2>
-  <article class="flex flex-1 gap-8">
-    <Card 
-      title="My motivation is to craft products that aim to help people have happier days so that they—and their loved ones—can have better lives. If you believe the same. I am your designer."
-      body="In my 10+ years of experience, I've helped startups evolve from ideas to fully fledged, thoughtfully crafted products. I have worked in Email Marketing, Ad Tech, HR and FinTech. Specializing in technical software, I work tirelessly to make the tedious simple while bringing joy in every pixel and line of code.">
-      <nav class="flex gap-4">
-        <Button type="link" href="/work">My Work</Button>
-        <Button type="link" href="/thoughts">My Thoughts</Button>
-        <Button type="link" href="/cv">CV</Button>
-        <Button type="link" href="/">Contact</Button>
-      </nav>
-    </Card>
-  </article>
+  <section class="manifesto">
+    <h2>My motivation is to craft products that aim to help people have happier days so that they—and their loved ones—can have better lives. If you believe the same. I am your designer.</h2>
+    <p>In my 10+ years of experience, I've helped startups evolve from ideas to fully fledged, thoughtfully crafted products. I have worked in Email Marketing, Ad Tech, HR and FinTech. Specializing in technical software, I work tirelessly to make the tedious simple while bringing joy in every pixel and line of code.</p>
+    <nav class="flex gap-2.5">
+      <Button type="link" href="/work">My Work</Button>
+      <Button type="link" href="/thoughts">My Thoughts</Button>
+      <Button type="link" href="/cv">CV</Button>
+    </nav>
+  </section>
 </TwoColumnLayout>
 
 <style>
-  .sticky-label {
-    @apply sticky inset-0;
+  .manifesto {
+    @apply flex-1 flex-col space-y-5 max-w-lg p-2;
+  }
+  h2 {
+    @apply text-2xl;
   }
 </style>
