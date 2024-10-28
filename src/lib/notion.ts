@@ -1,8 +1,20 @@
 import { Client } from '@notionhq/client';
 import type { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
+const getEnvVar = (key: string): string => {
+  // Try import.meta.env first (local development)
+  if (import.meta.env[key]) {
+    return import.meta.env[key];
+  }
+  // Fall back to process.env (production/Netlify)
+  if (process.env[key]) {
+    return process.env[key];
+  }
+  throw new Error(`Environment variable ${key} is not set`);
+};
+
 const notion = new Client({
-  auth: import.meta.env.NOTION_API_KEY,
+  auth: getEnvVar('NOTION_API_KEY')
 });
 
 function formatDate(dateStr: string): string {
@@ -16,7 +28,7 @@ function formatDate(dateStr: string): string {
 
 export async function getThoughts() {
   const response = await notion.databases.query({
-    database_id: import.meta.env.NOTION_DATABASE_ID!,
+    database_id: getEnvVar('NOTION_DATABASE_ID'),
     filter: {
       property: 'Status',
       status: {
@@ -61,7 +73,7 @@ export async function getThoughts() {
 export async function getThoughtContent(slug: string) {
   // First find the page ID by slug
   const response = await notion.databases.query({
-    database_id: import.meta.env.NOTION_DATABASE_ID!,
+    database_id: getEnvVar('NOTION_DATABASE_ID'),
     filter: {
       property: 'Slug',
       rich_text: {

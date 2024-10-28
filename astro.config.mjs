@@ -17,6 +17,8 @@ export default defineConfig({
       'process.env.SPOTIFY_CLIENT_ID': JSON.stringify(process.env.SPOTIFY_CLIENT_ID),
       'process.env.SPOTIFY_CLIENT_SECRET': JSON.stringify(process.env.SPOTIFY_CLIENT_SECRET),
       'process.env.SPOTIFY_REFRESH_TOKEN': JSON.stringify(process.env.SPOTIFY_REFRESH_TOKEN),
+      'process.env.NOTION_API_KEY': JSON.stringify(process.env.NOTION_API_KEY),
+      'process.env.NOTION_DATABASE_ID': JSON.stringify(process.env.NOTION_DATABASE_ID)
     }
   },
 });
