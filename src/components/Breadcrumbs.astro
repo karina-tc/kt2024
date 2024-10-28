@@ -1,4 +1,6 @@
 ---
+import Button from '../components/Button.astro';
+import * as Icon from '@astropub/icons'
 export interface Crumb {
   text: string;
   href: string;
@@ -36,23 +38,23 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
         {index === updatedCrumbs.length - 1 ? (
           <div class="relative">
             {Object.keys(pageTitles).includes(lastCrumb.href.replace('/', '')) ? (
-              <button id="lastCrumbDropdown" class="flex items-center text-gray-900 font-medium" data-page-title={crumb.text}>
+              <button id="lastCrumbDropdown" class="dropdown-menu-trigger" data-page-title={crumb.text}>
                 {crumb.text}
-                <svg class="w-4 h-4 ml-1 transition-transform duration-300" id="chevronIcon" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
+                <span class="w-4 h-4 ml-1 transition-transform duration-300" id="chevronIcon">
+                  <Icon.ChevronDown size="14" />
+                </span>
               </button>
             ) : (
               <span class="text-gray-900 font-medium">{crumb.text}</span>
             )}
-            <div id="dropdownMenu" class="hidden absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+            <div id="dropdownMenu" class="dropdown-menu hidden">
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 {Object.entries(pageTitles).map(([key, value]) => {
                   const shouldRender = key.toLowerCase() !== lastCrumb.text.toLowerCase();
                   return shouldRender && (
                     <a
                       href={`/${key}`}
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      class="dropdown-menu-item"
                       role="menuitem"
                     >
                       {value}
@@ -63,10 +65,7 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
             </div>
           </div>
         ) : (
-          <span class="link-block group">
-            <a href={crumb.href}>{crumb.text}</a>
-            <div class="highlight"></div>
-          </span>
+        <Button type="textual" additionalClasses="text-gray-900 text-base" href={crumb.href}>{crumb.text}</Button>
         )}
       </li>
     ))}
@@ -83,11 +82,14 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
   .divider {
     @apply font-light;
   }
-  .link-block {
-    @apply flex flex-col gap-[2px] relative;
+  .dropdown-menu-trigger {
+    @apply flex items-center text-base text-gray-900 font-medium;
   }
-  .highlight {
-    @apply absolute inset-x-0 bottom-0 h-0.5 bg-gray-300 scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-300;
+  .dropdown-menu {
+    @apply absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5;
+  }
+  .dropdown-menu-item {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900;
   }
 </style>
 
