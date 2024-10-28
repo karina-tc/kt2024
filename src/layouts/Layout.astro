@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import CoordinateGrid from '../components/CoordinateGrid.astro';
 import '../styles/layout.css';  // Add this import
+import LoadingBar from '../components/LoadingBar.astro';
 
 interface Props {
 	title: string;
@@ -28,12 +29,30 @@ const { title, body_classes = '' } = Astro.props;
 		<ViewTransitions />
 	</head>
 	<body class={`relative min-h-screen ${body_classes}`}>
+		<LoadingBar />
 		<CoordinateGrid />
 		<div class="content relative z-10 w-full h-screen min-h-fit p-12">
 			<slot />
 		</div>
 	</body>
 </html>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const loadingBar = document.getElementById('loading-bar');
+		if (loadingBar) {
+			loadingBar.style.display = 'none';
+		}
+	});
+
+	document.addEventListener('astro:before-preparation', () => {
+		const loadingBar = document.getElementById('loading-bar');
+		if (loadingBar) {
+			loadingBar.style.display = 'block';
+		}
+	});
+</script>
+
 <style is:global>
 	:root {
 		--accent: 136, 58, 234;
@@ -45,6 +64,7 @@ const { title, body_classes = '' } = Astro.props;
 			rgb(var(--accent-light)) 30%,
 			white 60%
 		);
+		--loading-progress-color: #000000;
 	}
 	html {
 		@apply bg-light-base dark:bg-dark-base text-light-text dark:text-dark-text;

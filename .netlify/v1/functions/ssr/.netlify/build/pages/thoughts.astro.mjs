@@ -1,8 +1,8 @@
 /* empty css                                 */
 import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, e as renderTransition, d as renderComponent, b as createAstro } from '../chunks/astro/server_DSN01Tpq.mjs';
 import 'kleur/colors';
-import { $ as $$TwoColumnLayout } from '../chunks/TwoColumnLayout_Dp0b-wTj.mjs';
-import { c as $$ArrowRight } from '../chunks/ZoomOut_DVtMBVmh.mjs';
+import { $ as $$TwoColumnLayout } from '../chunks/TwoColumnLayout_B0hcKSFr.mjs';
+import { c as $$ArrowRight } from '../chunks/Breadcrumbs_C9h13jiO.mjs';
 import { $ as $$Gem, b as getThoughts, a as $$CategoryPill } from '../chunks/notion_BabPfdaK.mjs';
 /* empty css                                    */
 /* empty css                                 */

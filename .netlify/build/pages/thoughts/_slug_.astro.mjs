@@ -1,26 +1,21 @@
 /* empty css                                    */
-import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, d as renderComponent, b as createAstro, f as renderSlot, F as Fragment, u as unescapeHTML } from '../../chunks/astro/server_DSN01Tpq.mjs';
+import { c as createComponent, r as renderTemplate, d as renderComponent, b as createAstro, m as maybeRenderHead, a as addAttribute, f as renderSlot, F as Fragment, u as unescapeHTML } from '../../chunks/astro/server_DSN01Tpq.mjs';
 import 'kleur/colors';
-import { a as $$ArrowLeft, b as $$Layers } from '../../chunks/ZoomOut_DVtMBVmh.mjs';
-/* empty css                                     */
-import { $ as $$Layout } from '../../chunks/Layout_CxGfdv7S.mjs';
+import { a as $$Breadcrumbs, b as $$Layers } from '../../chunks/Breadcrumbs_C9h13jiO.mjs';
+import { $ as $$Layout } from '../../chunks/Layout_sAWoEO-F.mjs';
 import { $ as $$Gem, a as $$CategoryPill, g as getThoughtContent, b as getThoughts } from '../../chunks/notion_BabPfdaK.mjs';
+/* empty css                                     */
 export { renderers } from '../../renderers.mjs';
-
-const $$Astro$2 = createAstro();
-const $$BackButton = createComponent(($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
-  Astro2.self = $$BackButton;
-  const { href, text } = Astro2.props;
-  return renderTemplate`${maybeRenderHead()}<a${addAttribute(href, "href")} class="link-wrapper group" data-astro-cid-7a7bzblm> <span class="button-circle" data-astro-cid-7a7bzblm> ${renderComponent($$result, "Icon.ArrowLeft", $$ArrowLeft, { "size": "18", "stroke-width": "4", "class": "icon-arrow", "data-astro-cid-7a7bzblm": true })} <span class="icon-circle-fill" data-astro-cid-7a7bzblm>&nbsp;</span> </span> <span class="link-text" data-astro-cid-7a7bzblm>Back to ${text}</span> </a> `;
-}, "/Users/karinatovar/Desktop/absent-altitude/src/components/BackButton.astro", void 0);
 
 const $$Astro$1 = createAstro();
 const $$ThoughtLayout = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$ThoughtLayout;
   const { title, date, categories, showcase } = Astro2.props;
-  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": title, "data-astro-cid-d7e67ft2": true }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<article class="prose prose-lg thoughts-container" data-astro-cid-d7e67ft2> ${renderComponent($$result2, "BackButton", $$BackButton, { "href": "/thoughts", "text": "Thoughts", "data-astro-cid-d7e67ft2": true })} <header class="thoughts-header" data-astro-cid-d7e67ft2> <h1 data-astro-cid-d7e67ft2>${title}</h1> <div class="date-container" data-astro-cid-d7e67ft2> ${renderComponent($$result2, "Gem", $$Gem, { "data-astro-cid-d7e67ft2": true })} <time data-astro-cid-d7e67ft2>${date}</time> </div> <div class="flex justify-center gap-2" data-astro-cid-d7e67ft2> ${categories.map((category) => renderTemplate`${renderComponent($$result2, "CategoryPill", $$CategoryPill, { "category": category, "isActive": true, "data-astro-cid-d7e67ft2": true })}`)} </div> </header> ${showcase && renderTemplate`<div class="showcase-image-wrapper relative" data-astro-cid-d7e67ft2> <img${addAttribute(showcase, "src")}${addAttribute(title, "alt")} class="showcase-image z-10" data-astro-cid-d7e67ft2> <div class="absolute m-auto p-4 flex gap-1 items-center justify-center" data-astro-cid-d7e67ft2> ${renderComponent($$result2, "Icon.Layers", $$Layers, { "size": "14", "data-astro-cid-d7e67ft2": true })} <span data-astro-cid-d7e67ft2>Painting...</span> </div> </div>`} <section class="thought-content animate-slide" data-astro-cid-d7e67ft2> ${renderSlot($$result2, $$slots["default"])} </section> </article> ` })} `;
+  const breadcrumbs = [
+    { text: "Thoughts", href: "/thoughts" }
+  ];
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": title, "data-astro-cid-d7e67ft2": true }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<article class="prose prose-lg thoughts-container" data-astro-cid-d7e67ft2> ${renderComponent($$result2, "Breadcrumbs", $$Breadcrumbs, { "crumbs": breadcrumbs, "data-astro-cid-d7e67ft2": true })} <header class="thoughts-header" data-astro-cid-d7e67ft2> <h1 data-astro-cid-d7e67ft2>${title}</h1> <div class="date-container" data-astro-cid-d7e67ft2> ${renderComponent($$result2, "Gem", $$Gem, { "data-astro-cid-d7e67ft2": true })} <time data-astro-cid-d7e67ft2>${date}</time> </div> <div class="flex justify-center gap-2" data-astro-cid-d7e67ft2> ${categories.map((category) => renderTemplate`${renderComponent($$result2, "CategoryPill", $$CategoryPill, { "category": category, "isActive": true, "data-astro-cid-d7e67ft2": true })}`)} </div> </header> ${showcase && renderTemplate`<div class="showcase-image-wrapper relative" data-astro-cid-d7e67ft2> <img${addAttribute(showcase, "src")}${addAttribute(title, "alt")} class="showcase-image z-10" data-astro-cid-d7e67ft2> <div class="absolute m-auto p-4 flex gap-1 items-center justify-center" data-astro-cid-d7e67ft2> ${renderComponent($$result2, "Icon.Layers", $$Layers, { "size": "14", "data-astro-cid-d7e67ft2": true })} <span data-astro-cid-d7e67ft2>Painting...</span> </div> </div>`} <section class="thought-content animate-slide" data-astro-cid-d7e67ft2> ${renderSlot($$result2, $$slots["default"])} </section> </article> ` })} `;
 }, "/Users/karinatovar/Desktop/absent-altitude/src/layouts/ThoughtLayout.astro", void 0);
 
 function renderNotionBlock(block) {

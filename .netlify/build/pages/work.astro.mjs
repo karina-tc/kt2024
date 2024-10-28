@@ -1,8 +1,8 @@
 /* empty css                                 */
 import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, f as renderSlot, b as createAstro, d as renderComponent } from '../chunks/astro/server_DSN01Tpq.mjs';
 import 'kleur/colors';
-import { $ as $$TwoColumnLayout } from '../chunks/TwoColumnLayout_Dp0b-wTj.mjs';
-import { b as $$Button } from '../chunks/AsideTitle_b8gzafSV.mjs';
+import { $ as $$TwoColumnLayout } from '../chunks/TwoColumnLayout_B0hcKSFr.mjs';
+import { d as $$Button } from '../chunks/Breadcrumbs_C9h13jiO.mjs';
 import 'clsx';
 /* empty css                                */
 export { renderers } from '../renderers.mjs';

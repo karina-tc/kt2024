@@ -1,11 +1,11 @@
 /* empty css                                 */
 import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, b as createAstro, d as renderComponent, e as renderTransition, f as renderSlot } from '../chunks/astro/server_DSN01Tpq.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../chunks/Layout_CxGfdv7S.mjs';
-import { $ as $$Breadcrumbs, a as $$AsideTitle } from '../chunks/AsideTitle_b8gzafSV.mjs';
+import { $ as $$Layout } from '../chunks/Layout_sAWoEO-F.mjs';
+import { $ as $$ActivityLog, a as $$Breadcrumbs } from '../chunks/Breadcrumbs_C9h13jiO.mjs';
+import { $ as $$AsideTitle } from '../chunks/AsideTitle_CMk3WAaT.mjs';
 import 'clsx';
 /* empty css                                 */
-import { $ as $$ActivityLog } from '../chunks/ZoomOut_DVtMBVmh.mjs';
 /* empty css                                 */
 export { renderers } from '../renderers.mjs';
 

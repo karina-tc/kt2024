@@ -1,9 +1,8 @@
 /* empty css                                 */
 import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, d as renderComponent, b as createAstro } from '../chunks/astro/server_DSN01Tpq.mjs';
 import 'kleur/colors';
-import { $ as $$TwoColumnLayout } from '../chunks/TwoColumnLayout_Dp0b-wTj.mjs';
-import { b as $$Button } from '../chunks/AsideTitle_b8gzafSV.mjs';
-import { d as $$EnvelopeClosed, e as $$TwitterLogo, f as $$GitHubLogo, g as $$SpeakerLoud } from '../chunks/ZoomOut_DVtMBVmh.mjs';
+import { $ as $$TwoColumnLayout } from '../chunks/TwoColumnLayout_B0hcKSFr.mjs';
+import { e as $$EnvelopeClosed, f as $$TwitterLogo, g as $$GitHubLogo, h as $$SpeakerLoud, d as $$Button } from '../chunks/Breadcrumbs_C9h13jiO.mjs';
 /* empty css                                 */
 export { renderers } from '../renderers.mjs';
 
