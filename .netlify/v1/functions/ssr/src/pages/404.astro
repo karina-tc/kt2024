@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Oops">
+  <section class="wrapper">
+    <h1>404: Well Shoot</h1>
+    <p>Sorry, I may have missled you.</p>
+    <a href="/" class="underline underline-offset-8 decoration-slate-300">Go back to homepage</a>
+  </section>
+</Layout>
+
+<style>
+  .wrapper {
+    @apply flex flex-col items-center justify-center min-h-screen gap-3;
+  }
+</style>

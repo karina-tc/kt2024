@@ -3,18 +3,19 @@ import * as Icon from '@astropub/icons';
 
 interface Props {
   href: string;
-  text: string;
+  text?: string;
+  additionalClasses?: string;
 }
 
-const { href, text } = Astro.props;
+const { href, text, additionalClasses } = Astro.props;
 ---
 
-<a href={href} class="link-wrapper group">
+<a href={href} class={`link-wrapper ${additionalClasses}`}>
   <span class="button-circle">
     <Icon.ArrowLeft size="18" stroke-width="4" class="icon-arrow" />
     <span class="icon-circle-fill">&nbsp;</span>
   </span>
-  <span class="link-text">Back to {text}</span>
+  {text &&<span class="link-text">Back to {text}</span>}
 </a>
 
 <style>

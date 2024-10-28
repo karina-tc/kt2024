@@ -1,0 +1,82 @@
+---
+import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
+import Row from '../components/Row.astro';
+import { getThoughts } from '../lib/notion';
+import CategoryPill from '../components/CategoryPill.astro';
+
+const breadcrumbs = [
+  { text: 'Karina Tovar', href: '/' },
+  { text: 'Thoughts', href: '/thoughts' },
+];
+
+// Fetch thoughts from Notion
+const thoughts = await getThoughts();
+
+// Get unique categories
+const allCategories = [...new Set(thoughts.flatMap(thought => thought.categories))];
+const initialCategory = Astro.url.searchParams.get('category') || 'all';
+---
+
+<TwoColumnLayout
+  layout_body_classes="bg-[url('/hero.png')] bg-cover"
+  title="Karina Tovar - Product Designer"
+  breadcrumbs={breadcrumbs}
+  additionalClasses="[&>.right-column]:h-full"
+  asideTitle={{
+    line1: "Product Designer",
+    line2: "Pixel Philosopher"
+  }}
+  subtitle="USA Based · Listening to Music"
+>
+  <div slot="left-column-extra" class="categories-list">
+    <ul class="flex flex-wrap gap-2">
+      <CategoryPill 
+        category="All" 
+        isButton={true} 
+        isActive={initialCategory === 'all'} 
+      />
+      {allCategories.map(category => (
+        <CategoryPill 
+          category={category} 
+          isButton={true} 
+          isActive={initialCategory === category}
+        />
+      ))}
+    </ul>
+  </div>
+
+  <section id="thoughts-container" class="w-full max-h-[80vh] max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start pr-10 py-5 hide-scrollbar">
+    {thoughts.map(thought => (
+      <Row
+        title={thought.title}
+        date={thought.date}
+        categories={thought.categories}
+        href={thought.href}
+        content={thought.content}
+      />
+    ))}
+  </section>
+</TwoColumnLayout>
+
+<script>
+  import '../scripts/ThoughtsCategories';
+</script>
+
+<style>
+  .categories-list {
+    @apply mt-10 max-w-80;
+  }
+  [data-row] {
+    transition: all 0.3s ease-in-out;
+  }
+  .hide-scrollbar {
+    @apply overflow-auto;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+</style>

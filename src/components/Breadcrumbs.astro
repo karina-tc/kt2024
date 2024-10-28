@@ -1,6 +1,7 @@
 ---
 import Button from '../components/Button.astro';
 import * as Icon from '@astropub/icons'
+import BackButton from './BackButton.astro';
 export interface Crumb {
   text: string;
   href: string;
@@ -19,31 +20,41 @@ const pageTitles: { [key: string]: string } = {
   'about': 'About',
 }
 
-// Get the current page title from pageTitles if it exists, otherwise use the last crumb's text
+const currentPath = Astro.url.pathname;
+
 const lastCrumb = crumbs[crumbs.length - 1];
 const currentPageTitle = pageTitles[lastCrumb.href.replace('/', '')] || lastCrumb.text;
+const isChildPage = currentPath.split('/').length > 2;
+const isIndexPage = Object.keys(pageTitles).includes(currentPath.replace(/^\/|\/$/g, ''));
 
+
+// Update crumbs array with the correct title for the current page
 const updatedCrumbs = crumbs.map((crumb, index) => 
   index === crumbs.length - 1 
     ? { ...crumb, text: currentPageTitle }
     : crumb
 );
 ---
-
 <nav aria-label="Breadcrumb">
   <ol class="breadcrumbs">
     {updatedCrumbs.map((crumb, index) => (
       <li class="flex items-center">
-        {index > 0 && <span>&nbsp;/&nbsp;</span>}
+        {/* Add separator between crumbs */}
+        {index > 0 && <span class="opacity-50">&nbsp;/&nbsp;</span>}
         {index === updatedCrumbs.length - 1 ? (
           <div class="relative">
-            {Object.keys(pageTitles).includes(lastCrumb.href.replace('/', '')) ? (
+            {isIndexPage && !isChildPage ? (
               <button id="lastCrumbDropdown" class="dropdown-menu-trigger" data-page-title={crumb.text}>
                 {crumb.text}
                 <span class="w-4 h-4 ml-1 transition-transform duration-300" id="chevronIcon">
                   <Icon.ChevronDown size="14" />
                 </span>
               </button>
+             ): isChildPage ? (
+              <div class="back-group group">
+                <BackButton href={crumb.href} additionalClasses="ml-1 mr-2" />
+                <Button type="textual" additionalClasses="text-gray-900 text-base" href={crumb.href}>{crumb.text}</Button>
+              </div>
             ) : (
               <span class="text-gray-900 font-medium">{crumb.text}</span>
             )}
@@ -65,7 +76,10 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
             </div>
           </div>
         ) : (
-        <Button type="textual" additionalClasses="text-gray-900 text-base" href={crumb.href}>{crumb.text}</Button>
+          <div class="back-group group">
+            <BackButton href={crumb.href} />
+            <Button type="textual" additionalClasses="text-gray-900 text-base" href={crumb.href}>{crumb.text}</Button>
+          </div>
         )}
       </li>
     ))}
@@ -90,6 +104,15 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
   }
   .dropdown-menu-item {
     @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900;
+  }
+  .back-group {
+    @apply flex items-center gap-2;
+  }
+  .back-group:hover :global(.icon-circle-fill) {
+    @apply w-full h-full bg-black;
+  }
+  .back-group:hover :global(.icon-arrow) {
+    @apply text-white;
   }
 </style>
 
