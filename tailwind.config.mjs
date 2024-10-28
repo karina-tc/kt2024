@@ -5,6 +5,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'instrument': ['"Instrument Serif"', 'serif'],
+				'sans': ['Raleway', 'sans-serif'],
 			},
 			colors: {
 				light: {
