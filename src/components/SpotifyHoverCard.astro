@@ -1,6 +1,4 @@
 ---
-import * as Icon from '@astropub/icons'
-
 interface Props {
   isPlaying: boolean;
   artist: string;
@@ -20,12 +18,9 @@ const getDisplayText = () => {
 ---
 
 <div class="group relative inline-block">
-  <span class="flex items-center gap-1.5">
-    <Icon.SpeakerLoud size="14" />
-    <span>Listening to</span>
-    <span class="underline-offset-4 hover:underline transition-colors cursor-pointer">
-      {getDisplayText}
-    </span>
+  <span class="flex items-center gap-1.5 text-sm font-medium cursor-pointer group/listen">
+    <span class="w-2 h-2 bg-green-500 rounded-full">&nbsp;</span>
+    Listening to {getDisplayText}
   </span>
   
   {songName && (
