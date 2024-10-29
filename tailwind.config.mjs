@@ -13,6 +13,7 @@ export default {
 				inkLighter: 'rgb(var(--color-ink-lighter) / <alpha-value>)',
 				inkDark: 'rgb(var(--color-ink-dark) / <alpha-value>)',
 				paper: 'rgb(var(--color-paper) / <alpha-value>)',
+				carbon: '#2A261E',
 			},
 		},
 	},

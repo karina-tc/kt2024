@@ -79,7 +79,7 @@ const tabsContent: TabContent[] = [
 ---
 
 <TwoColumnLayout
-  layout_body_classes=""
+  layout_body_classes="bg-[image:var(--image-hero)] bg-cover"
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
   asideTitle={{
@@ -87,12 +87,12 @@ const tabsContent: TabContent[] = [
     line2: "Pixel Philosopher"
   }}
   bgImage="/kt.png"
-  bgImageClasses="[&>img]:w-[900px] [&>img]:h-[900px] [&>img]:ml-auto items-end mix-blend-overlay opacity-40"
+  bgImageClasses="mix-blend-overlay opacity-40"
 >
   <div slot="left-column-extra">
     <div class="flex items-center gap-4">
-      <Button type="link" href="/work" additionalClasses="fles items-center min-h-10">
-        <span class="text-lg group-hover:mr-2 transition-all bg-inkDark z-[1]">My Work</span>
+      <Button type="link" href="/work" additionalClasses="fles items-center min-h-10 !text-white">
+        <span class="text-lg group-hover:mr-2 transition-all bg-carbon z-[1]">My Work</span>
         <Icon.ArrowRight size="20" class="ml-2 inline-block opacity-100 delay-0 group-hover:absolute group-hover:opacity-0" />
         <Icon.ArrowTopRight size="20" class="opacity-0 absolute transition-all group-hover:relative group-hover:opacity-100 inline-block delay-100" />
       </Button>
