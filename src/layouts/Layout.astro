@@ -65,6 +65,30 @@ const { title, body_classes = '' } = Astro.props;
 			white 60%
 		);
 		--loading-progress-color: #BCAD8F;
+
+		/* Light theme colors (default) */
+		--color-ink: 85 78 63; /* #554E3F */
+		--color-ink-light: 124 116 98; /* #7C7462 */
+		--color-ink-lighter: 188 173 143; /* #BCAD8F */
+		--color-ink-dark: 42 38 30; /* #2A261E */
+		--color-paper: 255 255 255; /* #FFFFFF */
+
+		/* Images */
+		--image-hero: url('/hero.png');
+		--image-hero-dark: url('/hero-dark.png'); /* If you have a dark version */
+	}
+
+		/* Dark theme colors (flipped) */
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--color-ink: 230 228 225; /* #E6E4E1 */
+				--color-ink-light: 169 167 162; /* #A9A7A2 */
+				--color-ink-lighter: 140 132 117; /* #8C8475 */
+				--color-ink-dark: 245 244 242; /* #F5F4F2 */
+				--color-paper: 26 24 22; /* #1A1816 */
+
+				--image-hero: var(--image-hero-dark);
+		}
 	}
 	html {
 		@apply bg-paper text-ink;

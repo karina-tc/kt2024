@@ -8,11 +8,11 @@ export default {
 				'sans': ['Raleway', 'sans-serif'],
 			},
 			colors: {
-				ink: '#554E3F',
-				inkLight: '#7C7462',
-				inkLighter: '#BCAD8F',
-				inkDark: '#2A261E',
-				paper: '#FFFFFF'
+				ink: 'rgb(var(--color-ink) / <alpha-value>)',
+				inkLight: 'rgb(var(--color-ink-light) / <alpha-value>)',
+				inkLighter: 'rgb(var(--color-ink-lighter) / <alpha-value>)',
+				inkDark: 'rgb(var(--color-ink-dark) / <alpha-value>)',
+				paper: 'rgb(var(--color-paper) / <alpha-value>)',
 			},
 		},
 	},
