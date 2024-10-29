@@ -8,8 +8,8 @@ import CategoryPill from '../components/CategoryPill.astro';
 
 interface Props {
   title: string;
-  date: string;
-  categories: string[];
+  date?: string;
+  categories?: string[];
   showcase?: string;
 }
 
@@ -31,7 +31,7 @@ const breadcrumbs = [
           <time>{date}</time>
         </div>
         <div class="flex justify-center gap-2">
-          {categories.map((category: string) => (
+          {categories?.map((category: string) => (
             <CategoryPill category={category} isActive={true} />
           ))}
         </div>

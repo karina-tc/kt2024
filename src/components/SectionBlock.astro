@@ -1,21 +1,21 @@
 ---
 interface Props {
-  title: string;
+  size?: string;
+  classNames?: string;
 }
 
-const { title } = Astro.props;
+const { size, classNames } = Astro.props;
 ---
 
-<section class="block">
-  <h2>{title}</h2>
+<section class={`block ${classNames} ${size === 'small' ? 'max-w-5xl' : ''}`}>
   <slot />
 </section>
 
 <style>
   .block {
-    @apply flex-1 w-full flex flex-col gap-3 justify-center mb-20;
+    @apply flex-1 w-full mx-auto flex flex-col gap-3 justify-center;
   }
-  h2 {
+  .block h2 {
     @apply text-3xl font-medium font-instrument;
   }
 </style>
