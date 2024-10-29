@@ -1,8 +1,9 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import CoordinateGrid from '../components/CoordinateGrid.astro';
-import '../styles/layout.css';  // Add this import
+import '../styles/layout.css';
 import LoadingBar from '../components/LoadingBar.astro';
+import AuraBackground from '../components/AuraBackground.astro';
 
 interface Props {
 	title: string;
@@ -29,6 +30,7 @@ const { title, body_classes = '' } = Astro.props;
 		<ViewTransitions />
 	</head>
 	<body class={`relative min-h-screen ${body_classes}`}>
+		<AuraBackground />
 		<LoadingBar />
 		<CoordinateGrid />
 		<div class="content relative z-10 w-full h-screen min-h-fit p-12">
