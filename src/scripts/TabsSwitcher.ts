@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   const buttons = document.querySelectorAll('.group-button');
   const sections = document.querySelectorAll('.section-content');
 

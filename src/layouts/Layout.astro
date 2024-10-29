@@ -53,6 +53,10 @@ const { title, body_classes = '' } = Astro.props;
 			loadingBar.style.display = 'block';
 		}
 	});
+	import { initConfetti } from '../scripts/confetti';
+      document.addEventListener('DOMContentLoaded', () => {
+        initConfetti();
+    });
 </script>
 
 <style is:global>

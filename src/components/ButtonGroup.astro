@@ -4,6 +4,7 @@ interface Props {
     id: string;
     text: string;
     isActive?: boolean;
+    confetti?: boolean;
   }[];
 }
 
@@ -15,6 +16,7 @@ const { buttons } = Astro.props;
     <button
       class={`group-button ${button.isActive ? 'active' : ''}`}
       data-section={button.id}
+      {...button.confetti && { 'data-confetti': '' }}
     >
       {button.text}
     </button>

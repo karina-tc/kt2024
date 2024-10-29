@@ -8,6 +8,7 @@ interface Props {
   additionalClasses?: string;
   children: any;
   'data-section'?: string;
+  confetti?: boolean;
 }
 
 const { 
@@ -16,27 +17,46 @@ const {
   type = 'button', 
   additionalClasses = '', 
   children,
-  'data-section': dataSection
+  'data-section': dataSection,
+  confetti = false
 } = Astro.props;
 ---
 
 {type === 'link' ? (
-  <a href={href} class={`group button-wrapper ${additionalClasses}`}>
+  <a 
+    href={href} 
+    class={`group button-wrapper ${additionalClasses}`}
+    {...confetti && { 'data-confetti': '' }}
+  >
     <slot />
     <div class="button-effect">
       <div class="button-glow"></div>
     </div>
   </a>
 ) : type === 'textual' ? (
-  <a href={href} class={`text-based ${additionalClasses}`} data-section={dataSection}>
+  <a 
+    href={href} 
+    class={`text-based ${additionalClasses}`} 
+    data-section={dataSection}
+    {...confetti && { 'data-confetti': '' }}
+  >
     <slot />
   </a>
 ) : type === 'textual-button' ? (
-  <button class={`text-based ${additionalClasses}`} data-section={dataSection}>
+  <button 
+    class={`text-based ${additionalClasses}`} 
+    data-section={dataSection}
+    {...confetti && { 'data-confetti': '' }}
+  >
     <slot />
   </button>
 ) : (
-  <button type="button" class={`group button-wrapper ${additionalClasses}`} onclick={onClick}>
+  <button 
+    type="button" 
+    class={`group button-wrapper ${additionalClasses}`} 
+    onclick={onClick}
+    {...confetti && { 'data-confetti': '' }}
+  >
     <slot />
     <div class="button-effect">
       <div class="button-glow"></div>
