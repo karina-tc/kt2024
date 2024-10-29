@@ -91,7 +91,7 @@ const { title, body_classes = '' } = Astro.props;
 		}
 	}
 	html {
-		@apply bg-paper text-ink;
+		@apply bg-paper text-ink overflow-x-hidden;
 	}
 	code {
 		font-family:
@@ -105,7 +105,7 @@ const { title, body_classes = '' } = Astro.props;
 			monospace;
 	}
 	body {
-		@apply relative min-h-screen text-ink;
+		@apply relative min-h-screen text-ink max-w-[100vw] overflow-x-hidden;
 	}
 	.content {
 		@apply relative z-10;

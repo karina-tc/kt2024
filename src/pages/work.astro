@@ -58,7 +58,7 @@ const sortedYears = Object.keys(projectsByYear).sort((a, b) => parseInt(b) - par
 
 <style>
   .timeline {
-    @apply flex gap-4 relative pr-10 pt-10;
+    @apply flex gap-4 relative pr-20 pt-10;
   }
   .projects-row {
     @apply flex gap-4 pt-4;
@@ -73,6 +73,6 @@ const sortedYears = Object.keys(projectsByYear).sort((a, b) => parseInt(b) - par
     @apply bg-[#F9F7F5] p-1 sticky left-0 z-10;
   }
   .year-connector {
-    @apply bg-gray-300 w-full h-[1px];
+    @apply bg-inkLighter/50 w-full h-[1px];
   }
 </style>
