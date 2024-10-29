@@ -1,103 +1,116 @@
 <div class="aura-wrapper">
     <div class="aura-background">
-      <div class="gradient-layer gradient-1"></div>
-      <div class="gradient-layer gradient-2"></div>
-      <div class="gradient-layer gradient-3"></div>
-      <div class="gradient-layer gradient-4"></div>
+      <div class="gradient-layer gradient-1 hidden"></div>
+      <div class="gradient-layer gradient-2 hidden"></div>
+      <div class="gradient-layer gradient-3 hidden"></div>
+      <div class="sun-container">
+        <div class="sun"></div>
+      </div>
     </div>
   </div>
   
-<style>
-    .aura-wrapper {
-  @apply fixed inset-0 w-full h-full overflow-hidden pointer-events-none;
-  z-index: 0;
-}
+  <script>
+    import { timeOfDayColors } from '../lib/theme';
+  
+    function initAuraBackground() {
+      const sun = document.querySelector('.sun') as HTMLElement;
+      const container = document.querySelector('.sun-container') as HTMLElement;
+      
+      window.addEventListener('theme-change', ((e: CustomEvent<{ theme: keyof typeof timeOfDayColors, hour: number }>) => {
+        const { theme, hour } = e.detail;
+        const colors = timeOfDayColors[theme];
+        
+        // Update gradients
+        const gradients = document.querySelectorAll('.gradient-layer');
+        gradients.forEach((gradient, index) => {
+          const gradientKey = `gradient${index + 1}` as keyof typeof colors;
+          const gradientElement = gradient as HTMLElement;
+          const colorConfig = colors[gradientKey];
+          
+          if (colorConfig) {
+            gradientElement.style.background = `radial-gradient(
+              circle at ${colorConfig.position},
+              ${colorConfig.color} 0%,
+              transparent 70%
+            )`;
+          }
+        });
 
-.aura-background {
-  @apply absolute inset-0 w-full h-full;
-}
-
-.gradient-layer {
-  @apply absolute inset-0 w-full h-full;
-  transform: scale(2);
-  mix-blend-mode: screen;
-  transition: background 0.5s ease-out;
-}
-
-/* Remove the static gradient definitions since they'll be set by JavaScript */
-.gradient-1, .gradient-2, .gradient-3, .gradient-4 {
-  background: transparent;
-}
-
-/* Modify dark mode to work better with the dial */
-@media (prefers-color-scheme: dark) {
+        // Update sun position and appearance
+        if (sun) {
+          // Calculate horizontal position across entire viewport
+          const progress = hour / 23;
+          const xPos = (progress * 100) - 50; // -50% to 50% for full width movement
+          
+          // Calculate vertical position (parabolic arc)
+          const yPos = 90 - Math.sin((hour / 24) * Math.PI) * 60;
+          
+          // Update opacity based on time of day
+          let opacity = 0.4;
+          if (hour < 5 || hour > 19) { // Night
+            opacity = 0;
+          } else if (hour < 7 || hour > 17) { // Dawn/Dusk
+            opacity = 0.2;
+          }
+          
+          container.style.transform = `translateX(${xPos}vw)`;
+          sun.style.transform = `translateY(${yPos}%)`;
+          sun.style.opacity = opacity.toString();
+        }
+      }) as EventListener);
+    }
+  
+    document.addEventListener('astro:page-load', initAuraBackground);
+    document.addEventListener('DOMContentLoaded', initAuraBackground);
+  </script>
+  
+  <style>
+  .aura-wrapper {
+    @apply fixed inset-0 w-full h-full overflow-hidden pointer-events-none;
+    z-index: 0;
+  }
+  
   .aura-background {
-    background: none;
-    opacity: 0.6;
+    @apply absolute inset-0 w-full h-full;
   }
-
+  
   .gradient-layer {
-    mix-blend-mode: soft-light;
+    @apply absolute inset-0 w-full h-full;
+    transform: scale(2);
+    mix-blend-mode: screen;
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
-}
-
-@keyframes float-1 {
-  0% {
-    transform: translate(0, 0) scale(2);
+  
+  .sun-container {
+    @apply absolute inset-0 w-screen h-full;
+    left: 0;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  33% {
-    transform: translate(10%, 5%) scale(2.2);
+  
+  .sun {
+    @apply absolute left-1/2 -ml-[25vw] -mt-[35vh] w-[100vh] h-[100vh] rounded-full;
+    transform: translate(-50%, 90%);
+    background: radial-gradient(circle at center, 
+      rgba(255, 129, 11, 0.667) 0%,
+      rgba(255, 120, 47, 0.361) 50%,
+      transparent 30%
+    );
+    filter: blur(30px);
+    mix-blend-mode: screen;
   }
-  66% {
-    transform: translate(-5%, 10%) scale(2.4);
+  
+  @media (prefers-color-scheme: dark) {
+    .aura-background {
+      opacity: 0.6;
+    }
+  
+    .gradient-layer {
+      mix-blend-mode: soft-light;
+    }
+  
+    .sun {
+      opacity: 1;
+      mix-blend-mode: soft-light;
+    }
   }
-  100% {
-    transform: translate(0, 0) scale(2);
-  }
-}
-
-@keyframes float-2 {
-  0% {
-    transform: translate(0, 0) scale(2);
-  }
-  33% {
-    transform: translate(-10%, -5%) scale(2.3);
-  }
-  66% {
-    transform: translate(5%, -10%) scale(2.1);
-  }
-  100% {
-    transform: translate(0, 0) scale(2);
-  }
-}
-
-@keyframes float-3 {
-  0% {
-    transform: translate(0, 0) scale(2);
-  }
-  33% {
-    transform: translate(-8%, 8%) scale(2.2);
-  }
-  66% {
-    transform: translate(8%, -8%) scale(2.4);
-  }
-  100% {
-    transform: translate(0, 0) scale(2);
-  }
-}
-
-@keyframes float-4 {
-  0% {
-    transform: translate(0, 0) scale(2);
-  }
-  33% {
-    transform: translate(12%, -7%) scale(2.3);
-  }
-  66% {
-    transform: translate(-7%, -12%) scale(2.1);
-  }
-  100% {
-    transform: translate(0, 0) scale(2);
-  }
-}
-</style>
+  </style>
