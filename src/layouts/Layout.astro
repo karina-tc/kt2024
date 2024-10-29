@@ -4,7 +4,7 @@ import CoordinateGrid from '../components/CoordinateGrid.astro';
 import '../styles/layout.css';
 import LoadingBar from '../components/LoadingBar.astro';
 import AuraBackground from '../components/AuraBackground.astro';
-import AmbientDial from '../components/AmbientDial.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
 	title: string;
@@ -36,7 +36,7 @@ const { title, body_classes = '' } = Astro.props;
 		<CoordinateGrid />
 		<div class="relative z-10">
 			<slot />
-			<AmbientDial />
+      <ThemeToggle />
 		</div>
 	</body>
 </html>
@@ -59,6 +59,50 @@ const { title, body_classes = '' } = Astro.props;
       document.addEventListener('DOMContentLoaded', () => {
         initConfetti();
     });
+
+    // Update your timeOfDayColors mapping
+    const timeOfDayColors = {
+      dawn: {
+        gradient1: { position: '50% 0%', color: 'rgba(255, 200, 150, 0.3)' },
+        gradient2: { position: '0% 50%', color: 'rgba(255, 180, 140, 0.3)' },
+        gradient3: { position: '100% 50%', color: 'rgba(200, 150, 100, 0.3)' }
+      },
+      day: {
+        gradient1: { position: '50% 0%', color: 'rgba(188, 173, 143, 0.3)' },
+        gradient2: { position: '0% 50%', color: 'rgba(124, 116, 98, 0.3)' },
+        gradient3: { position: '100% 50%', color: 'rgba(85, 78, 63, 0.3)' }
+      },
+      dusk: {
+        gradient1: { position: '50% 0%', color: 'rgba(140, 120, 170, 0.3)' },
+        gradient2: { position: '0% 50%', color: 'rgba(120, 100, 150, 0.3)' },
+        gradient3: { position: '100% 50%', color: 'rgba(100, 80, 130, 0.3)' }
+      },
+      night: {
+        gradient1: { position: '50% 0%', color: 'rgba(50, 50, 80, 0.3)' },
+        gradient2: { position: '0% 50%', color: 'rgba(40, 40, 70, 0.3)' },
+        gradient3: { position: '100% 50%', color: 'rgba(30, 30, 60, 0.3)' }
+      }
+    };
+
+    window.addEventListener('theme-change', ((e: CustomEvent) => {
+      const { theme } = e.detail;
+      const colors = timeOfDayColors[theme as keyof typeof timeOfDayColors];
+      
+      const gradients = document.querySelectorAll('.gradient-layer');
+      gradients.forEach((gradient, index) => {
+        const gradientKey = `gradient${index + 1}` as keyof typeof colors;
+        const gradientElement = gradient as HTMLElement;
+        const colorConfig = colors[gradientKey];
+        
+        if (colorConfig) {
+          gradientElement.style.background = `radial-gradient(
+            circle at ${colorConfig.position},
+            ${colorConfig.color} 0%,
+            transparent 70%
+          )`;
+        }
+      });
+    }) as EventListener);
 </script>
 
 <style is:global>
