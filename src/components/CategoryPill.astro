@@ -12,8 +12,8 @@ const {
 } = Astro.props;
 
 const baseClasses = "flex w-fit justify-center flex-wrap gap-2 uppercase text-xs font-mono tracking-widest rounded-full px-4 py-1.5 transition-all duration-300";
-const buttonClasses = "bg-white text-ink cursor-pointer shadow-md shadow-inkLighter/25 hover:-translate-y-[1px] hover:shadow-lg hover:bg-inkDark hover:text-white";
-const pillClasses = "bg-inkDark text-white";
+const buttonClasses = "bg-paper text-ink cursor-pointer shadow-md shadow-inkLighter/25 hover:-translate-y-[1px] hover:shadow-lg hover:bg-inkDark hover:text-paper";
+const pillClasses = "bg-inkDark text-paper";
 ---
 
 {isButton ? (
@@ -28,9 +28,9 @@ const pillClasses = "bg-inkDark text-white";
 
 <style>
   .category-button:hover {
-    @apply -translate-y-[1px] shadow-lg shadow-inkLighter/50 bg-inkDark text-white;
+    @apply -translate-y-[1px] shadow-lg shadow-inkLighter/50 bg-inkDark text-paper;
   }
   .category-active {
-    @apply bg-inkDark text-white;
+    @apply bg-inkDark text-paper;
   }
 </style>

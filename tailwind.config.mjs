@@ -12,18 +12,7 @@ export default {
 				inkLight: '#7C7462',
 				inkLighter: '#BCAD8F',
 				inkDark: '#2A261E',
-				light: {
-					base: '#F9F7F5',
-					text: '#33323F',
-					paper: '#ffffff',
-					border: '#ffffff',
-				},
-				dark: {
-					base: '#33323F',
-					text: '#F9F7F5',
-					paper: '#33323F',
-					border: '#33323F',
-				},
+				paper: '#FFFFFF'
 			},
 		},
 	},
