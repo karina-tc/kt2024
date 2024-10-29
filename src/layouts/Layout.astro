@@ -64,10 +64,10 @@ const { title, body_classes = '' } = Astro.props;
 			rgb(var(--accent-light)) 30%,
 			white 60%
 		);
-		--loading-progress-color: #000000;
+		--loading-progress-color: #BCAD8F;
 	}
 	html {
-		@apply bg-light-base dark:bg-dark-base text-light-text dark:text-dark-text;
+		@apply bg-light-base text-ink;
 	}
 	code {
 		font-family:
@@ -81,16 +81,16 @@ const { title, body_classes = '' } = Astro.props;
 			monospace;
 	}
 	body {
-		@apply relative min-h-screen;
+		@apply relative min-h-screen text-ink;
 	}
 	.content {
 		@apply relative z-10;
 	}
 
   h1 {
-    @apply font-instrument text-7xl leading-none;
+    @apply font-instrument text-7xl text-inkDark leading-none;
   }
   h2 {
-    @apply text-3xl;
+    @apply text-3xl text-inkDark;
   }
 </style>

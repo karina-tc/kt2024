@@ -12,11 +12,11 @@
     }
     
     .layout-showcase {
-      @apply flex-1 flex justify-center my-10 rounded-xl border border-light-border overflow-hidden shadow-xl shadow-orange-300 relative;
+      @apply flex-1 flex justify-center my-10 rounded-xl border border-white overflow-hidden shadow-xl shadow-orange-300 relative;
     }
 
     .layout-showcase-tag {
-      @apply absolute left-0 bottom-0 p-5 max-w-[200px] h-fit z-10 bg-white opacity-0 rounded-md text-gray-500 text-xs leading-5 font-medium flex flex-col gap-1 transition-all group-hover/showcase:delay-500 group-hover/showcase:opacity-100 group-hover/showcase:m-7;
+      @apply absolute left-0 bottom-0 p-5 max-w-[200px] h-fit z-10 bg-white opacity-0 rounded-md text-ink text-xs leading-5 font-medium flex flex-col gap-1 transition-all group-hover/showcase:delay-500 group-hover/showcase:opacity-100 group-hover/showcase:m-7;
     }
     
     .layout-basis {

@@ -60,7 +60,7 @@ const getIcon = (iconName: keyof typeof Icon | 'LinkedIn') => {
         class="relative hover:underline group"
         aria-label={label}
       >
-        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity group-hover:opacity-100">
+        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-inkDark rounded opacity-0 pointer-events-none transition-opacity group-hover:opacity-100">
           {label}
         </span>
         {icon === 'LinkedIn' 
@@ -80,7 +80,7 @@ const getIcon = (iconName: keyof typeof Icon | 'LinkedIn') => {
               />
             </svg>
           )
-          : IconComponent && <IconComponent size="20" />
+          : IconComponent && <IconComponent size="20" class="text-inkDark" />
         }
       </a>
     );
@@ -97,6 +97,6 @@ const getIcon = (iconName: keyof typeof Icon | 'LinkedIn') => {
     transform: translateX(-50%);
     border-width: 5px;
     border-style: solid;
-    border-color: rgb(17 24 39) transparent transparent transparent;
+    border-color: rgb(42 38 30) transparent transparent transparent;
   }
 </style>

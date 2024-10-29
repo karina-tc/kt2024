@@ -20,16 +20,16 @@ const { href, text, additionalClasses } = Astro.props;
 
 <style>
   .link-wrapper {
-    @apply flex items-center gap-2 text-gray-600 w-fit -ml-1;
+    @apply flex items-center gap-2 text-white w-fit -ml-1;
   }
   .button-circle {
-    @apply w-8 h-8 flex items-center justify-center rounded-full bg-white overflow-hidden relative hover:shadow-lg;
+    @apply w-8 h-8 flex items-center justify-center rounded-full bg-inkLight overflow-hidden relative hover:shadow-lg;
   }
   .icon-arrow {
     @apply z-[1] group-hover:text-white transition-colors delay-300
   }
   .icon-circle-fill {
-    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-transparent rounded-full transition-all group-hover:w-full group-hover:h-full group-hover:bg-black delay-300;
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-transparent rounded-full transition-all group-hover:w-full group-hover:h-full group-hover:bg-inkDark delay-300;
   }
   .link-text {
     @apply font-medium group-hover:font-semibold transition-all delay-300;

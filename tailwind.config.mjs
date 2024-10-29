@@ -8,6 +8,10 @@ export default {
 				'sans': ['Raleway', 'sans-serif'],
 			},
 			colors: {
+				ink: '#554E3F',
+				inkLight: '#7C7462',
+				inkLighter: '#BCAD8F',
+				inkDark: '#2A261E',
 				light: {
 					base: '#F9F7F5',
 					text: '#33323F',

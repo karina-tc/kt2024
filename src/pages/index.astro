@@ -91,7 +91,7 @@ const tabsContent: TabContent[] = [
   <div slot="left-column-extra">
     <div class="flex items-center gap-4">
       <Button type="link" href="/work" additionalClasses="fles items-center min-h-10">
-        <span class="text-lg group-hover:mr-2 transition-all bg-black z-[1]">My Work</span>
+        <span class="text-lg group-hover:mr-2 transition-all bg-inkDark z-[1]">My Work</span>
         <Icon.ArrowRight size="20" class="ml-2 inline-block opacity-100 delay-0 group-hover:absolute group-hover:opacity-0" />
         <Icon.ArrowTopRight size="20" class="opacity-0 absolute transition-all group-hover:relative group-hover:opacity-100 inline-block delay-100" />
       </Button>
@@ -130,16 +130,14 @@ const tabsContent: TabContent[] = [
   .manifesto {
     @apply flex-1 flex-col space-y-6 max-w-lg p-4;
   }
-  .manifesto h2 {
-    @apply text-2xl;
-  }
   .manifesto p {
-    @apply leading-7;
+    @apply text-sm font-medium leading-6 text-inkLight;
   }
   .highlight {
-    @apply px-1.5 py-[2px] bg-yellow-200;
+    @apply font-bold;
   }
   .section-content {
+    @apply text-ink font-medium text-xl mt-8;
     transition: all 300ms ease-in-out;
   }
   .section-content.hidden {
