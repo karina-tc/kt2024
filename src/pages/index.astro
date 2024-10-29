@@ -2,6 +2,7 @@
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
 import Button from '../components/Button.astro';
 import SocialIcons from '../components/SocialIcons.astro';
+import * as Icon from '@astropub/icons'
 import SpotifyHoverCard from '../components/SpotifyHoverCard.astro';
 
 const breadcrumbs = [
@@ -77,7 +78,7 @@ const tabsContent: TabContent[] = [
 ---
 
 <TwoColumnLayout
-  layout_body_classes="bg-[url('/hero.png')] bg-cover"
+  layout_body_classes="bg-[image:var(--image-hero)] bg-cover"
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
   asideTitle={{
@@ -88,11 +89,17 @@ const tabsContent: TabContent[] = [
   bgImageClasses="[&>img]:w-[900px] [&>img]:h-[900px] [&>img]:ml-auto items-end mix-blend-overlay opacity-40"
 >
   <div slot="left-column-extra">
-    <div class="flex items-center gap-1.5 mt-2">
-      <span>USA Based&nbsp;·&nbsp;</span>
+    <div class="flex items-center gap-4">
+      <Button type="link" href="/work" additionalClasses="fles items-center min-h-10">
+        <span class="text-lg group-hover:mr-2 transition-all bg-inkDark z-[1]">My Work</span>
+        <Icon.ArrowRight size="20" class="ml-2 inline-block opacity-100 delay-0 group-hover:absolute group-hover:opacity-0" />
+        <Icon.ArrowTopRight size="20" class="opacity-0 absolute transition-all group-hover:relative group-hover:opacity-100 inline-block delay-100" />
+      </Button>
+      <SocialIcons />
+    </div>
+    <div class="flex items-center gap-1.5 mt-8">
       <SpotifyHoverCard {...spotifyData} />
     </div>
-    <SocialIcons className="mt-5" />
   </div>
   <section class="manifesto">
     <div class="space-x-4 pt-2">
@@ -116,11 +123,6 @@ const tabsContent: TabContent[] = [
       ))}
     </div>
     <p>In my 10+ years of experience, I've helped startups evolve from ideas to fully fledged, thoughtfully crafted products. I have worked in Email Marketing, Ad Tech, HR and FinTech. Specializing in technical software, I work tirelessly to make the tedious simple while bringing joy in every pixel and line of code.</p>
-    <nav class="space-x-2 pt-2">
-      <Button type="link" href="/work">My Work</Button>
-      <Button type="link" href="/thoughts">My Thoughts</Button>
-      <Button type="link" href="/cv">CV</Button>
-    </nav>
   </section>
 </TwoColumnLayout>
 
@@ -128,16 +130,14 @@ const tabsContent: TabContent[] = [
   .manifesto {
     @apply flex-1 flex-col space-y-6 max-w-lg p-4;
   }
-  .manifesto h2 {
-    @apply text-2xl;
-  }
   .manifesto p {
-    @apply leading-7;
+    @apply text-sm font-medium leading-6 text-inkLight;
   }
   .highlight {
-    @apply px-1.5 py-[2px] bg-yellow-200;
+    @apply font-bold;
   }
   .section-content {
+    @apply text-ink font-medium text-xl mt-8;
     transition: all 300ms ease-in-out;
   }
   .section-content.hidden {

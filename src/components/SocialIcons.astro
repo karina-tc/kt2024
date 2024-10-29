@@ -1,65 +1,66 @@
 ---
-import { GitHubLogo, TwitterLogo, EnvelopeClosed } from '@astropub/icons'
+import * as Icon from '@astropub/icons'
 
 interface Props {
   className?: string;
   links?: Array<{
     href: string;
-    icon: 'GitHubLogo' | 'LinkedIn' | 'TwitterLogo' | 'EnvelopeClosed';
+    icon: keyof typeof Icon | 'LinkedIn';
     label: string;
+    target?: string;
   }>;
 }
 
 const { className = '', links = [
   { 
+    href: "/thoughts", 
+    icon: "Bookmark",
+    label: "Thoughts"
+  },
+  { 
+    href: "/cv", 
+    icon: "Download",
+    label: "CV"
+  },
+  { 
     href: "https://github.com/karina-tc", 
     icon: "GitHubLogo",
-    label: "GitHub"
+    label: "GitHub",
+    target: "_blank"
   },
   { 
     href: "https://www.linkedin.com/in/karina-tovar-castro/", 
     icon: "LinkedIn",
-    label: "LinkedIn"
-  },
-  { 
-    href: "https://x.com/karina_tovarc", 
-    icon: "TwitterLogo",
-    label: "Twitter"
+    label: "LinkedIn",
+    target: "_blank"
   },
   { 
     href: "mailto:hello@karinatovar.com", 
     icon: "EnvelopeClosed",
-    label: "Email"
+    label: "Email",
+    target: "_blank"
   }
 ]} = Astro.props;
 
-const getIcon = (iconName: string) => {
-  switch(iconName) {
-    case 'GitHubLogo':
-      return GitHubLogo;
-    case 'TwitterLogo':
-      return TwitterLogo;
-    case 'EnvelopeClosed':
-      return EnvelopeClosed;
-    default:
-      return null;
-  }
+const getIcon = (iconName: keyof typeof Icon | 'LinkedIn') => {
+  if (iconName === 'LinkedIn') return null;
+  return Icon[iconName as keyof typeof Icon] || null;
 }
 ---
 
-<div class={`flex items-center gap-4 ${className}`}>
-  {links.map(({ href, icon, label }) => {
+<nav class={`flex items-center gap-4 ${className}`}>
+  {links.map(({ href, icon, label, target }) => {
     const IconComponent = getIcon(icon);
     
     return (
       <a 
         href={href} 
-        target="_blank" 
+        target={target}
         rel="noopener noreferrer" 
         class="relative hover:underline group"
         aria-label={label}
       >
-        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 pointer-events-none transition-opacity group-hover:opacity-100">
+        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-paper bg-inkDark rounded opacity-0 pointer-events-none transition-opacity group-hover:opacity-100">
           {label}
         </span>
         {icon === 'LinkedIn' 
@@ -79,12 +80,12 @@ const getIcon = (iconName: string) => {
               />
             </svg>
           )
-          : IconComponent && <IconComponent size="20" />
+          : IconComponent && <IconComponent size="20" class="text-inkDark" />
         }
       </a>
     );
   })}
-</div>
+</nav>
 
 <style>
   /* Optional: Add a small triangle to the tooltip */
@@ -96,6 +97,6 @@ const getIcon = (iconName: string) => {
     transform: translateX(-50%);
     border-width: 5px;
     border-style: solid;
-    border-color: rgb(17 24 39) transparent transparent transparent;
+    border-color: rgb(var(--color-ink-dark)) transparent transparent transparent;
   }
 </style>

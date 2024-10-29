@@ -40,23 +40,23 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
     {updatedCrumbs.map((crumb, index) => (
       <li class="flex items-center">
         {/* Add separator between crumbs */}
-        {index > 0 && <span class="opacity-50">&nbsp;/&nbsp;</span>}
+        {index > 0 && <span class="text-inkLighter">&nbsp;/&nbsp;</span>}
         {index === updatedCrumbs.length - 1 ? (
           <div class="relative">
             {isIndexPage && !isChildPage ? (
               <button id="lastCrumbDropdown" class="dropdown-menu-trigger" data-page-title={crumb.text}>
                 {crumb.text}
-                <span class="w-4 h-4 ml-1 transition-transform duration-300" id="chevronIcon">
+                <span class="w-4 h-4 ml-1 text-inkLight transition-transform duration-300" id="chevronIcon">
                   <Icon.ChevronDown size="14" />
                 </span>
               </button>
              ): isChildPage ? (
               <div class="back-group group">
                 <BackButton href={crumb.href} additionalClasses="ml-1 mr-2" />
-                <Button type="textual" additionalClasses="text-gray-900 text-base" href={crumb.href}>{crumb.text}</Button>
+                <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
               </div>
             ) : (
-              <span class="text-gray-900 font-medium">{crumb.text}</span>
+              <span class="text-ink font-medium">{crumb.text}</span>
             )}
             <div id="dropdownMenu" class="dropdown-menu hidden">
               <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -78,7 +78,7 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
         ) : (
           <div class="back-group group">
             <BackButton href={crumb.href} />
-            <Button type="textual" additionalClasses="text-gray-900 text-base" href={crumb.href}>{crumb.text}</Button>
+            <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
           </div>
         )}
       </li>
@@ -88,31 +88,31 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
 
 <style>
   .breadcrumbs {
-    @apply flex items-center space-x-1 text-lg text-gray-500 font-light;
+    @apply flex items-center space-x-1 text-lg text-ink font-light;
   }
   .breadcrumbs a {
-    @apply text-gray-900 font-medium;
+    @apply text-ink font-medium;
   }
   .divider {
     @apply font-light;
   }
   .dropdown-menu-trigger {
-    @apply flex items-center text-base text-gray-900 font-medium;
+    @apply flex items-center text-base text-ink font-medium;
   }
   .dropdown-menu {
-    @apply absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5;
+    @apply absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-inkDark ring-1 ring-inkDark ring-opacity-5;
   }
   .dropdown-menu-item {
-    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900;
+    @apply block px-4 py-2 text-sm !text-paper hover:bg-ink;
   }
   .back-group {
     @apply flex items-center gap-2;
   }
   .back-group:hover :global(.icon-circle-fill) {
-    @apply w-full h-full bg-black;
+    @apply w-full h-full bg-inkDark;
   }
   .back-group:hover :global(.icon-arrow) {
-    @apply text-white;
+    @apply text-paper;
   }
 </style>
 

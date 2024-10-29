@@ -17,7 +17,7 @@
 
 <style>
   .coordinate-grid {
-    @apply font-mono absolute top-0 left-0 w-full h-full pointer-events-none bg-blend-overlay opacity-25 text-black text-[10px];
+    @apply font-mono absolute top-0 left-0 w-full h-full pointer-events-none bg-blend-overlay opacity-25 text-ink text-[10px];
   }
   .column-coordinates {
     @apply absolute py-4 ml-4 top-2 left-0 w-full flex justify-between px-4;
@@ -29,7 +29,11 @@
     @apply inline-block;
   }
   .grid-overlay {
-    @apply absolute inset-0 opacity-15 bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[length:200px_200px];
+    @apply absolute inset-0 opacity-15;
+    background-image: 
+      linear-gradient(to right, rgb(var(--color-ink-dark) / 1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--color-ink-dark) / 1) 1px, transparent 1px);
+    background-size: 200px 200px;
   }
 </style>
 

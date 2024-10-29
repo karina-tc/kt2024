@@ -40,7 +40,7 @@ const { title, date, categories, href, content } = Astro.props;
 
 <style>
   .row {
-    @apply bg-light-paper dark:bg-dark-paper text-light-text dark:text-dark-text p-4 rounded-md w-full max-w-[640px] flex items-start gap-5 border border-light-border dark:border-dark-border hover:shadow-lg cursor-pointer origin-top transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)];
+    @apply bg-paper text-ink p-4 rounded-md w-full max-w-[640px] flex items-start gap-5 border border-paper  hover:shadow-lg focus:bg-inkLighter/10 focus:outline-none focus:border-inkLighter cursor-pointer origin-top transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)];
   }
   .row-hidden {
     @apply opacity-0 !h-0 !p-0 overflow-hidden absolute;
@@ -55,24 +55,24 @@ const { title, date, categories, href, content } = Astro.props;
     @apply font-medium text-lg transition-colors duration-300 ease-in-out;
   }
   .row:hover .details h3 {
-    @apply text-black;
+    @apply text-ink;
   }
   .details p {
-    @apply text-sm text-gray-600;
+    @apply text-sm text-inkLight;
   }
   .arrow {
-    @apply text-white bg-black rounded-full p-2 mt-1 transition-all duration-300 ease-in-out transform translate-x-0 opacity-0;
+    @apply text-ink bg-inkLighter/25 rounded-full p-2 mt-1 transition-all duration-300 ease-in-out transform translate-x-0 opacity-0 group-focus:bg-inkLighter group-focus:text-paper;
   }
   .row:hover .arrow {
     @apply -translate-x-1 opacity-100;
   }
   .teaser {
-    @apply max-h-0 border-l-2 border-gray-200 pl-2 overflow-hidden transition-all duration-300 ease-in-out transform translate-y-0 opacity-0 ;
+    @apply max-h-0 border-l-2 border-inkLighter/40 pl-2 overflow-hidden transition-all duration-300 ease-in-out transform translate-y-0 opacity-0 ;
   }
   .row:hover .teaser {
     @apply translate-y-2 my-1 min-h-fit py-1 opacity-100;
   }
   .teaser p {
-    @apply text-sm text-gray-500 line-clamp-3;
+    @apply text-sm text-ink line-clamp-3;
   }
 </style>

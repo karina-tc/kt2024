@@ -18,15 +18,15 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
 ---
 
 <TwoColumnLayout
-  layout_body_classes="bg-[url('/hero.png')] bg-cover"
+  layout_body_classes="bg-[image:var(--image-hero)] bg-cover"
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
   additionalClasses="[&>.right-column]:h-full"
   asideTitle={{
-    line1: "Product Designer",
-    line2: "Pixel Philosopher"
+    line1: "Thinking",
+    line2: "Experiences"
   }}
-  subtitle="USA Based · Listening to Music"
+  subtitle="Diary of thoughts from a pixel philosopher"
 >
   <div slot="left-column-extra" class="categories-list">
     <ul class="flex flex-wrap gap-2">
