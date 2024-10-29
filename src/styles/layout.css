@@ -44,19 +44,19 @@
 
     /* Two Column Layout styles */
     .two-col-basis {
-      @apply w-screen h-screen flex gap-8 mx-auto;
+      @apply min-h-screen flex gap-20 mx-auto overflow-hidden;
     }
 
     .two-col-left-column {
-      @apply w-2/5 p-20 flex flex-col items-center justify-center gap-10 relative z-10;
+      @apply flex-1 flex flex-col items-center justify-center gap-10 relative z-10;
     }
 
     .two-col-left-contents {
-      @apply w-full min-h-[400px] min-w-[480px] max-w-fit mx-auto;
+      @apply w-full max-w-fit min-w-[440px] ml-auto;
     }
 
     .two-col-right-column {
-      @apply flex-1 flex flex-col items-start justify-center gap-10 overflow-scroll relative my-auto z-10;
+      @apply flex-1 flex flex-col items-start justify-center gap-10 overflow-y-auto relative my-auto z-10 max-h-screen;
       -ms-overflow-style: none;
       scrollbar-width: none;
     }

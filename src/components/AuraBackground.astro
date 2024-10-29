@@ -1,0 +1,147 @@
+<div class="aura-wrapper">
+    <div class="aura-background">
+      <div class="gradient-layer gradient-1"></div>
+      <div class="gradient-layer gradient-2"></div>
+      <div class="gradient-layer gradient-3"></div>
+      <div class="gradient-layer gradient-4"></div>
+    </div>
+  </div>
+  
+<style>
+    .aura-wrapper {
+  @apply fixed inset-0 w-full h-full overflow-hidden pointer-events-none;
+  z-index: 0;
+}
+
+.aura-background {
+  @apply absolute inset-0 w-full h-full;
+}
+
+.gradient-layer {
+  @apply absolute inset-0 w-full h-full;
+  transform: scale(2);
+  mix-blend-mode: screen;
+}
+
+/* Light mode: Desert Morning */
+.gradient-1 {
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 198, 112, 0.4) 0%,    /* Soft sand orange */
+    rgba(255, 198, 112, 0.2) 40%,
+    transparent 60%
+  );
+  animation: float-1 15s ease-in-out infinite;
+}
+
+.gradient-2 {
+  background: radial-gradient(
+    circle at 70% 60%,
+    rgba(230, 138, 174, 0.35) 0%,    /* Desert rose pink */
+    rgba(230, 138, 174, 0.2) 40%,
+    transparent 60%
+  );
+  animation: float-2 18s ease-in-out infinite;
+}
+
+.gradient-3 {
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(255, 170, 89, 0.35) 0%,     /* Warm orange */
+    rgba(255, 170, 89, 0.15) 40%,
+    transparent 60%
+  );
+  animation: float-3 20s ease-in-out infinite;
+}
+
+.gradient-4 {
+  background: radial-gradient(
+    circle at 20% 80%,
+    rgba(158, 193, 207, 0.35) 0%,    /* Desert sky blue */
+    rgba(158, 193, 207, 0.2) 40%,
+    transparent 60%
+  );
+  animation: float-4 17s ease-in-out infinite;
+}
+
+/* Dark mode: Twilight Gradient */
+@media (prefers-color-scheme: dark) {
+  .aura-background {
+    background: linear-gradient(
+      90deg,
+      #0d172c 0%,
+      #192949 25%,      /* Cool blue-grey */    /* Dusty purple */
+      #1d3159 50%,     /* Mauve pink */
+      #2c416a 75%,     /* Coral */
+      #0d172c 100%     /* Salmon pink */
+    );
+    opacity: 0.8;
+    mix-blend-mode: soft-light;
+  }
+
+  /* Remove or comment out the individual gradient layers */
+  .gradient-layer {
+    display: none;
+  }
+}
+
+@keyframes float-1 {
+  0% {
+    transform: translate(0, 0) scale(2);
+  }
+  33% {
+    transform: translate(10%, 5%) scale(2.2);
+  }
+  66% {
+    transform: translate(-5%, 10%) scale(2.4);
+  }
+  100% {
+    transform: translate(0, 0) scale(2);
+  }
+}
+
+@keyframes float-2 {
+  0% {
+    transform: translate(0, 0) scale(2);
+  }
+  33% {
+    transform: translate(-10%, -5%) scale(2.3);
+  }
+  66% {
+    transform: translate(5%, -10%) scale(2.1);
+  }
+  100% {
+    transform: translate(0, 0) scale(2);
+  }
+}
+
+@keyframes float-3 {
+  0% {
+    transform: translate(0, 0) scale(2);
+  }
+  33% {
+    transform: translate(-8%, 8%) scale(2.2);
+  }
+  66% {
+    transform: translate(8%, -8%) scale(2.4);
+  }
+  100% {
+    transform: translate(0, 0) scale(2);
+  }
+}
+
+@keyframes float-4 {
+  0% {
+    transform: translate(0, 0) scale(2);
+  }
+  33% {
+    transform: translate(12%, -7%) scale(2.3);
+  }
+  66% {
+    transform: translate(-7%, -12%) scale(2.1);
+  }
+  100% {
+    transform: translate(0, 0) scale(2);
+  }
+}
+</style>

@@ -1,52 +1,24 @@
-export class TabSwitcher {
-  private buttons: NodeListOf<Element>;
-  private sections: NodeListOf<Element>;
-  private static currentTab: string = 'humanity'; // Default tab
+document.addEventListener('astro:page-load', () => {
+  const buttons = document.querySelectorAll('.group-button');
+  const sections = document.querySelectorAll('.section-content');
 
-  constructor() {
-    this.buttons = document.querySelectorAll('[data-section]');
-    this.sections = document.querySelectorAll('.section-content');
-    this.init();
-    this.switchTab(TabSwitcher.currentTab);
-  }
-
-  private init(): void {
-    document.addEventListener('click', (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const button = target.closest('[data-section]');
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all buttons
+      buttons.forEach(btn => btn.classList.remove('active'));
       
-      if (button) {
-        e.preventDefault();
-        const sectionId = button.getAttribute('data-section');
-        if (sectionId) {
-          TabSwitcher.currentTab = sectionId;
-          this.switchTab(sectionId);
-        }
+      // Add active class to clicked button
+      button.classList.add('active');
+
+      // Hide all sections
+      sections.forEach(section => section.classList.add('hidden'));
+      
+      // Show selected section
+      const sectionId = button.getAttribute('data-section');
+      if (sectionId) {
+        const targetSection = document.getElementById(sectionId);
+        targetSection?.classList.remove('hidden');
       }
     });
-  }
-
-  private switchTab(sectionId: string): void {
-    // Update button states
-    this.buttons.forEach(btn => {
-      btn.classList.toggle('activate', btn.getAttribute('data-section') === sectionId);
-    });
-
-    // Update section visibility - simple display toggle
-    this.sections.forEach(section => {
-      section.classList.toggle('hidden', section.id !== sectionId);
-    });
-  }
-}
-
-let tabSwitcher: TabSwitcher;
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-  tabSwitcher = new TabSwitcher();
-});
-
-// Handle Astro page transitions
-document.addEventListener('astro:after-swap', () => {
-  tabSwitcher = new TabSwitcher();
+  });
 });

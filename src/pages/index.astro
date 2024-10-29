@@ -4,6 +4,7 @@ import Button from '../components/Button.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import * as Icon from '@astropub/icons'
 import SpotifyHoverCard from '../components/SpotifyHoverCard.astro';
+import ButtonGroup from '../components/ButtonGroup.astro';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' }
@@ -86,12 +87,12 @@ const tabsContent: TabContent[] = [
     line2: "Pixel Philosopher"
   }}
   bgImage="/kt.png"
-  bgImageClasses="[&>img]:w-[900px] [&>img]:h-[900px] [&>img]:ml-auto items-end mix-blend-overlay opacity-40"
+  bgImageClasses="mix-blend-overlay opacity-40"
 >
   <div slot="left-column-extra">
     <div class="flex items-center gap-4">
-      <Button type="link" href="/work" additionalClasses="fles items-center min-h-10">
-        <span class="text-lg group-hover:mr-2 transition-all bg-inkDark z-[1]">My Work</span>
+      <Button type="link" href="/work" additionalClasses="fles items-center min-h-10 !text-white">
+        <span class="text-lg group-hover:mr-2 transition-all bg-carbon z-[1]">My Work</span>
         <Icon.ArrowRight size="20" class="ml-2 inline-block opacity-100 delay-0 group-hover:absolute group-hover:opacity-0" />
         <Icon.ArrowTopRight size="20" class="opacity-0 absolute transition-all group-hover:relative group-hover:opacity-100 inline-block delay-100" />
       </Button>
@@ -102,17 +103,14 @@ const tabsContent: TabContent[] = [
     </div>
   </div>
   <section class="manifesto">
-    <div class="space-x-4 pt-2">
-      {tabsContent.map(tab => (
-        <Button 
-          type="textual-button"
-          additionalClasses={`for-${tab.id} ${tab.isDefault ? 'activate' : ''}`} 
-          data-section={tab.id}
-        >
-          {tab.buttonText}
-        </Button>
-      ))}
-    </div>
+    <ButtonGroup 
+      buttons={tabsContent.map(tab => ({
+        id: tab.id,
+        text: tab.buttonText,
+        isActive: tab.isDefault,
+        //confetti: true
+      }))}
+    />
     <div class="min-h-[132px]">
       {tabsContent.map(tab => (
         <h2 id={tab.id} class={`section-content ${!tab.isDefault ? 'hidden' : ''}`}>

@@ -8,8 +8,8 @@ import CategoryPill from '../components/CategoryPill.astro';
 
 interface Props {
   title: string;
-  date: string;
-  categories: string[];
+  date?: string;
+  categories?: string[];
   showcase?: string;
 }
 
@@ -21,39 +21,41 @@ const breadcrumbs = [
 ---
 
 <Layout title={title}>
-  <article class="prose prose-lg thoughts-container">
-    <Breadcrumbs crumbs={breadcrumbs} />
-    <header class="thoughts-header">
-      <h1>{title}</h1>
-      <div class="date-container">
-        <Gem />
-        <time>{date}</time>
-      </div>
-      <div class="flex justify-center gap-2">
-        {categories.map((category: string) => (
-          <CategoryPill category={category} isActive={true} />
-        ))}
-      </div>
-    </header>
-
-    {showcase && (
-      <div class="showcase-image-wrapper relative">
-        <img
-          src={showcase}
-          alt={title}
-          class="showcase-image z-10"
-        />
-        <div class="absolute m-auto p-4 flex gap-1 items-center justify-center">
-          <Icon.Layers size="14" />
-          <span>Painting...</span>
+  <section class="w-full min-h-screen p-10">
+    <article class="prose prose-lg thoughts-container">
+      <Breadcrumbs crumbs={breadcrumbs} />
+      <header class="thoughts-header">
+        <h1>{title}</h1>
+        <div class="date-container">
+          <Gem />
+          <time>{date}</time>
         </div>
-      </div>
-    )}
+        <div class="flex justify-center gap-2">
+          {categories?.map((category: string) => (
+            <CategoryPill category={category} isActive={true} />
+          ))}
+        </div>
+      </header>
 
-    <section class="thought-content animate-slide">
-      <slot />
-    </section>
-  </article>
+      {showcase && (
+        <div class="showcase-image-wrapper relative">
+          <img
+            src={showcase}
+            alt={title}
+            class="showcase-image z-10"
+          />
+          <div class="absolute m-auto p-4 flex gap-1 items-center justify-center">
+            <Icon.Layers size="14" />
+            <span>Painting...</span>
+          </div>
+        </div>
+      )}
+
+      <section class="thought-content animate-slide">
+        <slot />
+      </section>
+    </article>
+  </section>
 </Layout>
 
 
@@ -132,7 +134,7 @@ const breadcrumbs = [
   }
 
   .showcase-image-wrapper {
-    @apply rounded-lg min-h-fit flex items-center justify-center border border-paper shadow-lg shadow-orange-300 opacity-0 bg-paper w-full delay-75;
+    @apply rounded-lg min-h-fit flex items-center justify-center border border-white shadow-lg shadow-orange-300 opacity-0 bg-white w-full delay-75;
     animation: showcase-slow 2s cubic-bezier(0.23, 1, 0.320, 1) forwards;
   }
   .showcase-image {

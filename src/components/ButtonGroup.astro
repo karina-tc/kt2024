@@ -1,0 +1,42 @@
+---
+interface Props {
+  buttons: {
+    id: string;
+    text: string;
+    isActive?: boolean;
+    confetti?: boolean;
+  }[];
+}
+
+const { buttons } = Astro.props;
+---
+
+<div class="button-group">
+  {buttons.map(button => (
+    <button
+      class={`group-button ${button.isActive ? 'active' : ''}`}
+      data-section={button.id}
+      {...button.confetti && { 'data-confetti': '' }}
+    >
+      {button.text}
+    </button>
+  ))}
+</div>
+
+<style>
+  .button-group {
+    @apply inline-flex p-1 bg-paper/40 rounded-full shadow-sm text-sm font-medium;
+  }
+
+  .group-button {
+    @apply px-4 py-1.5 rounded-full text-ink/80 transition-all duration-300;
+  }
+
+  .group-button:not(.active):hover {
+    @apply bg-paper/40 text-ink;
+  }
+
+  .group-button.active {
+    @apply bg-paper text-inkDark shadow-md;
+  }
+</style>

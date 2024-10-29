@@ -60,7 +60,7 @@ const getIcon = (iconName: keyof typeof Icon | 'LinkedIn') => {
         class="relative hover:underline group"
         aria-label={label}
       >
-        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-paper bg-inkDark rounded opacity-0 pointer-events-none transition-opacity group-hover:opacity-100">
+        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-carbon rounded-md opacity-0 pointer-events-none transition-opacity group-hover:opacity-100">
           {label}
         </span>
         {icon === 'LinkedIn' 
@@ -90,13 +90,6 @@ const getIcon = (iconName: keyof typeof Icon | 'LinkedIn') => {
 <style>
   /* Optional: Add a small triangle to the tooltip */
   .group:hover span::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: rgb(var(--color-ink-dark)) transparent transparent transparent;
+    @apply content-[''] absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-t-carbon border-x-transparent border-b-transparent;
   }
 </style>

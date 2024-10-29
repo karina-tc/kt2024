@@ -101,7 +101,4 @@ function init() {
 }
 
 // Run on initial load
-document.addEventListener('DOMContentLoaded', init);
-
-// Run on view transitions
-document.addEventListener('astro:after-swap', init);
+document.addEventListener('astro:page-load', init);

@@ -35,8 +35,8 @@ const {
 >
   <main class={`two-col-basis ${additionalClasses} relative`}>
     {bgImage && (
-      <div class={`absolute inset-0 z-0 flex ${bgImageClasses}`}>
-        <img src={bgImage} alt="Background" class="w-full h-full object-cover" />
+      <div class={`absolute [&>img]:mx-auto -bottom-20 z-0 flex`}>
+        <img src={bgImage} alt="Background" class={`w-full h-full object-cover ${bgImageClasses}`} />
       </div>
     )}
     <aside class="two-col-left-column" transition:animate="fade">
