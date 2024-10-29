@@ -4,6 +4,7 @@ import CoordinateGrid from '../components/CoordinateGrid.astro';
 import '../styles/layout.css';
 import LoadingBar from '../components/LoadingBar.astro';
 import AuraBackground from '../components/AuraBackground.astro';
+import AmbientDial from '../components/AmbientDial.astro';
 
 interface Props {
 	title: string;
@@ -30,11 +31,12 @@ const { title, body_classes = '' } = Astro.props;
 		<ViewTransitions />
 	</head>
 	<body class={`relative ${body_classes}`}>
-		<!--<AuraBackground /> -->
+		<AuraBackground />
 		<LoadingBar />
 		<CoordinateGrid />
 		<div class="relative z-10">
 			<slot />
+			<AmbientDial />
 		</div>
 	</body>
 </html>

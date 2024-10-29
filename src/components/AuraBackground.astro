@@ -21,67 +21,23 @@
   @apply absolute inset-0 w-full h-full;
   transform: scale(2);
   mix-blend-mode: screen;
+  transition: background 0.5s ease-out;
 }
 
-/* Light mode: Desert Morning */
-.gradient-1 {
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 198, 112, 0.4) 0%,    /* Soft sand orange */
-    rgba(255, 198, 112, 0.2) 40%,
-    transparent 60%
-  );
-  animation: float-1 15s ease-in-out infinite;
+/* Remove the static gradient definitions since they'll be set by JavaScript */
+.gradient-1, .gradient-2, .gradient-3, .gradient-4 {
+  background: transparent;
 }
 
-.gradient-2 {
-  background: radial-gradient(
-    circle at 70% 60%,
-    rgba(230, 138, 174, 0.35) 0%,    /* Desert rose pink */
-    rgba(230, 138, 174, 0.2) 40%,
-    transparent 60%
-  );
-  animation: float-2 18s ease-in-out infinite;
-}
-
-.gradient-3 {
-  background: radial-gradient(
-    circle at 50% 20%,
-    rgba(255, 170, 89, 0.35) 0%,     /* Warm orange */
-    rgba(255, 170, 89, 0.15) 40%,
-    transparent 60%
-  );
-  animation: float-3 20s ease-in-out infinite;
-}
-
-.gradient-4 {
-  background: radial-gradient(
-    circle at 20% 80%,
-    rgba(158, 193, 207, 0.35) 0%,    /* Desert sky blue */
-    rgba(158, 193, 207, 0.2) 40%,
-    transparent 60%
-  );
-  animation: float-4 17s ease-in-out infinite;
-}
-
-/* Dark mode: Twilight Gradient */
+/* Modify dark mode to work better with the dial */
 @media (prefers-color-scheme: dark) {
   .aura-background {
-    background: linear-gradient(
-      90deg,
-      #0d172c 0%,
-      #192949 25%,      /* Cool blue-grey */    /* Dusty purple */
-      #1d3159 50%,     /* Mauve pink */
-      #2c416a 75%,     /* Coral */
-      #0d172c 100%     /* Salmon pink */
-    );
-    opacity: 0.8;
-    mix-blend-mode: soft-light;
+    background: none;
+    opacity: 0.6;
   }
 
-  /* Remove or comment out the individual gradient layers */
   .gradient-layer {
-    display: none;
+    mix-blend-mode: soft-light;
   }
 }
 
