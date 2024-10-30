@@ -1,0 +1,125 @@
+---
+import * as Icon from '@astropub/icons'
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  activePage?: string;
+  additionalClasses?: string;
+}
+
+const { activePage, additionalClasses = '' } = Astro.props;
+---
+
+<div class="menu-container">
+  <div class="menu-trigger">
+    <button type="button" aria-label="Toggle Menu" aria-expanded="false">
+      <div class="menu-icon">
+        <span class="menu-open-icon"><Icon.HamburgerMenu size="20" /></span>
+        <span class="menu-close-icon"><Icon.Cross2 size="20" /></span>
+      </div>
+      <span class="menu-background"></span>
+    </button>
+    <div class="menu-dialog">
+      <nav class="menu-content">
+        <a href="/" class={`menu-link ${activePage === '/' ? 'active' : ''}`}>Home</a>
+        <a href="/about" class={`menu-link ${activePage === '/about' ? 'active' : ''}`}>About</a>
+        <a href="/work" class={`menu-link ${activePage === '/work' ? 'active' : ''}`}>Work</a>
+        <a href="/thoughts" class={`menu-link ${activePage === '/thoughts' ? 'active' : ''}`}>Thoughts</a>
+        <a href="/contact" class={`menu-link ${activePage === '/contact' ? 'active' : ''}`}>Contact</a>
+      </nav>
+      <ThemeToggle />
+    </div>
+  </div>
+</div>
+
+<style>
+  .menu-container {
+    @apply fixed top-8 left-8 z-[100];
+  }
+
+  .menu-trigger {
+    @apply w-12 h-12 rounded-full flex items-center justify-center relative z-[102] transition-all duration-300;
+  }
+
+  .menu-background {
+    @apply absolute inset-0 bg-paper rounded-full transition-all duration-500 shadow-md;
+    transform-origin: center;
+  }
+
+  .menu-trigger[aria-expanded="true"] .menu-background {
+    @apply scale-[100];
+  }
+
+  .menu-icon {
+    @apply relative flex items-center justify-center z-[1] cursor-pointer mt-[1px];
+  }
+
+  .menu-open-icon {
+    @apply transition-all duration-300;
+  }
+
+  .menu-close-icon {
+    @apply absolute opacity-0 transition-all duration-300;
+  }
+
+  .menu-trigger[aria-expanded="true"] .menu-open-icon {
+    @apply absolute opacity-0;
+  }
+
+  .menu-trigger[aria-expanded="true"] .menu-close-icon {
+    @apply relative opacity-100;
+  }
+
+  .menu-dialog {
+    @apply fixed inset-0 w-[calc(100vw-80px)] h-[calc(100vh-80px)] bg-transparent p-0 m-10 rounded-md border-none opacity-0 pointer-events-none transition-all duration-500 z-[101];
+  }
+
+  .menu-dialog.open {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  .menu-content {
+    @apply h-full flex flex-col items-center justify-center gap-8;
+  }
+
+  .menu-link {
+    @apply text-7xl text-inkDark font-instrument transition-all duration-300 hover:text-ink relative opacity-0 -translate-y-4;
+    transition-delay: calc(var(--index) * 100ms);
+  }
+
+  .menu-dialog.open .menu-link {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .menu-link.active::after {
+    content: '';
+    @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand;
+  }
+</style>
+
+<script>
+  function setupMenu() {
+    const trigger = document.querySelector('.menu-trigger');
+    const menu = document.querySelector('.menu-dialog');
+    const links = document.querySelectorAll('.menu-link');
+
+    if (trigger && menu) {
+      // Add index to links for staggered animation
+      links.forEach((link, index) => {
+        (link as HTMLElement).style.setProperty('--index', index.toString());
+      });
+
+      trigger.addEventListener('click', () => {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+        trigger.setAttribute('aria-expanded', (!isExpanded).toString());
+        menu.classList.toggle('open');
+      });
+    }
+  }
+
+  // Run on initial load
+  setupMenu();
+
+  // Run after view transitions
+  document.addEventListener('astro:after-swap', setupMenu);
+</script>

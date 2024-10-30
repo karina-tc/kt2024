@@ -3,7 +3,7 @@ import { ViewTransitions } from 'astro:transitions';
 import CoordinateGrid from '../components/CoordinateGrid.astro';
 import '../styles/layout.css';
 import LoadingBar from '../components/LoadingBar.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import MenuBubble from '../components/MenuBubble.astro';
 
 interface Props {
 	title: string;
@@ -33,8 +33,8 @@ const { title, body_classes = '' } = Astro.props;
 		<LoadingBar />
 		<CoordinateGrid />
 		<div class="relative z-10">
+			<MenuBubble activePage={Astro.url.pathname} />
 			<slot />
-			<ThemeToggle />
 		</div>
 	</body>
 </html>
