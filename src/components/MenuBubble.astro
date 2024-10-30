@@ -8,6 +8,14 @@ interface Props {
 }
 
 const { activePage, additionalClasses = '' } = Astro.props;
+
+const navigationItems = [
+  { path: '/', label: 'Home', image: '/house.png' },
+  { path: '/about', label: 'About', image: '/folder.png' },
+  { path: '/work', label: 'Work', image: '/briefcase.png' },
+  { path: '/thoughts', label: 'Thoughts', image: '/book.png' },
+  { path: '/contact', label: 'Contact', image: '/keyboard.png' },
+];
 ---
 
 <div class="menu-container" transition:persist="menu">
@@ -17,13 +25,37 @@ const { activePage, additionalClasses = '' } = Astro.props;
       <span class="menu-close-icon"><Icon.Cross2 size="20" /></span>
     </div>
   </button>
-  <nav class="menu-content">
-    <a href="/" class="menu-link" data-path="/">Home</a>
-    <a href="/about" class="menu-link" data-path="/about">About</a>
-    <a href="/work" class="menu-link" data-path="/work">Work</a>
-    <a href="/thoughts" class="menu-link" data-path="/thoughts">Thoughts</a>
-    <a href="/contact" class="menu-link" data-path="/contact">Contact</a>
-  </nav>
+  <div class="menu-content">
+    <div 
+      id="links-illustration"
+      class="w-72 h-72 overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-cover rounded-full absolute opacity-0 top-10 transition-all duration-300"
+      id="hover-illustration"
+    ></div>
+    <nav id="links" class="flex flex-col justify-center items-center gap-6">
+      {
+        navigationItems.map(({ path, label, image }) => (
+          <a 
+            href={path} 
+            class="menu-link group" 
+            data-path={path}
+            data-image={image}
+          >
+            <span>{label}</span>
+          </a>
+        ))
+      }
+    </nav>
+    <div id="colophon" class="space-y-5 text-center font-medium transition-all duration-300">
+      <div class="w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/index-landscape.png')]"></div>
+      <p>Designed purely in code. Illustrations made via Midjourney. Built with blood sweat and tears—and eventually a bit of Claude's help. Powered by AstroJS and Notion.</p>
+      <p class="text-sm text-inkLight">Long live our AI underlords. May we humans prosper.</p>
+    </div>
+    <div class="w-full flex items-center gap-2 text-sm font-medium text-inkLight justify-center mt-10 pt-10 border-t border-inkLighter/50">
+      <p class="mr-auto">© {new Date().getFullYear()} Karina Tovar</p>
+      <p>Colophon</p>
+      <p>Backlog</p>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -72,16 +104,25 @@ const { activePage, additionalClasses = '' } = Astro.props;
     @apply relative opacity-100;
   }
 
-  .menu-content {
-    @apply fixed inset-0 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-500;
+  .menu-content  {
+    @apply inset-0 flex flex-col items-center justify-center w-full max-w-md mx-auto mt-10 gap-8 opacity-0 pointer-events-none transition-all duration-100;
+  }
+
+  .menu-content a {
+    @apply w-fit relative;
+  }
+
+  .menu-content a span {
+    @apply z-10;
   }
 
   .menu-container[aria-expanded="true"] .menu-content {
-    @apply opacity-100 pointer-events-auto;
+    @apply opacity-100 pointer-events-auto relative;
   }
 
   .menu-link {
-    @apply text-7xl text-inkDark font-instrument transition-all duration-300 hover:text-ink relative opacity-0 -translate-y-4;
+    @apply text-7xl text-inkDark font-instrument transition-all duration-300 
+    hover:text-ink relative opacity-0 -translate-y-4;
     transition-delay: calc(var(--index) * 100ms);
   }
 
@@ -97,6 +138,7 @@ const { activePage, additionalClasses = '' } = Astro.props;
     content: '';
     @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand;
   }
+
 </style>
 
 <script>
@@ -123,6 +165,25 @@ const { activePage, additionalClasses = '' } = Astro.props;
         });
       });
     }
+
+    const hoverIllustration = document.querySelector('#hover-illustration') as HTMLElement;
+    const menuLinks = document.querySelectorAll('.menu-link');
+
+    menuLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        const image = link.getAttribute('data-image');
+        if (image && hoverIllustration) {
+          hoverIllustration.style.backgroundImage = `url('${image}')`;
+          hoverIllustration.classList.add('opacity-40');
+        }
+      });
+
+      link.addEventListener('mouseleave', () => {
+        if (hoverIllustration) {
+          hoverIllustration.classList.remove('opacity-40');
+        }
+      });
+    });
   }
 
   function handleMenuClick() {
@@ -139,21 +200,26 @@ const { activePage, additionalClasses = '' } = Astro.props;
   function updateActiveLink() {
     const currentPath = window.location.pathname;
     const links = document.querySelectorAll('.menu-link');
+    const hoverIllustration = document.querySelector('#hover-illustration') as HTMLElement;
     
     links.forEach(link => {
       const path = link.getAttribute('data-path');
       if (path === currentPath) {
         link.classList.add('active');
+        // Show the active page's image
+        const image = link.getAttribute('data-image');
+        if (image && hoverIllustration) {
+          hoverIllustration.style.backgroundImage = `url('${image}')`;
+          hoverIllustration.classList.add('opacity-40');
+        }
       } else {
         link.classList.remove('active');
       }
     });
   }
 
-  // Update active link on initial load
+  // Make sure this runs on initial load and after view transitions
   updateActiveLink();
-
-  // Update active link after view transitions
   document.addEventListener('astro:after-swap', updateActiveLink);
 
   // Run on initial load
