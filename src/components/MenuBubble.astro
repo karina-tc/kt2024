@@ -27,13 +27,21 @@ const { activePage, additionalClasses = '' } = Astro.props;
 </div>
 
 <style>
+  .menu-container::before {
+    @apply w-0 h-0 bg-white/80 absolute -left-12 -top-12 opacity-0 transition-all -z-10;
+    content: '';
+  }
   .menu-container {
     @apply fixed top-0 left-0 m-12 z-[100] w-12 h-12 rounded-3xl bg-transparent overflow-visible transition-all duration-500;
     transform-origin: center;
   }
 
   .menu-container[aria-expanded="true"] {
-    @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)] overflow-hidden;
+    @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)];
+  }
+
+  .menu-container[aria-expanded="true"]::before {
+    @apply opacity-100 w-screen h-screen;
   }
 
   .trigger {
