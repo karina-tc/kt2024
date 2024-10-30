@@ -1,14 +1,13 @@
 <div class="circadian">
   <div class="hours">
     {Array.from({ length: 24 }).map((_, i) => (
-      <div class="hour" role="button" tabindex="-1">
+      <div class="hour">
         <div class="line-holder">
-          <div class={`line ${i < 6 || i > 18 ? 'fill' : ''}`}></div>
+          <div class={`line ${i === 11 ? 'active' : i < 6 || i > 18 ? 'fill' : ''}`}></div>
         </div>
       </div>
     ))}
-    <!-- Add initial bubble -->
-    <div class="bubble" id="timeBubble">
+    <div class="bubble">
       <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C26.0523 13 26.5 13.4477 26.5 14V16C26.5 16.5523 26.0523 17 25.5 17C24.9477 17 24.5 16.5523 24.5 16V14C24.5 13.4477 24.9477 13 25.5 13ZM25.5 21C23.2909 21 21.5 22.7909 21.5 25C21.5 27.2091 23.2909 29 25.5 29C27.7091 29 29.5 27.2091 29.5 25C29.5 22.7909 27.7091 21 25.5 21ZM19.5 25C19.5 21.6863 22.1863 19 25.5 19C28.8137 19 31.5 21.6863 31.5 25C31.5 28.3137 28.8137 31 25.5 31C22.1863 31 19.5 28.3137 19.5 25ZM26.5 34C26.5 33.4477 26.0523 33 25.5 33C24.9477 33 24.5 33.4477 24.5 34V36C24.5 36.5523 24.9477 37 25.5 37C26.0523 37 26.5 36.5523 26.5 36V34Z" />
       </svg>
@@ -18,179 +17,40 @@
 
 <style>
 .circadian {
-  @apply fixed bottom-8 left-1/2 -translate-x-1/2 z-50;
-  width: 600px;
+  @apply fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[600px];
 }
 
 .hours {
-  @apply flex justify-between items-center relative;
-  width: 100%;
+  @apply flex justify-between items-center relative w-full;
 }
 
 .hour {
-  @apply relative flex items-center justify-center;
-  height: 40px;
-  width: 24px; /* Add explicit width */
+  @apply relative flex items-center justify-center h-[40px] w-[24px];
 }
 
 .line-holder {
-  @apply flex items-center justify-center;
-  height: 100%;
-  transform-origin: bottom center;
+  @apply flex items-center justify-center h-full origin-bottom;
 }
 
 .line {
-  width: 1px;
-  height: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-origin: bottom center;
-}
-
-.line.fill {
-  background: rgba(0, 0, 0, 0.4);
+  @apply w-[1px] h-[8px] bg-black/20 transition-all duration-300 ease-out origin-bottom;
 }
 
 .line.active {
-  background: rgba(0, 0, 0, 0.6);
+  @apply h-[40px] bg-black/60;
+}
+
+.line.fill {
+  @apply bg-black/40;
 }
 
 .bubble {
-  @apply absolute top-0 -translate-y-full cursor-grab;
-  position: absolute;
-  left: 0;
-  background: white;
-  border-radius: 50%;
-  padding: 8px;
-  width: 40px;
-  height: 40px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  user-select: none;
-  touch-action: none;
-  z-index: 10;
-  margin-left: -7px;
-}
-
-.bubble:active {
-  cursor: grabbing;
+  @apply absolute top-0 left-[48%] -translate-x-1/2 -translate-y-full 
+         bg-white rounded-full p-2 w-[40px] h-[40px] 
+         shadow-[0_2px_8px_rgba(0,0,0,0.1)] z-10;
 }
 
 .bubble svg {
-  @apply w-6 h-6;
-  fill: currentColor;
+  @apply w-6 h-6 fill-current;
 }
 </style>
-
-<script>
-// Update the script to work with a single bubble
-function initTimeSelector() {
-  const hours = document.querySelectorAll('.hour');
-  const bubble = document.getElementById('timeBubble');
-  const hoursContainer = document.querySelector('.hours');
-  const TOTAL_HOURS = 24;
-  let isDragging = false;
-  
-  function updateTimeVisuals(selectedHour: number, mouseX?: number) {
-    if (!bubble || !hoursContainer) return;
-    
-    // Update bubble position
-    const hourWidth = hoursContainer.clientWidth / TOTAL_HOURS;
-    const newPosition = hourWidth * selectedHour;
-    bubble.style.transform = `translateX(${newPosition}px) translateY(-100%)`;
-    
-    // Use mouse position for more accurate effect if available
-    const bubbleX = mouseX ?? (newPosition + hourWidth / 2);
-    
-    hours.forEach((hour, index) => {
-      const line = hour.querySelector('.line');
-      if (!line) return;
-      
-      // Calculate distance from bubble to this line
-      const hourCenter = (index * hourWidth) + (hourWidth / 2);
-      const distance = Math.abs(bubbleX - hourCenter);
-      const maxDistance = hourWidth * 4; // Adjust this value to control spread
-      
-      // Calculate pull-up effect (max height when closer)
-      const pullUpEffect = Math.max(0, 1 - (distance / maxDistance));
-      
-      // First and last lines stay short
-      if (index === 0 || index === TOTAL_HOURS - 1) {
-        (line as HTMLElement).style.height = '8px';
-      } else {
-        // Calculate height (max 40px from base 8px)
-        const height = 8 + (pullUpEffect * 32);
-        (line as HTMLElement).style.height = `${height}px`;
-      }
-      
-      // Update opacity/fill
-      line.classList.toggle('fill', index <= selectedHour);
-      (line as HTMLElement).style.opacity = `${0.2 + (pullUpEffect * 0.8)}`;
-    });
-    
-    // Map hours to themes and emit event
-    let theme;
-    if (selectedHour >= 5 && selectedHour < 12) {
-      theme = 'dawn';
-    } else if (selectedHour >= 12 && selectedHour < 17) {
-      theme = 'day';
-    } else if (selectedHour >= 17 && selectedHour < 20) {
-      theme = 'dusk';
-    } else {
-      theme = 'night';
-    }
-    
-    window.dispatchEvent(new CustomEvent('theme-change', { 
-      detail: { theme, hour: selectedHour } 
-    }));
-  }
-  
-  function startDragging(e: MouseEvent) {
-    if (!bubble) return;
-    isDragging = true;
-    document.addEventListener('mousemove', handleDrag);
-    document.addEventListener('mouseup', stopDragging);
-  }
-  
-  function handleDrag(e: MouseEvent) {
-    if (!isDragging || !hoursContainer) return;
-    
-    const rect = hoursContainer.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const width = rect.width;
-    
-    // Calculate hour based on x position
-    const hourWidth = width / TOTAL_HOURS;
-    let selectedHour = Math.floor(x / hourWidth);
-    selectedHour = Math.max(0, Math.min(23, selectedHour));
-    
-    // Pass mouse X position for more accurate gravity effect
-    updateTimeVisuals(selectedHour, x);
-  }
-  
-  function stopDragging() {
-    isDragging = false;
-    document.removeEventListener('mousemove', handleDrag);
-    document.removeEventListener('mouseup', stopDragging);
-  }
-  
-  if (bubble) {
-    bubble.addEventListener('mousedown', startDragging);
-  }
-  
-  // Add click handlers to each hour
-  hours.forEach((hour, index) => {
-    hour.addEventListener('click', () => {
-      if (!isDragging) {
-        updateTimeVisuals(index);
-      }
-    });
-  });
-  
-  // Initialize with current hour
-  const currentHour = new Date().getHours();
-  updateTimeVisuals(currentHour);
-}
-
-document.addEventListener('astro:page-load', initTimeSelector);
-document.addEventListener('DOMContentLoaded', initTimeSelector);
-</script>

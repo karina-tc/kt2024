@@ -4,8 +4,6 @@ import CoordinateGrid from '../components/CoordinateGrid.astro';
 import '../styles/layout.css';
 import LoadingBar from '../components/LoadingBar.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import { timeOfDayColors, type Theme } from '../lib/theme';
-import AuraBackground from '../components/AuraBackground.astro';
 
 interface Props {
 	title: string;
@@ -33,7 +31,6 @@ const { title, body_classes = '' } = Astro.props;
 	</head>
 	<body class={`relative ${body_classes}`}>
 		<LoadingBar />
-		<AuraBackground />
 		<CoordinateGrid />
 		<div class="relative z-10">
 			<slot />
@@ -60,50 +57,6 @@ const { title, body_classes = '' } = Astro.props;
       document.addEventListener('DOMContentLoaded', () => {
         initConfetti();
     });
-
-    // Define the colors inline for client-side use
-    const timeOfDayColors = {
-      dawn: {
-        gradient1: { position: '50% 0%', color: '#483246' },
-        gradient2: { position: '0% 50%', color: '#8b5e54' },
-        gradient3: { position: '100% 80%', color: '#e6c8e0' }
-      },
-      day: {
-        gradient1: { position: '50% 0%', color: '#e6c8e0' },
-        gradient2: { position: '0% 50%', color: '#f0c09c' },
-        gradient3: { position: '100% 50%', color: '#9893a6' }
-      },
-      dusk: {
-        gradient1: { position: '50% 0%', color: '#9893a6' },
-        gradient2: { position: '0% 50%', color: '#967e8e' },
-        gradient3: { position: '100% 50%', color: '#7b7491' }
-      },
-      night: {
-        gradient1: { position: '50% 0%', color: '#1a1930' },
-        gradient2: { position: '0% 50%', color: '#2a2940' },
-        gradient3: { position: '100% 50%', color: '#0f0f20' }
-      }
-    };
-
-    window.addEventListener('theme-change', ((e: CustomEvent<{ theme: keyof typeof timeOfDayColors }>) => {
-      const { theme } = e.detail;
-      const colors = timeOfDayColors[theme];
-      
-      const gradients = document.querySelectorAll('.gradient-layer');
-      gradients.forEach((gradient, index) => {
-        const gradientKey = `gradient${index + 1}` as keyof typeof colors;
-        const gradientElement = gradient as HTMLElement;
-        const colorConfig = colors[gradientKey];
-        
-        if (colorConfig) {
-          gradientElement.style.background = `radial-gradient(
-            circle at ${colorConfig.position},
-            ${colorConfig.color} 0%,
-            transparent 70%
-          )`;
-        }
-      });
-    }) as EventListener);
 </script>
 
 <style is:global>
@@ -125,6 +78,7 @@ const { title, body_classes = '' } = Astro.props;
 		--color-ink-lighter: 188 173 143; /* #BCAD8F */
 		--color-ink-dark: 42 38 30; /* #2A261E */
 		--color-paper: 255 255 255; /* #FFFFFF */
+    --color-brand: 221 78 29; /* #dd4e1d */
 
 		/* Images */
 		--image-hero: url('/hero.png');
