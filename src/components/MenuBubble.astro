@@ -18,11 +18,11 @@ const { activePage, additionalClasses = '' } = Astro.props;
     </div>
   </button>
   <nav class="menu-content">
-    <a href="/" class={`menu-link ${activePage === '/' ? 'active' : ''}`}>Home</a>
-    <a href="/about" class={`menu-link ${activePage === '/about' ? 'active' : ''}`}>About</a>
-    <a href="/work" class={`menu-link ${activePage === '/work' ? 'active' : ''}`}>Work</a>
-    <a href="/thoughts" class={`menu-link ${activePage === '/thoughts' ? 'active' : ''}`}>Thoughts</a>
-    <a href="/contact" class={`menu-link ${activePage === '/contact' ? 'active' : ''}`}>Contact</a>
+    <a href="/" class="menu-link" data-path="/">Home</a>
+    <a href="/about" class="menu-link" data-path="/about">About</a>
+    <a href="/work" class="menu-link" data-path="/work">Work</a>
+    <a href="/thoughts" class="menu-link" data-path="/thoughts">Thoughts</a>
+    <a href="/contact" class="menu-link" data-path="/contact">Contact</a>
   </nav>
 </div>
 
@@ -81,6 +81,10 @@ const { activePage, additionalClasses = '' } = Astro.props;
     @apply opacity-100 translate-y-0;
   }
 
+  .menu-link.active {
+    @apply text-brand;
+  }
+
   .menu-link.active::after {
     content: '';
     @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand;
@@ -123,6 +127,26 @@ const { activePage, additionalClasses = '' } = Astro.props;
       menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
     }
   }
+
+  function updateActiveLink() {
+    const currentPath = window.location.pathname;
+    const links = document.querySelectorAll('.menu-link');
+    
+    links.forEach(link => {
+      const path = link.getAttribute('data-path');
+      if (path === currentPath) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
+
+  // Update active link on initial load
+  updateActiveLink();
+
+  // Update active link after view transitions
+  document.addEventListener('astro:after-swap', updateActiveLink);
 
   // Run on initial load
   setupMenu();
