@@ -14,6 +14,7 @@ export default {
 				inkDark: 'rgb(var(--color-ink-dark) / <alpha-value>)',
 				paper: 'rgb(var(--color-paper) / <alpha-value>)',
 				carbon: '#2A261E',
+				brand: '#dd4e1d',
 			},
 		},
 	},

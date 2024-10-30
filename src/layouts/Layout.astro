@@ -3,7 +3,7 @@ import { ViewTransitions } from 'astro:transitions';
 import CoordinateGrid from '../components/CoordinateGrid.astro';
 import '../styles/layout.css';
 import LoadingBar from '../components/LoadingBar.astro';
-import AuraBackground from '../components/AuraBackground.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
 	title: string;
@@ -30,11 +30,11 @@ const { title, body_classes = '' } = Astro.props;
 		<ViewTransitions />
 	</head>
 	<body class={`relative ${body_classes}`}>
-		<!--<AuraBackground /> -->
 		<LoadingBar />
 		<CoordinateGrid />
 		<div class="relative z-10">
 			<slot />
+			<ThemeToggle />
 		</div>
 	</body>
 </html>
@@ -78,6 +78,7 @@ const { title, body_classes = '' } = Astro.props;
 		--color-ink-lighter: 188 173 143; /* #BCAD8F */
 		--color-ink-dark: 42 38 30; /* #2A261E */
 		--color-paper: 255 255 255; /* #FFFFFF */
+    --color-brand: 221 78 29; /* #dd4e1d */
 
 		/* Images */
 		--image-hero: url('/hero.png');
