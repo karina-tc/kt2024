@@ -109,7 +109,7 @@ const tabsContent: TabContent[] = [
         //confetti: true
       }))}
     />
-    <div class="min-h-[132px]">
+    <div class="flex-1 min-h-[120px]">
       {tabsContent.map(tab => (
         <h2 id={tab.id} class={`section-content ${!tab.isDefault ? 'hidden' : ''}`}>
           {tab.content.before}
@@ -124,7 +124,7 @@ const tabsContent: TabContent[] = [
 
 <style>
   .manifesto {
-    @apply flex-1 flex-col space-y-6 max-w-lg p-4;
+    @apply flex-1 flex-col space-y-6 max-w-lg p-4 min-h-[380px];
   }
   .manifesto p {
     @apply text-sm font-medium leading-6 text-inkLight;
