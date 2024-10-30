@@ -1,17 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import BackButton from '../components/BackButton.astro';
 ---
 
-<Layout title="Oops">
+<Layout title="Oops" body_classes="bg-[url('/clouds.png')] bg-cover bg-center">
   <section class="wrapper">
-    <h1>404: Well Shoot</h1>
-    <p>Sorry, I may have missled you.</p>
-    <a href="/" class="underline underline-offset-8 decoration-slate-300">Go back to homepage</a>
+    <h1 class="text-8xl">404: Well Shoot</h1>
+    <p>My head might be in the clouds. Sorry to have I missled you.</p>
+    <div class="flex items-center my-10">
+      <BackButton href="/" additionalClasses="ml-1 mr-2" />
+      <Button type="textual" additionalClasses="text-ink text-base" href="/" id="backButton">
+        Return to Home Page
+      </Button>
+    </div>
   </section>
 </Layout>
+
 
 <style>
   .wrapper {
     @apply flex flex-col items-center justify-center min-h-screen gap-3;
+    animation: slideUp 2s cubic-bezier(0.23, 1, 0.320, 1) forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

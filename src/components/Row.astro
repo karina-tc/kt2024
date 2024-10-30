@@ -40,7 +40,7 @@ const { title, date, categories, href, content } = Astro.props;
 
 <style>
   .row {
-    @apply bg-paper text-ink p-4 rounded-md w-full max-w-[640px] flex items-start gap-5 border border-paper  hover:shadow-lg focus:bg-inkLighter/10 focus:outline-none focus:border-inkLighter cursor-pointer origin-top transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)];
+    @apply bg-paper text-ink p-4 rounded-md w-full max-w-[640px] flex items-start gap-5 border border-paper shadow-md shadow-inkLighter/20 hover:shadow-lg focus:bg-inkLighter/10 focus:outline-none focus:border-inkLighter cursor-pointer origin-top transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)];
   }
   .row-hidden {
     @apply opacity-0 !h-0 !p-0 overflow-hidden absolute;
