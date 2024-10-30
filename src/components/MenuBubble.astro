@@ -1,6 +1,7 @@
 ---
 import * as Icon from '@astropub/icons'
 import ThemeToggle from '../components/ThemeToggle.astro';
+import Button from './Button.astro';
 
 interface Props {
   activePage?: string;
@@ -28,10 +29,9 @@ const navigationItems = [
   <div class="menu-content">
     <div 
       id="links-illustration"
-      class="w-72 h-72 overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-cover rounded-full absolute opacity-0 top-10 transition-all duration-300"
-      id="hover-illustration"
+      class="w-80 h-80 bg-cover rounded-full absolute opacity-0 top-10 transition-all duration-300"
     ></div>
-    <nav id="links" class="flex flex-col justify-center items-center gap-6">
+    <nav id="links-content" class="flex flex-col justify-center items-center gap-6 transition-all duration-300">
       {
         navigationItems.map(({ path, label, image }) => (
           <a 
@@ -45,15 +45,26 @@ const navigationItems = [
         ))
       }
     </nav>
-    <div id="colophon" class="space-y-5 text-center font-medium transition-all duration-300">
-      <div class="w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/index-landscape.png')]"></div>
+    <div id="colophon-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
+      <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
+      <div class="w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/computer.png')]"></div>
       <p>Designed purely in code. Illustrations made via Midjourney. Built with blood sweat and tears—and eventually a bit of Claude's help. Powered by AstroJS and Notion.</p>
       <p class="text-sm text-inkLight">Long live our AI underlords. May we humans prosper.</p>
     </div>
-    <div class="w-full flex items-center gap-2 text-sm font-medium text-inkLight justify-center mt-10 pt-10 border-t border-inkLighter/50">
+    <div id="backlog-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
+      <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
+      <p>A few things on my mind...</p>
+      <ul class="backlog-list">
+        <li>Add search to entire site.</li>
+        <li>Make clouds and images move in the background.</li>
+        <li>Add dark mode support.</li>
+        <li>Build project for my daughter and I to take and store our daily selfies</li>
+      </ul>
+    </div>
+    <div class="footer-links">
       <p class="mr-auto">© {new Date().getFullYear()} Karina Tovar</p>
-      <p>Colophon</p>
-      <p>Backlog</p>
+      <p class="cursor-pointer hover:text-ink" id="colophon-trigger">Colophon</p>
+      <p class="cursor-pointer hover:text-ink" id="backlog-trigger">Backlog</p>
     </div>
   </div>
 </div>
@@ -139,6 +150,13 @@ const navigationItems = [
     @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand;
   }
 
+  .footer-links {
+    @apply w-full flex items-center gap-2 text-sm font-medium text-inkLight justify-center mt-10 pt-10 border-t border-inkLighter/50 z-10;
+  }
+
+  .backlog-list li {
+    @apply flex items-center before:content-['•'] before:mr-2 mb-1;
+  }
 </style>
 
 <script>
@@ -237,4 +255,110 @@ const navigationItems = [
 
   // Run after view transitions
   document.addEventListener('astro:after-swap', setupMenu);
+
+  function setupContentSwitcher() {
+    const linksContent = document.getElementById('links-content');
+    const linksIllustration = document.getElementById('links-illustration');
+    const colophonContent = document.getElementById('colophon-content');
+    const backlogContent = document.getElementById('backlog-content');
+    const colophonTrigger = document.getElementById('colophon-trigger');
+    const backlogTrigger = document.getElementById('backlog-trigger');
+    const backButtons = document.querySelectorAll('.back-to-menu');
+
+    // Restore hover illustration functionality
+    const menuLinks = document.querySelectorAll('.menu-link');
+    menuLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        const image = link.getAttribute('data-image');
+        if (image && linksIllustration) {
+          linksIllustration.style.backgroundImage = `url('${image}')`;
+          linksIllustration.classList.add('opacity-50');
+          linksIllustration.classList.remove('opacity-0', 'opacity-100');
+        }
+      });
+
+      link.addEventListener('mouseleave', () => {
+        if (linksIllustration && !link.classList.contains('active')) {
+          linksIllustration.classList.remove('opacity-50', 'opacity-100');
+          linksIllustration.classList.add('opacity-0');
+        }
+      });
+    });
+
+    function showSection(sectionToShow: HTMLElement) {
+      // Keep footer triggers always accessible
+      const footerTriggers = document.querySelectorAll('#colophon-trigger, #backlog-trigger');
+      footerTriggers.forEach(trigger => {
+        if (trigger) trigger.classList.remove('pointer-events-none');
+      });
+
+      // Hide all sections with fade
+      [linksContent, colophonContent, backlogContent].forEach(section => {
+        if (section) {
+          section.classList.add('opacity-0', 'pointer-events-none');
+          section.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      });
+      if (linksIllustration) {
+        linksIllustration.classList.remove('opacity-50', 'opacity-100');
+        linksIllustration.classList.add('opacity-0');
+      }
+
+      // Show the selected section with fade
+      sectionToShow.classList.remove('opacity-0', 'pointer-events-none');
+      sectionToShow.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function showMainMenu() {
+      // Keep footer triggers always accessible
+      const footerTriggers = document.querySelectorAll('#colophon-trigger, #backlog-trigger');
+      footerTriggers.forEach(trigger => {
+        if (trigger) trigger.classList.remove('pointer-events-none');
+      });
+
+      // Hide secondary sections
+      [colophonContent, backlogContent].forEach(section => {
+        if (section) {
+          section.classList.add('opacity-0', 'pointer-events-none');
+          section.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      });
+      
+      // Show main menu with fade
+      if (linksContent) {
+        linksContent.classList.remove('opacity-0', 'pointer-events-none');
+        linksContent.classList.add('opacity-100', 'pointer-events-auto');
+      }
+      if (linksIllustration) {
+        linksIllustration.classList.remove('opacity-0', 'opacity-100');
+        // Only add opacity-50 if there's an active link
+        const activeLink = document.querySelector('.menu-link.active');
+        if (activeLink) {
+          const image = activeLink.getAttribute('data-image');
+          if (image) {
+            linksIllustration.style.backgroundImage = `url('${image}')`;
+            linksIllustration.classList.add('opacity-50');
+          }
+        }
+      }
+    }
+
+    colophonTrigger?.addEventListener('click', () => {
+      if (colophonContent) showSection(colophonContent);
+    });
+
+    backlogTrigger?.addEventListener('click', () => {
+      if (backlogContent) showSection(backlogContent);
+    });
+
+    backButtons.forEach(button => {
+      button.addEventListener('click', showMainMenu);
+    });
+  }
+
+  // Run on initial load
+  setupContentSwitcher();
+
+  // Run after view transitions
+  document.addEventListener('astro:after-swap', setupContentSwitcher);
 </script>
