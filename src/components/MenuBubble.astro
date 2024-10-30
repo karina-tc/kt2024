@@ -10,44 +10,38 @@ interface Props {
 const { activePage, additionalClasses = '' } = Astro.props;
 ---
 
-<div class="menu-container">
-  <div class="menu-trigger">
-    <button type="button" aria-label="Toggle Menu" aria-expanded="false">
-      <div class="menu-icon">
-        <span class="menu-open-icon"><Icon.HamburgerMenu size="20" /></span>
-        <span class="menu-close-icon"><Icon.Cross2 size="20" /></span>
-      </div>
-      <span class="menu-background"></span>
-    </button>
-    <div class="menu-dialog">
-      <nav class="menu-content">
-        <a href="/" class={`menu-link ${activePage === '/' ? 'active' : ''}`}>Home</a>
-        <a href="/about" class={`menu-link ${activePage === '/about' ? 'active' : ''}`}>About</a>
-        <a href="/work" class={`menu-link ${activePage === '/work' ? 'active' : ''}`}>Work</a>
-        <a href="/thoughts" class={`menu-link ${activePage === '/thoughts' ? 'active' : ''}`}>Thoughts</a>
-        <a href="/contact" class={`menu-link ${activePage === '/contact' ? 'active' : ''}`}>Contact</a>
-      </nav>
-      <ThemeToggle />
+<div class="menu-container" transition:persist="menu">
+  <button class="trigger" type="button" aria-label="Toggle Menu" aria-expanded="false">
+    <div class="menu-icon">
+      <span class="menu-open-icon"><Icon.HamburgerMenu size="20" /></span>
+      <span class="menu-close-icon"><Icon.Cross2 size="20" /></span>
     </div>
-  </div>
+  </button>
+  <nav class="menu-content">
+    <a href="/" class={`menu-link ${activePage === '/' ? 'active' : ''}`}>Home</a>
+    <a href="/about" class={`menu-link ${activePage === '/about' ? 'active' : ''}`}>About</a>
+    <a href="/work" class={`menu-link ${activePage === '/work' ? 'active' : ''}`}>Work</a>
+    <a href="/thoughts" class={`menu-link ${activePage === '/thoughts' ? 'active' : ''}`}>Thoughts</a>
+    <a href="/contact" class={`menu-link ${activePage === '/contact' ? 'active' : ''}`}>Contact</a>
+  </nav>
 </div>
 
 <style>
   .menu-container {
-    @apply fixed top-8 left-8 z-[100];
-  }
-
-  .menu-trigger {
-    @apply w-12 h-12 rounded-full flex items-center justify-center relative z-[102] transition-all duration-300;
-  }
-
-  .menu-background {
-    @apply absolute inset-0 bg-paper rounded-full transition-all duration-500 shadow-md;
+    @apply fixed top-0 left-0 m-12 z-[100] w-12 h-12 rounded-3xl bg-transparent overflow-visible transition-all duration-500;
     transform-origin: center;
   }
 
-  .menu-trigger[aria-expanded="true"] .menu-background {
-    @apply scale-[100];
+  .menu-container[aria-expanded="true"] {
+    @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)] overflow-hidden;
+  }
+
+  .trigger {
+    @apply w-12 h-12 shadow-xl shadow-inkLighter/50 bg-inkDark text-white rounded-full flex items-center justify-center relative z-[102];
+  }
+
+  .menu-container[aria-expanded="true"] .trigger {
+    @apply bg-brand text-white shadow-none;
   }
 
   .menu-icon {
@@ -62,24 +56,20 @@ const { activePage, additionalClasses = '' } = Astro.props;
     @apply absolute opacity-0 transition-all duration-300;
   }
 
-  .menu-trigger[aria-expanded="true"] .menu-open-icon {
+  .trigger[aria-expanded="true"] .menu-open-icon {
     @apply absolute opacity-0;
   }
 
-  .menu-trigger[aria-expanded="true"] .menu-close-icon {
+  .trigger[aria-expanded="true"] .menu-close-icon {
     @apply relative opacity-100;
   }
 
-  .menu-dialog {
-    @apply fixed inset-0 w-[calc(100vw-80px)] h-[calc(100vh-80px)] bg-transparent p-0 m-10 rounded-md border-none opacity-0 pointer-events-none transition-all duration-500 z-[101];
-  }
-
-  .menu-dialog.open {
-    @apply opacity-100 pointer-events-auto;
-  }
-
   .menu-content {
-    @apply h-full flex flex-col items-center justify-center gap-8;
+    @apply fixed inset-0 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-500;
+  }
+
+  .menu-container[aria-expanded="true"] .menu-content {
+    @apply opacity-100 pointer-events-auto;
   }
 
   .menu-link {
@@ -87,7 +77,7 @@ const { activePage, additionalClasses = '' } = Astro.props;
     transition-delay: calc(var(--index) * 100ms);
   }
 
-  .menu-dialog.open .menu-link {
+  .menu-container[aria-expanded="true"] .menu-link {
     @apply opacity-100 translate-y-0;
   }
 
@@ -99,26 +89,53 @@ const { activePage, additionalClasses = '' } = Astro.props;
 
 <script>
   function setupMenu() {
-    const trigger = document.querySelector('.menu-trigger');
-    const menu = document.querySelector('.menu-dialog');
+    const trigger = document.querySelector('.menu-container button') as HTMLButtonElement;
+    const menuContainer = document.querySelector('.menu-container') as HTMLElement;
     const links = document.querySelectorAll('.menu-link');
 
-    if (trigger && menu) {
+    if (trigger && menuContainer) {
       // Add index to links for staggered animation
       links.forEach((link, index) => {
         (link as HTMLElement).style.setProperty('--index', index.toString());
       });
+      
+      // Remove existing listener to prevent duplicates
+      trigger.removeEventListener('click', handleMenuClick);
+      trigger.addEventListener('click', handleMenuClick);
 
-      trigger.addEventListener('click', () => {
-        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-        trigger.setAttribute('aria-expanded', (!isExpanded).toString());
-        menu.classList.toggle('open');
+      // Close menu when a link is clicked
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          trigger.setAttribute('aria-expanded', 'false');
+          menuContainer.setAttribute('aria-expanded', 'false');
+        });
       });
+    }
+  }
+
+  function handleMenuClick() {
+    const trigger = document.querySelector('.menu-container button') as HTMLButtonElement;
+    const menuContainer = document.querySelector('.menu-container') as HTMLElement;
+    
+    if (trigger && menuContainer) {
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', (!isExpanded).toString());
+      menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
     }
   }
 
   // Run on initial load
   setupMenu();
+
+  // Close menu before page transition starts
+  document.addEventListener('astro:before-preparation', () => {
+    const trigger = document.querySelector('.menu-container button') as HTMLButtonElement;
+    const menuContainer = document.querySelector('.menu-container') as HTMLElement;
+    if (trigger && menuContainer) {
+      trigger.setAttribute('aria-expanded', 'false');
+      menuContainer.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   // Run after view transitions
   document.addEventListener('astro:after-swap', setupMenu);
