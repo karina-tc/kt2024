@@ -1,6 +1,8 @@
 ---
 import DetailsLayout from '../layouts/DetailsLayout.astro';
 import SectionBlock from '../components/SectionBlock.astro';
+import ShowcaseImage from '../components/ShowcaseImage.astro';
+import * as Icon from '@astropub/icons'
 import { tenets } from '../data/tenets';
 
 const breadcrumbs = [
@@ -8,53 +10,64 @@ const breadcrumbs = [
 ];
 ---
 
+<section class="landscape"></section>
 
 <DetailsLayout
-  layout_body_classes="bg-[image:var(--image-hero)] bg-cover"
   title="I think therefore I make"
   breadcrumbs={breadcrumbs}
   additionalClasses=""
 >
-  <SectionBlock size="small">
-    <h2>Maker for Life</h2>
-    <p>Been a maker and technologist since I can remember. As a toddler, I’d break tv remotes, radios, anything I was curious about. I guess I just wanted to understand how things were made. That curiosity has led me to where I am.</p>
-    <p>I am a maker. First of art that was a mix of technology and performance. I’d constantly joke that my physicality was my body of work. I was the art as much as the idea <a class="note" href="https://art21.org/theme/the-body/" target="_blank"><span>1</span></a> The idea was the art even more so. Ideas that became fully fledge concepts for me to interact with other people. To unexpectedly bring joy into their life.</p>
-    <p>Many years later during the computer revolution my mom came home frustrated and in a major panic. The software she was using for work made a huge mistake and she thought she might be in trouble. I’d never forget how that night we all had a bad day. A silly ephemeral tool almost gave my mom a heart-attack.</p>
-    <p>Years after going through my art school era I joined a small email software startup in Boston <a class="note" href="https://www.rejoiner.com" target="_blank"><span>2</span></a> I learned so much. I learned the importance of good strategy. Of building tools people wanted. Of keeping a business running so that my coworkers and I could pay the bills. I learned that good software can bring smiles to people’s faces. I learned to craft.</p>
-  </SectionBlock>
-  
-  <SectionBlock size="small">
-    <h2>Design is Joy</h2>
-    <p>In my 10+ years of experience I have helped bring ideas to reality. Not just in pixels, but in code and in strategy. My philosophy is that any concept that is solid will sell. Anything that sells can be filled with joy. Joy is a human gift <a class="note" href="https://www.youtube.com/watch?v=k8QrsMa170k" target="_blank"><span>3</span></a>.</p>
-    <p class="font-bold">My design tenets are simple:</p>
-    <div class="postit-grid">
-      {tenets.map(({ digits, title, description, bgColor }) => (
-        <div class={`postit ${bgColor}`}>
-          <span>{digits}</span>
-          <strong>{title}</strong>
-          <p>{description}</p>
-        </div>
-      ))}
-    </div>
-  </SectionBlock>
-  
-  <SectionBlock size="small">
-    <h2>How I Work</h2>
-    <p>Recently, I design in napkins and mindmaps. I still have a Figma account, but I am building through tools like ChatGPT and Claude to help me build at fast speed. Just like with my art, I focus on hammering a concept from a hypothesis into a graduated thesis. The materials and method don’t matter. Concepts are the form <a class="note" href="#" target="_blank"><span>4</span></a>.</p>
-    <div class="list">
-      <div><strong>Fully caffeinated</strong>I work my best in the mornings.</div>
-      <div><strong>Ideas stroll</strong>I use walks with my dog to brainstorm.</div>
-      <div><strong>Jamming together</strong>I work best in teams where I can collab and jam with others.</div>
-      <div><strong>Pjs and Zoom</strong>I work best remotely because I’ve learned what good asynchronous communication feels like.</div>
-      <div><strong>With inspiration</strong>I work so my daughter can have what I sometimes lacked.</div>
-      <div><strong>With dedication</strong>I work so I can make myself proud.</div>
-    </div>
-  </SectionBlock>
+  <div class="w-fit mx-auto bg-white/50 backdrop-blur-md p-10 rounded-lg">
+    <SectionBlock size="small" classNames="shadow-xl rounded-xl border border-white shadow-orange-300/50">
+      <ShowcaseImage
+          src="/people/karina.png"
+          alt="Hello"
+          shineColor="rgba(255, 255, 255, 0.25)"
+        />
+    </SectionBlock>
 
-
+    <SectionBlock size="small">
+      <h2>Maker for Life</h2>
+      <p>Been a maker and technologist since I can remember. As a toddler, I’d break tv remotes, radios, anything I was curious about. I guess I just wanted to understand how things were made. That curiosity has led me to where I am.</p>
+      <p>I am a maker. First of art that was a mix of technology and performance. I’d constantly joke that my physicality was my body of work. I was the art as much as the idea <a class="note" href="https://art21.org/theme/the-body/" target="_blank"><span>1</span></a> The idea was the art even more so. Ideas that became fully fledge concepts for me to interact with other people. To unexpectedly bring joy into their life.</p>
+      <p>Many years later during the computer revolution my mom came home frustrated and in a major panic. The software she was using for work made a huge mistake and she thought she might be in trouble. I’d never forget how that night we all had a bad day. A silly ephemeral tool almost gave my mom a heart-attack.</p>
+      <p>Years after going through my art school era I joined a small email software startup in Boston <a class="note" href="https://www.rejoiner.com" target="_blank"><span>2</span></a> I learned so much. I learned the importance of good strategy. Of building tools people wanted. Of keeping a business running so that my coworkers and I could pay the bills. I learned that good software can bring smiles to people’s faces. I learned to craft.</p>
+    </SectionBlock>
+    
+    <SectionBlock size="small">
+      <h2>Design is Joy</h2>
+      <p>In my 10+ years of experience I have helped bring ideas to reality. Not just in pixels, but in code and in strategy. My philosophy is that any concept that is solid will sell. Anything that sells can be filled with joy. Joy is a human gift <a class="note" href="https://www.youtube.com/watch?v=k8QrsMa170k" target="_blank"><span>3</span></a>.</p>
+      <p class="font-bold">My design tenets are simple:</p>
+      <div class="postit-grid">
+        {tenets.map(({ digits, title, description, bgColor }) => (
+          <div class={`postit ${bgColor}`}>
+            <span>{digits}</span>
+            <strong>{title}</strong>
+            <p>{description}</p>
+          </div>
+        ))}
+      </div>
+    </SectionBlock>
+    
+    <SectionBlock size="small">
+      <h2>How I Work</h2>
+      <p>Recently, I design in napkins and mindmaps. I still have a Figma account, but I am building through tools like ChatGPT and Claude to help me build at fast speed. Just like with my art, I focus on hammering a concept from a hypothesis into a graduated thesis. The materials and method don’t matter. Concepts are the form <a class="note" href="#" target="_blank"><span>4</span></a>.</p>
+      <div class="list">
+        <div><strong>Fully caffeinated</strong>I work my best in the mornings.</div>
+        <div><strong>Ideas stroll</strong>I use walks with my dog to brainstorm.</div>
+        <div><strong>Jamming together</strong>I work best in teams where I can collab and jam with others.</div>
+        <div><strong>Pjs and Zoom</strong>I work best remotely because I’ve learned what good asynchronous communication feels like.</div>
+        <div><strong>With inspiration</strong>I work so my daughter can have what I sometimes lacked.</div>
+        <div><strong>With dedication</strong>I work so I can make myself proud.</div>
+      </div>
+    </SectionBlock>
+  </div>
 </DetailsLayout>
 
 <style>
+.landscape {
+    @apply w-full h-52 fixed inset-0 mt-auto -bottom-4 z-0 bg-[url('/landscape-base.png')] bg-cover bg-bottom opacity-50 blur-[2px];
+  }
   /* Fix note styles */
   :global(p) {
     @apply leading-7;
