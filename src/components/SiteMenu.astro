@@ -24,6 +24,7 @@ const navigationItems = [
     <div class="menu-icon">
       <span class="menu-open-icon"><Icon.HamburgerMenu size="20" /></span>
       <span class="menu-close-icon"><Icon.Cross2 size="20" /></span>
+      <span class="menu-close-text" id="shortcutText">⌘ K</span>
     </div>
   </button>
   <div class="menu-content">
@@ -114,9 +115,11 @@ const navigationItems = [
   }
 
   .menu-close-icon {
-    @apply absolute opacity-0 transition-all duration-300;
+    @apply absolute opacity-0 transition-all duration-300 focus:outline-brand;
   }
-
+  .menu-close-text {
+    @apply absolute inset-0 text-sm font-mono w-12 pt-1 flex items-center top-full mt-6 text-center text-inkLighter;
+  }
   .trigger[aria-expanded="true"] .menu-open-icon {
     @apply absolute opacity-0;
   }
@@ -130,7 +133,7 @@ const navigationItems = [
   }
 
   .menu-content a {
-    @apply w-fit relative;
+    @apply w-fit relative focus:outline-none focus:text-brand;
   }
 
   .menu-content a span {
@@ -192,7 +195,6 @@ const navigationItems = [
     @apply absolute top-full left-0 text-white/50;
   }
 </style>
-
 <script>
   function setupMenu() {
     const trigger = document.querySelector('.menu-container button') as HTMLButtonElement;
@@ -395,4 +397,117 @@ const navigationItems = [
 
   // Run after view transitions
   document.addEventListener('astro:after-swap', setupContentSwitcher);
+
+  function setupKeyboardShortcuts() {
+    const trigger = document.querySelector('.menu-container button') as HTMLButtonElement;
+    const menuContainer = document.querySelector('.menu-container') as HTMLElement;
+    const shortcutText = document.getElementById('shortcutText');
+    
+    // Detect OS for showing correct shortcut
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const shortcut = isMac ? '⌘ K' : '⌃ K';
+    
+    if (shortcutText) {
+      shortcutText.textContent = shortcut;
+    }
+
+    // Handle keyboard shortcuts
+    function handleKeydown(e: KeyboardEvent) {
+      // Check for Command+K (Mac) or Control+K (Windows)
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (trigger && menuContainer) {
+          const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+          trigger.setAttribute('aria-expanded', (!isExpanded).toString());
+          menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
+          
+          if (shortcutText) {
+            shortcutText.textContent = !isExpanded ? 'ESC' : shortcut;
+          }
+        }
+      }
+      
+      // Check for Escape key
+      if (e.key === 'Escape' && trigger?.getAttribute('aria-expanded') === 'true') {
+        if (trigger && menuContainer) {
+          trigger.setAttribute('aria-expanded', 'false');
+          menuContainer.setAttribute('aria-expanded', 'false');
+          if (shortcutText) {
+            shortcutText.textContent = shortcut;
+          }
+        }
+      }
+    }
+
+    // Update shortcut text when menu is clicked
+    function handleMenuClickWithShortcut() {
+      if (trigger && menuContainer) {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+        if (shortcutText) {
+          shortcutText.textContent = isExpanded ? 'ESC' : shortcut;
+        }
+      }
+    }
+
+    // Remove existing listeners to prevent duplicates
+    document.removeEventListener('keydown', (window as any).handleKeydown);
+    trigger?.removeEventListener('click', (window as any).handleMenuClickWithShortcut);
+
+    // Add new listeners
+    document.addEventListener('keydown', handleKeydown);
+    trigger?.addEventListener('click', handleMenuClickWithShortcut);
+
+    // Store handlers for cleanup
+    (window as any).handleKeydown = handleKeydown;
+    (window as any).handleMenuClickWithShortcut = handleMenuClickWithShortcut;
+
+    // Initial state check
+    if (trigger && shortcutText) {
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+      shortcutText.textContent = isExpanded ? 'ESC' : shortcut;
+    }
+  }
+
+  // Keep all existing initialization calls
+  setupMenu();
+  updateActiveLink();
+  setupContentSwitcher();
+  setupKeyboardShortcuts();
+
+  // Keep all existing event listeners
+  document.addEventListener('astro:after-swap', updateActiveLink);
+  document.addEventListener('astro:after-swap', setupMenu);
+  document.addEventListener('astro:after-swap', setupContentSwitcher);
+  document.addEventListener('astro:after-swap', setupKeyboardShortcuts);
+
+  document.addEventListener('astro:before-preparation', () => {
+    const trigger = document.querySelector('.menu-container button') as HTMLButtonElement;
+    const menuContainer = document.querySelector('.menu-container') as HTMLElement;
+    const shortcutText = document.getElementById('shortcutText');
+    
+    if (trigger && menuContainer) {
+      trigger.setAttribute('aria-expanded', 'false');
+      menuContainer.setAttribute('aria-expanded', 'false');
+      
+      // Reset shortcut text
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      if (shortcutText) {
+        shortcutText.textContent = isMac ? '⌘ K' : '⌃ K';
+      }
+    }
+  });
+
+  // Clean up event listeners before view transitions
+  document.addEventListener('astro:before-swap', () => {
+    const handleKeydown = (window as any).handleKeydown;
+    const handleMenuClickWithShortcut = (window as any).handleMenuClickWithShortcut;
+    const trigger = document.querySelector('.menu-container button');
+    
+    if (handleKeydown) {
+      document.removeEventListener('keydown', handleKeydown);
+    }
+    if (handleMenuClickWithShortcut && trigger) {
+      trigger.removeEventListener('click', handleMenuClickWithShortcut);
+    }
+  });
 </script>
