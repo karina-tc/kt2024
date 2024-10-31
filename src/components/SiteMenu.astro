@@ -216,6 +216,7 @@ const navigationItems = [
         link.addEventListener('click', () => {
           trigger.setAttribute('aria-expanded', 'false');
           menuContainer.setAttribute('aria-expanded', 'false');
+          resetMenuContent();
         });
       });
     }
@@ -248,6 +249,31 @@ const navigationItems = [
       const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
       trigger.setAttribute('aria-expanded', (!isExpanded).toString());
       menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
+
+      if (isExpanded) {
+        resetMenuContent();
+      }
+    }
+  }
+
+  function resetMenuContent() {
+    const linksContent = document.getElementById('links-content');
+    const colophonContent = document.getElementById('colophon-content');
+    const backlogContent = document.getElementById('backlog-content');
+    const linksIllustration = document.getElementById('links-illustration');
+
+    // Hide secondary sections
+    [colophonContent, backlogContent].forEach(section => {
+      if (section) {
+        section.classList.add('opacity-0', 'pointer-events-none');
+        section.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    });
+    
+    // Show main menu with fade
+    if (linksContent) {
+      linksContent.classList.remove('opacity-0', 'pointer-events-none');
+      linksContent.classList.add('opacity-100', 'pointer-events-auto');
     }
   }
 
@@ -421,6 +447,10 @@ const navigationItems = [
           trigger.setAttribute('aria-expanded', (!isExpanded).toString());
           menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
           
+          if (isExpanded) {
+            resetMenuContent();
+          }
+          
           if (shortcutText) {
             shortcutText.textContent = !isExpanded ? 'ESC' : shortcut;
           }
@@ -432,6 +462,7 @@ const navigationItems = [
         if (trigger && menuContainer) {
           trigger.setAttribute('aria-expanded', 'false');
           menuContainer.setAttribute('aria-expanded', 'false');
+          resetMenuContent();
           if (shortcutText) {
             shortcutText.textContent = shortcut;
           }
@@ -488,6 +519,7 @@ const navigationItems = [
     if (trigger && menuContainer) {
       trigger.setAttribute('aria-expanded', 'false');
       menuContainer.setAttribute('aria-expanded', 'false');
+      resetMenuContent();
       
       // Reset shortcut text
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
