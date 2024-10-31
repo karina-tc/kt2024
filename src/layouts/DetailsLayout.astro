@@ -39,7 +39,7 @@ const {
     {bgImage && <BackgroundImage src={bgImage} classes={bgImageClasses} />}
 
     <section class="animate-slide w-full max-w-5xl mx-auto">
-      <Breadcrumbs crumbs={breadcrumbs} transition:persist transition:name="breadcrumbs"/>
+      <Breadcrumbs showDropdown={false} crumbs={breadcrumbs} transition:persist transition:name="breadcrumbs"/>
 
       <header class="mt-10 thoughts-header">
         <h1>{title}</h1>

@@ -9,9 +9,10 @@ export interface Crumb {
 
 interface Props {
   crumbs: Crumb[];
+  showDropdown?: boolean;
 }
 
-const { crumbs } = Astro.props;
+const { crumbs, showDropdown = true } = Astro.props;
 
 // Object to map page keys to display titles
 const pageTitles: { [key: string]: string } = {
@@ -39,22 +40,23 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
   <ol class="breadcrumbs">
     {updatedCrumbs.map((crumb, index) => (
       <li class="flex items-center">
-        {/* Add separator between crumbs */}
-        {index > 0 && <span class="text-inkLighter">&nbsp;/&nbsp;</span>}
+        {/* Only show separator for dropdown mode */}
+        {showDropdown && index > 0 && <span class="text-inkLighter">&nbsp;/&nbsp;</span>}
+        
         {index === updatedCrumbs.length - 1 ? (
           <div class="relative">
-            {isIndexPage && !isChildPage ? (
+            {!showDropdown ? (
+              <div class="back-group group">
+                <BackButton href={crumb.href} />
+                <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
+              </div>
+            ) : isIndexPage && !isChildPage ? (
               <button id="lastCrumbDropdown" class="dropdown-menu-trigger" data-page-title={crumb.text}>
                 {crumb.text}
                 <span class="w-4 h-4 ml-1 text-inkLight transition-transform duration-300" id="chevronIcon">
                   <Icon.ChevronDown size="14" />
                 </span>
               </button>
-             ): isChildPage ? (
-              <div class="back-group group">
-                <BackButton href={crumb.href} additionalClasses="ml-1 mr-2" />
-                <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
-              </div>
             ) : (
               <span class="text-ink font-medium">{crumb.text}</span>
             )}
@@ -76,10 +78,13 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
             </div>
           </div>
         ) : (
-          <div class="back-group group">
-            <BackButton href={crumb.href} />
-            <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
-          </div>
+          /* Only show previous crumbs in dropdown mode */
+          showDropdown && (
+            <div class="back-group group">
+              <BackButton href={crumb.href} />
+              <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
+            </div>
+          )
         )}
       </li>
     ))}

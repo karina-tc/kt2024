@@ -16,7 +16,7 @@ interface Props {
 const { title, date, categories, showcase } = Astro.props;
 
 const breadcrumbs = [
-  { text: 'Thoughts', href: '/thoughts' }
+  { text: 'Back', href: '/thoughts' }
 ];
 ---
 
@@ -24,7 +24,7 @@ const breadcrumbs = [
   <section class="w-full min-h-screen p-10 flex flex-col relative">
     <section class="landscape"></section>
     <article class="prose prose-lg thoughts-container">
-      <Breadcrumbs crumbs={breadcrumbs} />
+      <Breadcrumbs crumbs={breadcrumbs} showDropdown={false} />
       <header class="thoughts-header">
         <h1>{title}</h1>
         <div class="date-container">
