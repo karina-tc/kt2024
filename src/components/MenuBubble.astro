@@ -47,31 +47,41 @@ const navigationItems = [
     </nav>
     <div id="colophon-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
       <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
-      <div class="w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/computer.png')]"></div>
+      <div class="relative w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/computer.png')] group">
+        <div class="binary-screen">
+          <div class="binary-scroll">
+            01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001
+          </div>
+        </div>
+      </div>
       <p>Designed purely in code. Illustrations made via Midjourney. Built with blood sweat and tears—and eventually a bit of Claude's help. Powered by AstroJS and Notion.</p>
       <p class="text-sm text-inkLight">Long live our AI underlords. May we humans prosper.</p>
     </div>
     <div id="backlog-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
       <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
-      <p>A few things on my mind...</p>
-      <ul class="backlog-list">
-        <li>Add search to entire site.</li>
-        <li>Make clouds and images move in the background.</li>
-        <li>Add dark mode support.</li>
-        <li>Karina + L's Daily Selfie project</li>
-      </ul>
+      <h2 class="text-inkLight font-instrument text-5xl">Enjoyed your stay?</h2>
+      <span class="text-sm text-inkLight font-medium block my-4">Leave me a little note to cherish your presence:</span>
+      <form class="max-w-lg mx-auto">
+        <textarea id="guestbook-message" name="message" rows="4"
+          class="w-full mb-4 p-4 placeholder:text-ink/50 rounded-lg border border-inkLighter/30 bg-white/80 focus:outline-none focus:ring-2 focus:ring-inkLighter/50 resize-none"
+          placeholder="Share your thoughts..."></textarea>
+        <Button type="button" additionalClasses="w-full">
+          Sign Guestbook
+        </Button>
+      </form>
     </div>
     <div class="footer-links">
       <p class="mr-auto">© {new Date().getFullYear()} Karina Tovar</p>
       <p class="cursor-pointer hover:text-ink" id="colophon-trigger">Colophon</p>
-      <p class="cursor-pointer hover:text-ink" id="backlog-trigger">Backlog</p>
+      <p> · </p>
+      <p class="cursor-pointer hover:text-ink" id="backlog-trigger">Guest Book</p>
     </div>
   </div>
 </div>
 
 <style>
-  .menu-container::before {
-    @apply w-0 h-0 bg-white/80 absolute -left-12 -top-12 opacity-0 transition-all -z-10;
+  .menu-container::after {
+    @apply w-0 h-0 bg-white/40 absolute -left-12 -top-12 opacity-0 transition-all -z-10 backdrop-blur;
     content: '';
   }
   .menu-container {
@@ -83,7 +93,7 @@ const navigationItems = [
     @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)];
   }
 
-  .menu-container[aria-expanded="true"]::before {
+  .menu-container[aria-expanded="true"]::after {
     @apply opacity-100 w-screen h-screen;
   }
 
@@ -156,6 +166,30 @@ const navigationItems = [
 
   .backlog-list li {
     @apply flex items-center before:content-['•'] before:mr-2 mb-1;
+  }
+
+  .binary-screen {
+    @apply absolute inset-0 w-[148px] h-20 m-auto -left-6 top-8 rounded-md opacity-50 overflow-hidden;
+  }
+
+  .binary-scroll {
+    @apply absolute text-white/50 font-mono text-xs whitespace-pre-wrap leading-relaxed;
+    animation: scrollUp 20s linear infinite;
+  }
+
+  @keyframes scrollUp {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+
+  /* Make sure the binary text repeats seamlessly */
+  .binary-scroll::after {
+    content: "01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001 01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001 01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001 01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001";
+    @apply absolute top-full left-0 text-white/50;
   }
 </style>
 

@@ -15,7 +15,7 @@ const { size, classNames } = Astro.props;
   .block {
     @apply flex-1 w-full mx-auto flex flex-col gap-3 justify-center;
   }
-  .block h2 {
-    @apply text-3xl font-medium font-instrument;
+  .block :global(h2) {
+    @apply text-5xl font-medium font-instrument;
   }
 </style>

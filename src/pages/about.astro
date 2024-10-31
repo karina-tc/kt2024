@@ -12,39 +12,72 @@ const breadcrumbs = [
 <DetailsLayout
   layout_body_classes="bg-[image:var(--image-hero)] bg-cover"
   title="Hello stranger"
-  showcaseImage="/phone.png"
-  showcaseImageClasses="max-h-[480px]"
-  showcaseImageAlt="Old rotary phone seen from above, far away, in a blue calm serene background with desert tones like Dan Flavin. Styled after Tim Walker and James Bidgood."
   breadcrumbs={breadcrumbs}
   additionalClasses=""
-  subtitle="About Me"
 >
   <SectionBlock size="small">
-    <h2>It All Started with a Phone</h2>
-    <p>I was in grad school in 2013 working on a project and became obsessed with rotary phones. The anatomy of these old phones is a work of art. People used to be wired to these machines. They would tilt their heads while holding the phone between their ear and their neck. It forced you to feel its weight. It forced you to feel the weight of having a conversation.</p>
-    <p>There was something about that which obsessed me. The idea. No. The problem that we were losing our humanity to technology by always having to be live. Not knowing how to live.</p>
-    <p>So I spent months testing people's interactions with public phones. Building prototypes for the inner workings between a Raspberry Pi and the Twillio API. All so I could make a phone bench that would ring my phone when people sat. All so I could talk to strangers. All so I could help make their day better.</p>
-  </SectionBlock>
-
-  <SectionBlock size="large" classNames="p-10 bg-white text-carbon">
-    <p>THIS IS A TEST</p>
+    <h2>Maker for Life</h2>
+    <p>Been a maker and technologist since I can remember. As a toddler, I’d break tv remotes, radios, anything I was curious about. I guess I just wanted to understand how things were made. That curiosity has led me to where I am.</p>
+    <p>I am a maker. First of art that was a mix of technology and performance. I’d constantly joke that my physicality was my body of work. I was the art as much as the idea <a class="note" href="https://art21.org/theme/the-body/" target="_blank"><span>1</span></a> The idea was the art even more so. Ideas that became fully fledge concepts for me to interact with other people. To unexpectedly bring joy into their life.</p>
+    <p>Many years later during the computer revolution my mom came home frustrated and in a major panic. The software she was using for work made a huge mistake and she thought she might be in trouble. I’d never forget how that night we all had a bad day. A silly ephemeral tool almost gave my mom a heart-attack.</p>
+    <p>Years after going through my art school era I joined a small email software startup in Boston <a class="note" href="https://www.rejoiner.com" target="_blank"><span>2</span></a> I learned so much. I learned the importance of good strategy. Of building tools people wanted. Of keeping a business running so that my coworkers and I could pay the bills. I learned that good software can bring smiles to people’s faces. I learned to craft.</p>
   </SectionBlock>
   
   <SectionBlock size="small">
-    <h2>My Design Tenets</h2>
-    <p>At the end of the day helping products grow and become profitable is key to helping users be happy on their day to day and while interacting with your features. If your product sucks. No one will buy it.</p>
-  </SectionBlock>
-
-  <SectionBlock size="small">
-    <h2>It All Started with a Phone</h2>
-    <p>I was in grad school in 2013 working on a project and became obsessed with rotary phones. The anatomy of these old phones is a work of art. People used to be wired to these machines. They would tilt their heads while holding the phone between their ear and their neck. It forced you to feel its weight. It forced you to feel the weight of having a conversation.</p>
-    <p>There was something about that which obsessed me. The idea. No. The problem that we were losing our humanity to technology by always having to be live. Not knowing how to live.</p>
-    <p>So I spent months testing people's interactions with public phones. Building prototypes for the inner workings between a Raspberry Pi and the Twillio API. All so I could make a phone bench that would ring my phone when people sat. All so I could talk to strangers. All so I could help make their day better.</p>
+    <h2>Design is Joy</h2>
+    <p>In my 10+ years of experience I have helped bring ideas to reality. Not just in pixels, but in code and in strategy. My philosophy is that any concept that is solid will sell. Anything that sells can be filled with joy. Joy is a human gift <a class="note" href="https://www.youtube.com/watch?v=k8QrsMa170k" target="_blank"><span>3</span></a>.</p>
+    <p class="font-bold">My design tenets are simple:</p>
+    <div class="list">
+      <div><strong>Don't go chasing waterfalls</strong>Find your blue ocean and make it yours, baby.</div>
+      <div><strong>Always think big</strong>But take small bites. Keeps both our figures and businesses lean.</div>
+      <div><strong>Don't be an asshole</strong>Everyone is a designer so curb your ego and let the good ideas come in.</div>
+      <div><strong>Pretty pixels ain't worth shit</strong>Design ideas. Sell solutions. Craft joy.</div>
+    </div>
   </SectionBlock>
   
   <SectionBlock size="small">
-    <h2>My Design Tenets</h2>
-    <p>At the end of the day helping products grow and become profitable is key to helping users be happy on their day to day and while interacting with your features. If your product sucks. No one will buy it.</p>
+    <h2>How I work</h2>
+    <p>Recently, I design in napkins and mindmaps. I still have a Figma account, but I am building through tools like ChatGPT and Claude to help me build at fast speed. Just like with my art, I focus on hammering a concept from a hypothesis into a graduated thesis. The materials and method don’t matter. Concepts are the form <a class="note" href="#" target="_blank"><span>4</span></a>.</p>
+    <div class="list">
+      <div><strong>Fully caffeinated</strong>I work my best in the mornings.</div>
+      <div><strong>Ideas stroll</strong>I use walks with my dog to brainstorm.</div>
+      <div><strong>Jamming together</strong>I work best in teams where I can collab and jam with others.</div>
+      <div><strong>Pjs and Zoom</strong>I work best remotely because I’ve learned what good asynchronous communication feels like.</div>
+      <div><strong>With inspiration</strong>I work so my daughter can have what I sometimes lacked.</div>
+      <div><strong>With dedication</strong>I work so I can make myself proud.</div>
+    </div>
   </SectionBlock>
+
+
 </DetailsLayout>
 
+<style>
+  /* Fix note styles */
+  :global(p) {
+    @apply leading-7;
+  }
+  :global(.note) {
+    @apply inline-flex bg-inkLighter rounded-full text-white text-xs font-medium font-mono 
+    w-5 h-5 items-center justify-center relative transition-all;
+  }
+
+  :global(.note span) {
+    @apply h-4;
+  }
+
+  :global(.note:hover) {
+    @apply bg-brand;
+  }
+
+  .list {
+    @apply grid grid-cols-1 gap-4;
+  }
+
+  .list div {
+    @apply p-7 bg-inkLighter/30 rounded-md;
+  }
+
+  .list strong {
+    @apply block mb-2 text-2xl font-instrument;
+  }
+</style>
