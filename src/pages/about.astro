@@ -1,6 +1,7 @@
 ---
 import DetailsLayout from '../layouts/DetailsLayout.astro';
 import SectionBlock from '../components/SectionBlock.astro';
+import { tenets } from '../data/tenets';
 
 const breadcrumbs = [
   { text: 'Back', href: '/' }
@@ -10,7 +11,7 @@ const breadcrumbs = [
 
 <DetailsLayout
   layout_body_classes="bg-[image:var(--image-hero)] bg-cover"
-  title="Hello stranger"
+  title="I think therefore I make"
   breadcrumbs={breadcrumbs}
   additionalClasses=""
 >
@@ -26,16 +27,19 @@ const breadcrumbs = [
     <h2>Design is Joy</h2>
     <p>In my 10+ years of experience I have helped bring ideas to reality. Not just in pixels, but in code and in strategy. My philosophy is that any concept that is solid will sell. Anything that sells can be filled with joy. Joy is a human gift <a class="note" href="https://www.youtube.com/watch?v=k8QrsMa170k" target="_blank"><span>3</span></a>.</p>
     <p class="font-bold">My design tenets are simple:</p>
-    <div class="list">
-      <div><strong>Don't go chasing waterfalls</strong>Find your blue ocean and make it yours, baby.</div>
-      <div><strong>Always think big</strong>But take small bites. Keeps both our figures and businesses lean.</div>
-      <div><strong>Don't be an asshole</strong>Everyone is a designer so curb your ego and let the good ideas come in.</div>
-      <div><strong>Pretty pixels ain't worth shit</strong>Design ideas. Sell solutions. Craft joy.</div>
+    <div class="postit-grid">
+      {tenets.map(({ digits, title, description, bgColor }) => (
+        <div class={`postit ${bgColor}`}>
+          <span>{digits}</span>
+          <strong>{title}</strong>
+          <p>{description}</p>
+        </div>
+      ))}
     </div>
   </SectionBlock>
   
   <SectionBlock size="small">
-    <h2>How I work</h2>
+    <h2>How I Work</h2>
     <p>Recently, I design in napkins and mindmaps. I still have a Figma account, but I am building through tools like ChatGPT and Claude to help me build at fast speed. Just like with my art, I focus on hammering a concept from a hypothesis into a graduated thesis. The materials and method don’t matter. Concepts are the form <a class="note" href="#" target="_blank"><span>4</span></a>.</p>
     <div class="list">
       <div><strong>Fully caffeinated</strong>I work my best in the mornings.</div>
@@ -78,5 +82,65 @@ const breadcrumbs = [
 
   .list strong {
     @apply block mb-2 text-2xl font-instrument;
+  }
+
+  .testimonials-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mt-8;
+  }
+
+  .testimonial {
+    @apply bg-white/50 backdrop-blur-sm rounded-lg p-6 shadow-sm;
+  }
+
+  .testimonial blockquote {
+    @apply space-y-4;
+  }
+
+  .testimonial p {
+    @apply text-lg leading-relaxed;
+  }
+
+  .testimonial strong {
+    @apply text-brand;
+  }
+
+  .testimonial footer {
+    @apply mt-6 pt-6 border-t border-inkLighter/20;
+  }
+
+  .author {
+    @apply flex items-center gap-4;
+  }
+
+  .avatar {
+    @apply w-12 h-12 rounded-full;
+  }
+
+  .author cite {
+    @apply block font-medium text-ink;
+  }
+
+  .author span {
+    @apply text-sm text-inkLight;
+  }
+
+  .postit-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
+
+  .postit {
+    @apply p-6 rounded-lg shadow-md !shadow-inkLighter/20 border border-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .postit strong {
+    @apply block mb-3 text-lg leading-5 font-semibold pb-4 border-dashed border-b border-inkLighter/50;
+  }
+
+  .postit p {
+    @apply text-sm font-medium leading-relaxed text-inkDark/80;
+  }
+
+  .postit span {
+    @apply text-xs font-medium font-mono leading-relaxed text-brand mb-4 block;
   }
 </style>
