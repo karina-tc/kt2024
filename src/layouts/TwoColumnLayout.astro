@@ -35,29 +35,31 @@ const {
 >
   <main class={`two-col-basis ${additionalClasses} relative`}>
     {bgImage && (
-      <div class={`absolute [&>img]:mx-auto -bottom-20 z-0 flex`}>
+      <div class={`absolute [&>img]:mx-auto -bottom-20 z-0 flex w-full`}>
         <img src={bgImage} alt="Background" class={`w-full h-full object-cover ${bgImageClasses}`} />
       </div>
     )}
-    <aside class="two-col-left-column" transition:animate="fade">
-      <div class="two-col-left-contents">
-        <Breadcrumbs 
-          crumbs={breadcrumbs}
-          transition:persist 
-          transition:name="breadcrumbs" 
-        />
-        <AsideTitle 
-          line1={asideTitle.line1}
-          line2={asideTitle.line2}
-        />
-        {subtitle && <p class="two-col-subtitle">
-          {subtitle}
-        </p>}
-        <slot name="left-column-extra" />
-      </div>
-    </aside>
-    <section class="two-col-right-column" transition:animate="slide">
-      <slot />
-    </section>
+    <div class="two-col-container">
+      <aside class="two-col-left-column" transition:animate="fade">
+        <div class="two-col-left-contents">
+          <Breadcrumbs 
+            crumbs={breadcrumbs}
+            transition:persist 
+            transition:name="breadcrumbs" 
+          />
+          <AsideTitle 
+            line1={asideTitle.line1}
+            line2={asideTitle.line2}
+          />
+          {subtitle && <p class="two-col-subtitle">
+            {subtitle}
+          </p>}
+          <slot name="left-column-extra" />
+        </div>
+      </aside>
+      <section class="two-col-right-column" transition:animate="slide">
+        <slot />
+      </section>
+    </div>
   </main>
 </Layout>

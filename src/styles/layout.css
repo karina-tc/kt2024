@@ -44,25 +44,35 @@
 
     /* Two Column Layout styles */
     .two-col-basis {
-      @apply min-h-screen flex gap-20 mx-auto overflow-hidden;
+      @apply min-h-screen mx-auto overflow-hidden px-4 md:px-6 lg:px-8 
+             flex items-center justify-center;
+    }
+
+    .two-col-container {
+      @apply flex flex-col lg:flex-row gap-8 lg:gap-20 w-full max-w-7xl 
+             items-center justify-center;
     }
 
     .two-col-left-column {
-      @apply flex-1 flex flex-col items-center justify-center gap-10 relative z-10;
+      @apply flex-1 relative z-10 py-6 lg:py-0 lg:justify-start lg:text-left lg:items-end
+             flex flex-col items-center justify-center gap-6 lg:gap-10;
     }
 
     .two-col-left-contents {
-      @apply w-full max-w-fit min-w-[440px] ml-auto;
+      @apply w-full lg:w-[440px] flex flex-col items-center text-center lg:justify-start lg:items-start lg:text-left;
     }
 
     .two-col-right-column {
-      @apply flex-1 flex flex-col items-start justify-center gap-10 overflow-y-auto relative my-auto z-10 max-h-screen;
+      @apply relative z-10 flex-1 flex flex-col items-center 
+             gap-6 lg:gap-10 overflow-y-auto 
+             max-w-[800px] 
+             lg:max-h-[calc(100vh-80px)];
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
 
-    .two-col-right-column::-webkit-scrollbar {
-      display: none;
+    .two-col-right-column .text-content {
+      @apply text-left w-full;
     }
 
     .two-col-subtitle {
