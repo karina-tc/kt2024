@@ -44,17 +44,17 @@
 
     /* Two Column Layout styles */
     .two-col-basis {
-      @apply min-h-screen mx-auto overflow-hidden px-4 md:px-6 lg:px-8 
+      @apply min-h-screen mx-auto overflow-hidden px-4 md:px-6 lg:px-8 max-lg:pt-28
              flex items-center justify-center;
     }
 
     .two-col-container {
-      @apply flex flex-col lg:flex-row gap-8 lg:gap-20 w-full max-w-7xl 
+      @apply flex flex-col lg:flex-row gap-8 lg:gap-20 w-full max-w-7xl h-screen
              items-center justify-center;
     }
 
     .two-col-left-column {
-      @apply flex-1 relative z-10 py-6 lg:py-0 lg:justify-start lg:text-left lg:items-end
+      @apply flex-1 relative z-10 py-6 lg:py-0 lg:justify-start lg:text-left lg:items-end max-h-fit
              flex flex-col items-center justify-center gap-6 lg:gap-10;
     }
 
@@ -63,7 +63,7 @@
     }
 
     .two-col-right-column {
-      @apply relative z-10 flex-1 flex flex-col items-center 
+      @apply relative z-10 flex-1 flex flex-col items-center max-lg:justify-start
              gap-6 lg:gap-10 overflow-y-auto 
              max-w-[800px] 
              lg:max-h-[calc(100vh-80px)];

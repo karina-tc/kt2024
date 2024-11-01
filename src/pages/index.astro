@@ -80,6 +80,7 @@ const tabsContent: TabContent[] = [
 
 <TwoColumnLayout
   layout_body_classes="bg-[url('/index-landscape.png')] bg-cover bg-center"
+  additionalClasses=""
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
   asideTitle={{
@@ -126,7 +127,7 @@ const tabsContent: TabContent[] = [
 
 <style>
   .manifesto {
-    @apply flex-1 flex-col space-y-6 max-w-lg p-4 min-h-[380px];
+    @apply flex flex-col space-y-6 max-w-lg p-4 min-h-[380px] items-center justify-center lg:items-start lg:justify-start;
   }
   .manifesto p {
     @apply text-sm font-medium leading-6 text-inkLight;
