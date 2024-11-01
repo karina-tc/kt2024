@@ -1,7 +1,7 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
 import CoordinateGrid from '../components/CoordinateGrid.astro';
-import '../styles/layout.css';
 import LoadingBar from '../components/LoadingBar.astro';
 import SiteMenu from '../components/SiteMenu.astro';
 
@@ -32,10 +32,8 @@ const { title, body_classes = '' } = Astro.props;
 	<body class={`relative ${body_classes}`}>
 		<LoadingBar />
 		<CoordinateGrid />
-		<div class="relative z-10">
-			<SiteMenu activePage={Astro.url.pathname} />
-			<slot />
-		</div>
+		<SiteMenu activePage={Astro.url.pathname} />
+		<slot />
 	</body>
 </html>
 
@@ -71,6 +69,7 @@ const { title, body_classes = '' } = Astro.props;
 			white 60%
 		);
 		--loading-progress-color: #BCAD8F;
+		--content-width: 1200px;
 
 		/* Light theme colors (default) */
 		--color-ink: 85 78 63; /* #554E3F */
@@ -112,10 +111,7 @@ const { title, body_classes = '' } = Astro.props;
 			monospace;
 	}
 	body {
-		@apply relative min-h-screen text-ink max-w-[100vw] overflow-x-hidden;
-	}
-	.content {
-		@apply relative z-10;
+		@apply relative h-screen text-ink py-32 px-20;
 	}
 
   h1 {
