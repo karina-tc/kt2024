@@ -70,6 +70,7 @@ const { title, body_classes = '' } = Astro.props;
 		);
 		--loading-progress-color: #BCAD8F;
 		--content-width: 1200px;
+    --content-width-small: 920px;
 
 		/* Light theme colors (default) */
 		--color-ink: 85 78 63; /* #554E3F */
@@ -115,9 +116,9 @@ const { title, body_classes = '' } = Astro.props;
 	}
 
   h1 {
-    @apply font-instrument text-9xl text-inkDark leading-none;
+    @apply font-instrument text-6xl text-inkDark leading-none;
   }
   h2 {
-    @apply text-3xl text-inkDark;
+    @apply text-4xl text-inkDark;
   }
 </style>

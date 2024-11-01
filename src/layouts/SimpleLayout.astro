@@ -1,0 +1,69 @@
+---
+import Layout from './Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ShowcaseImage from '../components/ShowcaseImage.astro';
+import * as Icon from '@astropub/icons'
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{ text: string; href: string }>;
+  subtitle?: string;
+  additionalClasses?: string;
+  showcaseImage?: string;
+  showcaseImageAlt?: string;
+  showcaseImageClasses?: string;
+  showcaseImageInspiration?: string;
+  bgImage?: string;
+  bgImageClasses?: string;
+  layout_body_classes?: string;
+}
+
+const {
+  title,
+  breadcrumbs,
+  subtitle,
+  additionalClasses = '',
+  showcaseImage = '',
+  showcaseImageAlt = '',
+  showcaseImageClasses = '',
+  bgImage,
+  bgImageClasses = '',
+  layout_body_classes = ''
+} = Astro.props;
+---
+
+<Layout title={title}>
+  <section class="landscape"></section>
+  <main class="simple-wrapper">
+    <article class="simple-container prose prose-lg">
+      <Breadcrumbs crumbs={breadcrumbs} showDropdown={false} />
+      <header class="header">
+        <h1>{title}</h1>
+        {subtitle && <div class="subdetails">{subtitle}</div>}
+      </header>
+
+      {showcaseImage && (
+        <div class={`layout-showcase mx-auto group/showcase ${showcaseImageClasses}`}>
+          {showcaseImageAlt &&
+            <div class="layout-showcase-tag">
+              <div class="mb-1 flex gap-2 items-center">
+                <Icon.ActivityLog size="14" />
+                <span class="font-bold pt-[2px]">The Prompt:</span>
+              </div>
+              <span>{showcaseImageAlt}</span>
+            </div>
+          }
+          <ShowcaseImage
+            src={showcaseImage}
+            alt={showcaseImageAlt}
+            shineColor="rgba(255, 255, 255, 0.25)"
+          />
+        </div>
+      )}
+
+      <section class={`details-content animate-slide ${additionalClasses}`}>
+        <slot />
+      </section>
+    </article>
+  </main>
+</Layout>

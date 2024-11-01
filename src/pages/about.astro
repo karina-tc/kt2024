@@ -1,5 +1,5 @@
 ---
-import DetailsLayout from '../layouts/DetailsLayout.astro';
+import SimpleLayout from '../layouts/SimpleLayout.astro';
 import SectionBlock from '../components/SectionBlock.astro';
 import ShowcaseImage from '../components/ShowcaseImage.astro';
 import * as Icon from '@astropub/icons'
@@ -12,12 +12,7 @@ const breadcrumbs = [
 
 <section class="landscape"></section>
 
-<DetailsLayout
-  title="I think therefore I make"
-  breadcrumbs={breadcrumbs}
-  additionalClasses=""
->
-  <div class="w-fit mx-auto bg-white/50 backdrop-blur-md p-10 rounded-lg">
+<SimpleLayout title="I think therefore I make" breadcrumbs={breadcrumbs}>
     <SectionBlock size="small" classNames="shadow-xl rounded-xl border border-white shadow-orange-300/50">
       <ShowcaseImage
           src="/people/karina.png"
@@ -61,13 +56,9 @@ const breadcrumbs = [
         <div><strong>With dedication</strong>I work so I can make myself proud.</div>
       </div>
     </SectionBlock>
-  </div>
-</DetailsLayout>
+</SimpleLayout>
 
 <style>
-.landscape {
-    @apply w-full h-52 fixed inset-0 mt-auto -bottom-4 z-0 bg-[url('/landscape-base.png')] bg-cover bg-bottom opacity-50 blur-[2px];
-  }
   /* Fix note styles */
   :global(p) {
     @apply leading-7;
