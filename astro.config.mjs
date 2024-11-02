@@ -21,6 +21,13 @@ export default defineConfig({
       'process.env.SPOTIFY_REFRESH_TOKEN': JSON.stringify(process.env.SPOTIFY_REFRESH_TOKEN),
       'process.env.NOTION_API_KEY': JSON.stringify(process.env.NOTION_API_KEY),
       'process.env.NOTION_DATABASE_ID': JSON.stringify(process.env.NOTION_DATABASE_ID)
+    },
+    build: {
+      terserOptions: {
+        compress: {
+          drop_console: true
+        }
+      }
     }
   },
 });
