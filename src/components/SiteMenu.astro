@@ -53,16 +53,50 @@ const navigationItems = [
     </div>
     <div id="backlog-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
       <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
-      <h2 class="text-inkLight font-instrument text-5xl">Enjoyed your stay?</h2>
-      <span class="text-sm text-inkLight font-medium block my-4">Leave me a little note to cherish your presence:</span>
-      <form name="guestbook" class="max-w-lg mx-auto" method="POST" data-netlify="true">
-        <textarea id="guestbook-message" name="message" rows="4"
-          class="w-full mb-4 p-4 placeholder:text-ink/50 rounded-lg border border-inkLighter/30 bg-white/80 focus:outline-none focus:ring-2 focus:ring-inkLighter/50 resize-none"
-          placeholder="Share your thoughts..."></textarea>
-        <Button type="submit" variant="button" additionalClasses="w-full">
-          Sign Guestbook
-        </Button>
-      </form>
+      
+      <!-- Form wrapper with success state -->
+      <div id="guestbook-wrapper">
+        <div id="guestbook-intro">
+          <h2 class="text-inkLight font-instrument text-5xl">Enjoyed your stay?</h2>
+          <span class="text-sm text-inkLight font-medium block my-4">Leave me a little note to cherish your presence:</span>
+        </div>
+
+        <form 
+          name="guestbook" 
+          class="max-w-lg mx-auto" 
+          method="POST" 
+          data-netlify="true"
+          id="guestbook-form"
+        >
+          <input type="hidden" name="form-name" value="guestbook" />
+          <textarea 
+            id="guestbook-message" 
+            name="message" 
+            rows="4"
+            required
+            class="w-full mb-4 p-4 placeholder:text-ink/50 rounded-lg border border-inkLighter/30 bg-white/80 focus:outline-none focus:ring-2 focus:ring-inkLighter/50 resize-none"
+            placeholder="Share your thoughts..."
+          ></textarea>
+          <Button type="submit" variant="button" additionalClasses="w-full">
+            Sign Guestbook
+          </Button>
+        </form>
+
+        <!-- Success message (hidden by default) -->
+        <div id="guestbook-success" class="hidden">
+          <h2 class="text-inkLight font-instrument text-5xl">Thank you, friend!</h2>
+          <span class="text-sm text-inkLight font-medium block my-4">The pigeons are on their way</span>
+
+          <div class="text-center">
+            <div class="w-52 h-52 mb-6 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md mx-auto">
+              <img src="/pigeon.png" alt="pigeon" class="object-cover" draggable="false" />
+            </div>
+            <Button variant="textual-button" additionalClasses="mt-4" id="submit-another">
+              Send another note
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="footer-links">
       <p class="mr-auto">© {new Date().getFullYear()} Karina Tovar</p>
@@ -522,4 +556,50 @@ const navigationItems = [
       trigger.removeEventListener('click', handleMenuClickWithShortcut);
     }
   });
+
+  function setupGuestbookForm() {
+    const form = document.getElementById('guestbook-form') as HTMLFormElement;
+    const successDiv = document.getElementById('guestbook-success');
+    const submitAnotherBtn = document.getElementById('submit-another');
+    const introDiv = document.getElementById('guestbook-intro');
+
+    if (!form || !successDiv || !submitAnotherBtn || !introDiv) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      try {
+        // Submit the form data to Netlify
+        const formData = new FormData(form);
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData as any).toString()
+        });
+
+        // Hide form and intro
+        form.classList.add('hidden');
+        introDiv.classList.add('hidden');
+        // Show success message
+        successDiv.classList.remove('hidden');
+
+      } catch (error) {
+        console.error('Error submitting form:', error);
+      }
+    });
+
+    // Handle "Submit another message" button
+    submitAnotherBtn.addEventListener('click', () => {
+      form.reset();
+      form.classList.remove('hidden');
+      introDiv.classList.remove('hidden');
+      successDiv.classList.add('hidden');
+    });
+  }
+
+  // Add to your existing initialization calls
+  setupGuestbookForm();
+  
+  // Add to your existing astro:after-swap listener
+  document.addEventListener('astro:after-swap', setupGuestbookForm);
 </script>
