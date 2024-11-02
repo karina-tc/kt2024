@@ -1,0 +1,32 @@
+---
+import * as Icon from '@astropub/icons'
+---
+<button class="trigger" type="button" aria-label="Toggle Menu" aria-expanded="false">
+  <div class="menu-icon">
+    <span class="menu-open-icon"><Icon.HamburgerMenu size="20" /></span>
+    <span class="menu-close-icon"><Icon.Cross2 size="20" /></span>
+    <span class="menu-close-text" id="shortcutText">⌘ K</span>
+  </div>
+</button>
+
+<style>
+  .trigger {
+    @apply w-12 h-12 shadow-xl shadow-inkLighter/50 bg-inkDark text-white rounded-full flex items-center justify-center relative z-[102];
+  }
+
+  .menu-icon {
+    @apply relative flex items-center justify-center z-[1] cursor-pointer mt-[1px];
+  }
+
+  .menu-open-icon {
+    @apply transition-all duration-300;
+  }
+
+  .menu-close-icon {
+    @apply absolute opacity-0 transition-all duration-300 focus:outline-brand;
+  }
+
+  .menu-close-text {
+    @apply absolute inset-0 text-sm font-mono w-12 pt-1 flex items-center top-full mt-6 text-center text-inkLighter;
+  }
+</style>

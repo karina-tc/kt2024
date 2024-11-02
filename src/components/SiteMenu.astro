@@ -1,103 +1,16 @@
 ---
-import * as Icon from '@astropub/icons'
-import Button from './buttons/Button.astro';
-
-
-const navigationItems = [
-  { path: '/', label: 'Home', image: '/house.png' },
-  { path: '/about', label: 'About', image: '/folder.png' },
-  { path: '/work', label: 'Work', image: '/briefcase.png' },
-  { path: '/thoughts', label: 'Thoughts', image: '/book.png' },
-  { path: '/contact', label: 'Contact', image: '/keyboard.png' },
-];
+import MenuButton from './menu/MenuButton.astro';
+import Navigation from './menu/Navigation.astro';
+import Colophon from './menu/Colophon.astro';
+import Guestbook from './menu/Guestbook.astro';
 ---
 
 <div class="menu-container" transition:persist="menu">
-  <button class="trigger" type="button" aria-label="Toggle Menu" aria-expanded="false">
-    <div class="menu-icon">
-      <span class="menu-open-icon"><Icon.HamburgerMenu size="20" /></span>
-      <span class="menu-close-icon"><Icon.Cross2 size="20" /></span>
-      <span class="menu-close-text" id="shortcutText">⌘ K</span>
-    </div>
-  </button>
+  <MenuButton />
   <div class="menu-content">
-    <div 
-      id="links-illustration"
-      class="w-80 h-80 bg-cover rounded-full absolute opacity-0 top-10 transition-all duration-300"
-    ></div>
-    <nav id="links-content" class="flex flex-col justify-center items-center gap-6 transition-all duration-300">
-      {
-        navigationItems.map(({ path, label, image }) => (
-          <a 
-            href={path} 
-            class="menu-link group" 
-            data-path={path}
-            data-image={image}
-          >
-            <span>{label}</span>
-          </a>
-        ))
-      }
-    </nav>
-    <div id="colophon-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
-      <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
-      <div class="relative w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/computer.png')] group">
-        <div class="binary-screen">
-          <div class="binary-scroll">
-            01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001
-          </div>
-        </div>
-      </div>
-      <p>Designed purely in code. Illustrations made via Midjourney. Built with blood sweat and tears—and eventually a bit of Claude's help. Powered by AstroJS and Notion.</p>
-      <p class="text-sm text-inkLight">Long live our AI underlords. May we humans prosper.</p>
-    </div>
-    <div id="backlog-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
-      <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
-      
-      <!-- Form wrapper with success state -->
-      <div id="guestbook-wrapper">
-        <div id="guestbook-intro">
-          <h2 class="text-inkLight font-instrument text-5xl">Enjoyed your stay?</h2>
-          <span class="text-sm text-inkLight font-medium block my-4">Leave me a little note to cherish your presence:</span>
-        </div>
-
-        <form 
-          name="guestbook" 
-          class="max-w-lg mx-auto" 
-          method="POST" 
-          data-netlify="true"
-          id="guestbook-form"
-        >
-          <input type="hidden" name="form-name" value="guestbook" />
-          <textarea 
-            id="guestbook-message" 
-            name="message" 
-            rows="4"
-            required
-            class="w-full mb-4 p-4 placeholder:text-ink/50 rounded-lg border border-inkLighter/30 bg-white/80 focus:outline-none focus:ring-2 focus:ring-inkLighter/50 resize-none"
-            placeholder="Share your thoughts..."
-          ></textarea>
-          <Button type="submit" variant="button" additionalClasses="w-full">
-            Sign Guestbook
-          </Button>
-        </form>
-
-        <!-- Success message (hidden by default) -->
-        <div id="guestbook-success" class="hidden">
-          <h2 class="text-inkLight font-instrument text-5xl">Thank you, friend!</h2>
-          <span class="text-sm text-inkLight font-medium block my-4">The pigeons are on their way</span>
-
-          <div class="text-center">
-            <div class="w-52 h-52 mb-6 rounded-full border-2 border-white overflow-hidden flex items-center justify-center shadow-md mx-auto">
-              <img src="/pigeon.png" alt="pigeon" class="object-cover" draggable="false" />
-            </div>
-            <Button variant="textual-button" additionalClasses="mt-4" id="submit-another">
-              Send another note
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Navigation />
+    <Colophon />
+    <Guestbook />
     <div class="footer-links">
       <p class="mr-auto">© {new Date().getFullYear()} Karina Tovar</p>
       <p class="cursor-pointer hover:text-ink" id="colophon-trigger">Colophon</p>
@@ -112,6 +25,7 @@ const navigationItems = [
     @apply w-0 h-0 bg-white/40 absolute -left-12 -top-12 opacity-0 transition-all -z-10 backdrop-blur;
     content: '';
   }
+  
   .menu-container {
     @apply fixed top-0 left-0 m-12 z-[100] w-12 h-12 rounded-3xl bg-transparent overflow-visible transition-all duration-500;
     transform-origin: center;
@@ -125,103 +39,19 @@ const navigationItems = [
     @apply opacity-100 w-screen h-screen;
   }
 
-  .trigger {
-    @apply w-12 h-12 shadow-xl shadow-inkLighter/50 bg-inkDark text-white rounded-full flex items-center justify-center relative z-[102];
-  }
-
-  .menu-container[aria-expanded="true"] .trigger {
-    @apply bg-brand text-white shadow-none;
-  }
-
-  .menu-icon {
-    @apply relative flex items-center justify-center z-[1] cursor-pointer mt-[1px];
-  }
-
-  .menu-open-icon {
-    @apply transition-all duration-300;
-  }
-
-  .menu-close-icon {
-    @apply absolute opacity-0 transition-all duration-300 focus:outline-brand;
-  }
-  .menu-close-text {
-    @apply absolute inset-0 text-sm font-mono w-12 pt-1 flex items-center top-full mt-6 text-center text-inkLighter;
-  }
-  .trigger[aria-expanded="true"] .menu-open-icon {
-    @apply absolute opacity-0;
-  }
-
-  .trigger[aria-expanded="true"] .menu-close-icon {
-    @apply relative opacity-100;
-  }
-
-  .menu-content  {
-    @apply inset-0 flex flex-col items-center justify-center w-full max-w-md mx-auto mt-10 gap-8 opacity-0 pointer-events-none transition-all duration-100;
-  }
-
-  .menu-content a {
-    @apply w-fit relative focus:outline-none focus:text-brand;
-  }
-
-  .menu-content a span {
-    @apply z-10;
-  }
-
   .menu-container[aria-expanded="true"] .menu-content {
-    @apply opacity-100 pointer-events-auto relative;
+    @apply opacity-100 pointer-events-auto;
   }
 
-  .menu-link {
-    @apply text-7xl text-inkDark font-instrument transition-all duration-300 
-    hover:text-brand relative opacity-0 -translate-y-4;
-    transition-delay: calc(var(--index) * 100ms);
-  }
-
-  .menu-container[aria-expanded="true"] .menu-link {
-    @apply opacity-100 translate-y-0;
-  }
-
-  .menu-link.active {
-    @apply text-brand;
-  }
-
-  .menu-link.active::after {
-    content: '';
-    @apply absolute -bottom-2 left-0 w-full h-0.5 bg-brand;
+  .menu-content {
+    @apply absolute inset-0 flex flex-col items-center justify-center w-full max-w-md mx-auto mt-10 gap-8 opacity-0 pointer-events-none transition-all duration-300;
   }
 
   .footer-links {
     @apply w-full flex items-center gap-2 text-sm font-medium text-inkLight justify-center mt-10 pt-10 border-t border-inkLighter/50 z-10;
   }
-
-  .backlog-list li {
-    @apply flex items-center before:content-['•'] before:mr-2 mb-1;
-  }
-
-  .binary-screen {
-    @apply absolute inset-0 w-[148px] h-20 m-auto -left-6 top-8 rounded-md opacity-50 overflow-hidden;
-  }
-
-  .binary-scroll {
-    @apply absolute text-white/50 font-mono text-xs whitespace-pre-wrap leading-relaxed;
-    animation: scrollUp 20s linear infinite;
-  }
-
-  @keyframes scrollUp {
-    0% {
-      transform: translateY(100%);
-    }
-    100% {
-      transform: translateY(-100%);
-    }
-  }
-
-  /* Make sure the binary text repeats seamlessly */
-  .binary-scroll::after {
-    content: "01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001 01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001 01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001 01001000 01101001 00100001 00100000 01010100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01100001 00100000 01110011 01100101 01100011 01110010 01100101 01110100 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 00100001 00100000 01011001 01101111 01110101 00100000 01100110 01101111 01110101 01101110 01100100 00100000 01101101 01100101 00100001";
-    @apply absolute top-full left-0 text-white/50;
-  }
 </style>
+
 <script>
   function setupMenu() {
     const trigger = document.querySelector('.menu-container button') as HTMLButtonElement;

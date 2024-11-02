@@ -1,0 +1,46 @@
+---
+import Button from '../buttons/Button.astro';
+import * as Icon from '@astropub/icons';
+---
+<div id="backlog-content" class="absolute inset-0 space-y-5 text-center font-medium transition-all duration-300 opacity-0 pointer-events-none">
+  <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
+  
+  <div id="guestbook-wrapper">
+    <div id="guestbook-intro">
+      <h2 class="text-inkLight font-instrument text-5xl">Enjoyed your stay?</h2>
+      <span class="text-sm text-inkLight font-medium block my-4">Leave me a little note to cherish your presence:</span>
+    </div>
+
+    <form 
+      name="guestbook" 
+      class="max-w-lg mx-auto" 
+      method="POST" 
+      data-netlify="true"
+      id="guestbook-form"
+    >
+      <input type="hidden" name="form-name" value="guestbook" />
+      <textarea 
+        id="guestbook-message" 
+        name="message" 
+        rows="4"
+        required
+        class="w-full mb-4 p-4 placeholder:text-ink/50 rounded-lg border border-inkLighter/30 bg-white/80 focus:outline-none focus:ring-2 focus:ring-inkLighter/50 resize-none"
+        placeholder="Share your thoughts..."
+      ></textarea>
+      <Button type="submit" variant="button" additionalClasses="w-full">
+        Sign Guestbook
+      </Button>
+    </form>
+
+    <div id="guestbook-success" class="hidden">
+      <h2 class="text-inkLight font-instrument text-5xl">Thank you, friend!</h2>
+      <span class="text-sm text-inkLight font-medium block my-4">The pigeons are on their way</span>
+      <div class="w-48 h-48 bg-white rounded-full p-1 shadow-2xl shadow-inkLighter/50 flex items-center justify-center mx-auto mb-4 overflow-hidden">
+        <img src="/public/pigeon.png" alt="Pigeon" draggable="false" class="object-fill -mt-1" />
+      </div>
+      <Button variant="textual-button" additionalClasses="mt-4" id="submit-another">
+        Submit another message
+      </Button>
+    </div>
+  </div>
+</div>
