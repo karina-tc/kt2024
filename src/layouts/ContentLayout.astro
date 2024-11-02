@@ -1,0 +1,162 @@
+---
+import Layout from './Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ShowcaseImage from '../components/ShowcaseImage.astro';
+import CategoryPill from '../components/buttons/CategoryPill.astro';
+import Gem from '../components/Gem.astro';
+import * as Icon from '@astropub/icons'
+
+interface Props {
+  // Common props
+  title: string;
+  breadcrumbs?: Array<{ text: string; href: string }>;
+  additionalClasses?: string;
+  
+  // Layout type
+  variant?: 'simple' | 'thought';
+  
+  // Simple layout specific props
+  subtitle?: string;
+  showcaseImage?: string;
+  showcaseImageAlt?: string;
+  showcaseImageClasses?: string;
+  showcaseImageInspiration?: string;
+  
+  // Thought layout specific props
+  date?: string;
+  categories?: string[];
+  showcase?: string;
+}
+
+const {
+  // Common props
+  title,
+  variant = 'simple',
+  additionalClasses = '',
+  
+  // Simple layout specific props
+  subtitle,
+  showcaseImage = '',
+  showcaseImageAlt = '',
+  showcaseImageClasses = '',
+  
+  // Thought layout specific props
+  date,
+  categories = [],
+  showcase,
+} = Astro.props;
+
+// Set default breadcrumbs after getting variant
+const { breadcrumbs = variant === 'thought' ? [{ text: 'Back', href: '/thoughts' }] : [] } = Astro.props;
+---
+
+<Layout title={title}>
+  <section class="landscape"></section>
+  <main class="simple-wrapper">
+    <article class="simple-container prose prose-lg">
+      <Breadcrumbs crumbs={breadcrumbs} showDropdown={false} />
+      
+      <header class="header">
+        <h1>{title}</h1>
+        
+        {variant === 'simple' && subtitle && <div class="subdetails">{subtitle}</div>}
+        
+        {variant === 'thought' && (
+          <>
+            <div class="subdetail">
+              <Gem />
+              <time>{date}</time>
+            </div>
+            <div class="flex justify-center gap-2">
+              {categories?.map((category: string) => (
+                <CategoryPill category={category} isActive={true} />
+              ))}
+            </div>
+          </>
+        )}
+      </header>
+
+      {variant === 'simple' && showcaseImage && (
+        <ShowcaseImage
+          src={showcaseImage}
+          alt={showcaseImageAlt}
+          shineColor="rgba(255, 255, 255, 0.25)"
+        />
+      )}
+
+      {variant === 'thought' && showcase && (
+        <div class="showcase-image-wrapper relative">
+          <img src={showcase} alt={title}/>
+          <div class="loader-text">
+            <Icon.Layers size="14" />
+            <span>Painting...</span>
+          </div>
+        </div>
+      )}
+
+      <section class={`${variant === 'thought' ? 'notion-content' : 'details-content'} animate-slide ${additionalClasses}`}>
+        <slot />
+      </section>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .notion-content :global(p) {
+    @apply mb-6;
+  }
+  
+  .notion-content :global(h1),
+  .notion-content :global(h2),
+  .notion-content :global(h3) {
+    @apply mt-6 mb-3 font-bold;
+  }
+
+  .notion-content :global(h2) {
+    @apply font-instrument text-4xl font-normal text-inkDark [&:not(:last-of-type)]:mb-8 [&:not(:first-of-type)]:mt-20;
+  }
+  
+  .notion-content :global(ul),
+  .notion-content :global(ol) {
+    @apply ml-6 mb-6;
+  }
+  
+  .notion-content :global(li) {
+    @apply mb-2;
+  }
+  
+  .notion-content :global(blockquote) {
+    @apply pl-4 border-l-4 border-gray-300 italic my-6;
+  }
+
+  .notion-content :global(.callout) {
+    @apply p-4 rounded-lg flex gap-3 my-6;
+    background-color: var(--bg-color, theme('colors.gray.100'));
+  }
+
+  /* Set background colors using CSS variables */
+  .notion-content :global([class*="_background"]) {
+    --bg-color: var(--notion-color, theme('colors.gray.100'));
+  }
+
+  .notion-content :global(.blue_background) { --notion-color: theme('colors.blue.100'); }
+  .notion-content :global(.yellow_background) { --notion-color: theme('colors.yellow.100'); }
+  .notion-content :global(.green_background) { --notion-color: theme('colors.green.100'); }
+  .notion-content :global(.red_background) { --notion-color: theme('colors.red.100'); }
+  .notion-content :global(.pink_background) { --notion-color: theme('colors.pink.100'); }
+  .notion-content :global(.purple_background) { --notion-color: theme('colors.purple.100'); }
+  .notion-content :global(.orange_background) { --notion-color: theme('colors.orange.100'); }
+
+  .notion-content :global(.video-wrapper) {
+    @apply relative w-full my-6;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  }
+
+  .notion-content :global(.video-wrapper iframe) {
+    @apply absolute top-0 left-0 w-full h-full rounded-lg;
+  }
+
+  .notion-content :global(.video-player) {
+    @apply w-full my-6 rounded-lg;
+  }
+</style>
