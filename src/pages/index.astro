@@ -97,7 +97,7 @@ const tabsContent: TabContent[] = [
       </Button>
       <SocialIcons />
     </div>
-    <div class="flex items-center gap-1.5 mt-8">
+    <div class="flex items-center gap-1.5 w-fit mt-8 max-lg:mx-auto">
       <SpotifyHoverCard {...spotifyData} />
     </div>
   </div>
@@ -110,7 +110,7 @@ const tabsContent: TabContent[] = [
         //confetti: true
       }))}
     />
-      <div class="bg-white/70 rounded-xl backdrop-blur p-6 flex flex-col gap-2 mt-6 shadow-md shadow-inkLighter/20">
+      <div class="container">
         <div class="flex-1 min-h-[120px]">
           {tabsContent.map(tab => (
             <h2 id={tab.id} class={`section-content ${!tab.isDefault ? 'hidden' : ''}`}>
@@ -127,10 +127,18 @@ const tabsContent: TabContent[] = [
 
 <style>
   .manifesto {
-    @apply flex flex-col space-y-6 max-w-lg p-4 min-h-[380px] items-center justify-center lg:items-start lg:justify-start;
+    @apply flex flex-col space-y-6 max-w-lg p-4 min-h-[380px] mx-auto items-center justify-center lg:items-start lg:justify-start;
+  }
+
+  .manifesto .container {
+    @apply bg-white/70 rounded-xl backdrop-blur p-6 pt-2 flex flex-col gap-2 mt-6 shadow-md shadow-inkLighter/20;
   }
   .manifesto p {
     @apply text-sm font-medium leading-6 text-inkLight;
+  }
+
+  .manifesto h2 {
+    @apply font-sans;
   }
   .highlight {
     @apply font-bold;

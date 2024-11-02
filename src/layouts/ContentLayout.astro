@@ -54,7 +54,11 @@ const { breadcrumbs = variant === 'thought' ? [{ text: 'Back', href: '/thoughts'
   <section class="landscape"></section>
   <main class="simple-wrapper">
     <article class="simple-container prose prose-lg">
-      <Breadcrumbs crumbs={breadcrumbs} showDropdown={false} />
+      {variant === 'thought' && (
+        <div class="mx-auto w-fit">
+          <Breadcrumbs crumbs={breadcrumbs} showDropdown={false} />
+        </div>
+      )}
       
       <header class="header">
         <h1>{title}</h1>

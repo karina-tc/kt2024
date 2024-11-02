@@ -69,7 +69,7 @@ const { title, body_classes = '' } = Astro.props;
 			white 60%
 		);
 		--loading-progress-color: #BCAD8F;
-		--content-width: 1200px;
+		--content-width: 1280px;
     --content-width-small: 920px;
 
 		/* Light theme colors (default) */
@@ -112,7 +112,7 @@ const { title, body_classes = '' } = Astro.props;
 			monospace;
 	}
 	body {
-		@apply relative h-screen text-ink py-32 px-20;
+		@apply relative min-h-screen text-ink flex;
 	}
 
   h1 {

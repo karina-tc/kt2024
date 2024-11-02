@@ -5,7 +5,7 @@
 @layer components {
   /* Two Column Layout styles */
   .two-columns-wrapper {
-    @apply h-full grid grid-cols-[40%_1fr] max-w-[var(--content-width)] mx-auto gap-5 relative max-lg:grid-cols-1;
+    @apply flex-1 grid grid-cols-[40%_1fr] max-w-[var(--content-width)] p-16 pt-32 mx-auto gap-5 relative max-lg:grid-cols-1;
   }
 
   .two-columns-wrapper .bg-image-container {
@@ -17,7 +17,7 @@
   }
 
   .two-columns-wrapper aside {
-    @apply m-auto flex flex-col items-center text-center lg:justify-start lg:items-start lg:text-left;
+    @apply m-auto flex flex-col items-center text-center lg:justify-start lg:items-start lg:text-left z-10;
   }
 
   .two-columns-wrapper aside .subtitle {
@@ -25,7 +25,7 @@
   }
 
   .two-columns-wrapper main {
-    @apply m-auto w-full h-full flex flex-col items-start justify-center overflow-scroll relative hide-scrollbar max-lg:justify-start;
+    @apply m-auto w-full h-full min-h-fit flex flex-col items-start justify-center overflow-scroll relative hide-scrollbar max-lg:justify-start max-lg:items-center;
   }
 
   /* Other */
@@ -35,10 +35,10 @@
 
   /* Simple Layouts */
   .simple-wrapper {
-    @apply w-full min-h-full max-w-[var(--content-width)] mx-auto flex flex-col relative;
+    @apply min-h-full w-full max-lg:w-[var(--content-width)] max-w-5xl mx-auto flex flex-col relative;
   }
   .simple-container {
-    @apply flex flex-col gap-10 p-10 pt-0 mb-10 bg-white/5 rounded-lg backdrop-blur-md;
+    @apply flex flex-col gap-10 p-10 my-16 bg-white/45 rounded-lg backdrop-blur-md;
   }
   .simple-container .header {
     @apply flex flex-col justify-center gap-5 text-center [&>h1]:mb-2;
