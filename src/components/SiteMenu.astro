@@ -12,10 +12,10 @@ import Guestbook from './menu/Guestbook.astro';
     <Colophon />
     <Guestbook />
     <div class="footer-links">
-      <p class="mr-auto">© {new Date().getFullYear()} Karina Tovar</p>
-      <p class="cursor-pointer hover:text-ink" id="colophon-trigger">Colophon</p>
-      <p> · </p>
-      <p class="cursor-pointer hover:text-ink" id="backlog-trigger">Guest Book</p>
+      <p class="mr-auto max-lg:m-0 max-lg:order-3">© {new Date().getFullYear()} Karina Tovar</p>
+      <p class="cursor-pointer hover:text-ink max-lg:order-1" id="colophon-trigger">Colophon</p>
+      <p class="max-lg:hidden"> · </p>
+      <p class="cursor-pointer hover:text-ink max-lg:order-2" id="backlog-trigger">Guest Book</p>
     </div>
   </div>
 </div>
@@ -27,12 +27,12 @@ import Guestbook from './menu/Guestbook.astro';
   }
   
   .menu-container {
-    @apply fixed top-0 left-0 m-12 z-[100] w-12 h-12 rounded-3xl bg-transparent overflow-visible transition-all duration-500;
-    transform-origin: center;
+    @apply fixed top-0 left-0 m-12 z-[100] w-12 h-12 rounded-3xl bg-transparent overflow-visible transition-all duration-500 origin-center
+    max-lg:m-0 max-lg:items-start max-lg:mt-10 max-lg:min-w-[100vw] max-lg:overflow-hidden;
   }
 
   .menu-container[aria-expanded="true"] {
-    @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)];
+    @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)] max-lg:min-h-screen;
   }
 
   .menu-container[aria-expanded="true"]::after {
@@ -40,15 +40,16 @@ import Guestbook from './menu/Guestbook.astro';
   }
 
   .menu-container[aria-expanded="true"] .menu-content {
-    @apply opacity-100 pointer-events-auto;
+    @apply opacity-100 pointer-events-auto relative;
   }
-
   .menu-content {
-    @apply absolute inset-0 flex flex-col items-center justify-center w-full max-w-md mx-auto mt-10 gap-8 opacity-0 pointer-events-none transition-all duration-300;
+    @apply absolute inset-0 flex flex-col items-center justify-center w-full max-w-md mx-auto lg:mt-10 gap-8 opacity-0 pointer-events-none transition-all 
+    duration-300 overflow-hidden max-lg:p-10;
   }
 
   .footer-links {
-    @apply w-full flex items-center gap-2 text-sm font-medium text-inkLight justify-center mt-10 pt-10 border-t border-inkLighter/50 z-10;
+    @apply w-full flex items-center gap-2 text-sm font-medium text-inkLight justify-center mt-10 pt-10 border-t border-inkLighter/50 
+    z-10 max-lg:flex-col max-lg:text-center;
   }
 </style>
 
@@ -90,6 +91,10 @@ import Guestbook from './menu/Guestbook.astro';
       trigger.setAttribute('aria-expanded', (!isExpanded).toString());
       menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
 
+      // Toggle body classes
+      document.body.classList.toggle('h-screen', !isExpanded);
+      document.body.classList.toggle('overflow-hidden', !isExpanded);
+
       if (isExpanded) {
         resetMenuContent();
       }
@@ -106,8 +111,8 @@ import Guestbook from './menu/Guestbook.astro';
     // Hide secondary sections
     [colophonContent, backlogContent].forEach(section => {
       if (section) {
-        section.classList.add('opacity-0', 'pointer-events-none');
-        section.classList.remove('opacity-100', 'pointer-events-auto');
+        section.classList.add('opacity-0', 'pointer-events-none', 'absolute');
+        section.classList.remove('opacity-100', 'pointer-events-auto', 'relative');
       }
     });
     
@@ -119,8 +124,8 @@ import Guestbook from './menu/Guestbook.astro';
     
     // Show main menu with fade
     if (linksContent) {
-      linksContent.classList.remove('opacity-0', 'pointer-events-none');
-      linksContent.classList.add('opacity-100', 'pointer-events-auto');
+      linksContent.classList.remove('opacity-0', 'pointer-events-none', 'absolute');
+      linksContent.classList.add('opacity-100', 'pointer-events-auto', 'relative');
     }
   }
 
@@ -190,8 +195,8 @@ import Guestbook from './menu/Guestbook.astro';
       // Hide all sections with fade
       [linksContent, colophonContent, backlogContent].forEach(section => {
         if (section) {
-          section.classList.add('opacity-0', 'pointer-events-none');
-          section.classList.remove('opacity-100', 'pointer-events-auto');
+          section.classList.add('opacity-0', 'pointer-events-none', 'absolute');
+          section.classList.remove('opacity-100', 'pointer-events-auto', 'relative');
         }
       });
       if (linksIllustration) {
@@ -200,8 +205,8 @@ import Guestbook from './menu/Guestbook.astro';
       }
 
       // Show the selected section with fade
-      sectionToShow.classList.remove('opacity-0', 'pointer-events-none');
-      sectionToShow.classList.add('opacity-100', 'pointer-events-auto');
+      sectionToShow.classList.remove('opacity-0', 'pointer-events-none', 'absolute');
+      sectionToShow.classList.add('opacity-100', 'pointer-events-auto', 'relative');
     }
 
     // === Main Menu Display ===
@@ -215,15 +220,15 @@ import Guestbook from './menu/Guestbook.astro';
       // Hide secondary sections
       [colophonContent, backlogContent].forEach(section => {
         if (section) {
-          section.classList.add('opacity-0', 'pointer-events-none');
-          section.classList.remove('opacity-100', 'pointer-events-auto');
+          section.classList.add('opacity-0', 'pointer-events-none', 'absolute');
+          section.classList.remove('opacity-100', 'pointer-events-auto', 'relative');
         }
       });
       
       // Show main menu with fade
       if (linksContent) {
-        linksContent.classList.remove('opacity-0', 'pointer-events-none');
-        linksContent.classList.add('opacity-100', 'pointer-events-auto');
+        linksContent.classList.remove('opacity-0', 'pointer-events-none', 'absolute');
+        linksContent.classList.add('opacity-100', 'pointer-events-auto', 'relative');
       }
       if (linksIllustration) {
         linksIllustration.classList.remove('opacity-0', 'opacity-100');
@@ -298,6 +303,8 @@ import Guestbook from './menu/Guestbook.astro';
         if (trigger && menuContainer) {
           trigger.setAttribute('aria-expanded', 'false');
           menuContainer.setAttribute('aria-expanded', 'false');
+          // Remove both classes
+          document.body.classList.remove('h-screen', 'overflow-hidden');
           resetMenuContent();
           if (shortcutText) {
             shortcutText.textContent = shortcut;
@@ -404,6 +411,8 @@ import Guestbook from './menu/Guestbook.astro';
     if (trigger && menuContainer) {
       trigger.setAttribute('aria-expanded', 'false');
       menuContainer.setAttribute('aria-expanded', 'false');
+      // Remove both classes
+      document.body.classList.remove('h-screen', 'overflow-hidden');
       resetMenuContent();
       
       // Reset shortcut text

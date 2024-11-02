@@ -5,7 +5,7 @@
 @layer components {
   /* Two Column Layout styles */
   .two-columns-wrapper {
-    @apply flex-1 grid grid-cols-[40%_1fr] max-w-[var(--content-width)] p-16 pt-32 mx-auto gap-5 relative max-lg:grid-cols-1;
+    @apply flex-1 grid grid-cols-[40%_1fr] max-w-[var(--content-width)] p-16 pt-32 mx-auto gap-5 relative max-lg:grid-cols-1 max-lg:px-8;
   }
 
   .two-columns-wrapper .bg-image-container {

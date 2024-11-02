@@ -11,7 +11,8 @@ import * as Icon from '@astropub/icons'
 
 <style>
   .trigger {
-    @apply w-12 h-12 shadow-xl shadow-inkLighter/50 bg-inkDark text-white rounded-full flex items-center justify-center relative z-[102];
+    @apply w-12 h-12 shadow-xl shadow-inkLighter/50 bg-inkDark text-white rounded-full flex items-center
+    justify-center relative z-[102] max-lg:mx-auto;
   }
 
   .menu-icon {
@@ -27,6 +28,7 @@ import * as Icon from '@astropub/icons'
   }
 
   .menu-close-text {
-    @apply absolute inset-0 text-sm font-mono w-12 pt-1 flex items-center top-full mt-6 text-center text-inkLighter;
+    @apply absolute inset-0 text-sm font-mono w-12 pt-1 flex items-center top-full mt-6 text-center 
+    text-inkLighter max-lg:!hidden;
   }
 </style>
