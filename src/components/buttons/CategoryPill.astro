@@ -17,7 +17,7 @@ const pillClasses = "bg-inkDark text-paper";
 ---
 
 {isButton ? (
-  <button type="button" class:list={[baseClasses, buttonClasses, { "category-active": isActive }]} data-category={category}>
+  <Button variant="button" class:list={[baseClasses, buttonClasses, { "category-active": isActive }]} data-category={category}>
     {category}
   </button>
 ) : (

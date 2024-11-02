@@ -48,7 +48,7 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
             {!showDropdown ? (
               <div class="back-group group">
                 <BackButton href={crumb.href} />
-                <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
+                <Button variant="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
               </div>
             ) : isIndexPage && !isChildPage ? (
               <button id="lastCrumbDropdown" class="dropdown-menu-trigger" data-page-title={crumb.text}>
@@ -82,7 +82,7 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
           showDropdown && (
             <div class="back-group group">
               <BackButton href={crumb.href} />
-              <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
+              <Button variant="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
             </div>
           )
         )}

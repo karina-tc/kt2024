@@ -4,7 +4,8 @@ interface Props {
   id?: string;
   href?: string;
   onClick?: string;
-  type?: 'link' | 'button' | 'textual' | 'textual-button';
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'link' | 'button' | 'textual' | 'textual-button';
   additionalClasses?: string;
   'data-section'?: string;
   confetti?: boolean;
@@ -14,13 +15,14 @@ const {
   id,
   href, 
   onClick, 
+  variant = 'button',
   type = 'button', 
   additionalClasses = '', 
   'data-section': dataSection,
   confetti = false
 } = Astro.props;
 ---
-{type === 'link' ? (
+{variant === 'link' ? (
   <a 
     id={id}
     href={href} 
@@ -32,7 +34,7 @@ const {
       <div class="button-glow"></div>
     </div>
   </a>
-) : type === 'textual' ? (
+) : variant === 'textual' ? (
   <a 
     id={id}
     href={href} 
@@ -42,9 +44,10 @@ const {
   >
     <slot />
   </a>
-) : type === 'textual-button' ? (
+) : variant === 'textual-button' ? (
   <button 
     id={id}
+    type={type}
     class={`text-based ${additionalClasses}`} 
     data-section={dataSection}
     {...confetti && { 'data-confetti': '' }}
@@ -54,7 +57,7 @@ const {
 ) : (
   <button 
     id={id}
-    type="button" 
+    type={type} 
     class={`group button-wrapper ${additionalClasses}`} 
     onclick={onClick}
     {...confetti && { 'data-confetti': '' }}

@@ -40,7 +40,7 @@ const navigationItems = [
       }
     </nav>
     <div id="colophon-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
-      <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
+      <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
       <div class="relative w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/computer.png')] group">
         <div class="binary-screen">
           <div class="binary-scroll">
@@ -52,14 +52,14 @@ const navigationItems = [
       <p class="text-sm text-inkLight">Long live our AI underlords. May we humans prosper.</p>
     </div>
     <div id="backlog-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
-      <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
+      <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
       <h2 class="text-inkLight font-instrument text-5xl">Enjoyed your stay?</h2>
       <span class="text-sm text-inkLight font-medium block my-4">Leave me a little note to cherish your presence:</span>
-      <form class="max-w-lg mx-auto">
+      <form name="guestbook" class="max-w-lg mx-auto" method="POST" data-netlify="true">
         <textarea id="guestbook-message" name="message" rows="4"
           class="w-full mb-4 p-4 placeholder:text-ink/50 rounded-lg border border-inkLighter/30 bg-white/80 focus:outline-none focus:ring-2 focus:ring-inkLighter/50 resize-none"
           placeholder="Share your thoughts..."></textarea>
-        <Button type="button" additionalClasses="w-full">
+        <Button type="submit" variant="button" additionalClasses="w-full">
           Sign Guestbook
         </Button>
       </form>
