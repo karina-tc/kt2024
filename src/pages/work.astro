@@ -32,7 +32,7 @@ const sortedYears = Object.keys(projectsByYear).sort((a, b) => parseInt(b) - par
   subtitle="Timeline of my work with several product partners"
 >
   <div class="timeline">
-    {sortedYears.map((year, index) => (
+    {sortedYears.map((year) => (
       <div class="year-section">
         <div class="year-label">
           <h3 class="year-note">{year}</h3>

@@ -10,16 +10,6 @@ const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' }
 ];
 
-// Test API endpoint first
-let apiWorking = false;
-try {
-  const testResponse = await fetch(`${Astro.url.origin}/api/test`);
-  const testData = await testResponse.json();
-  apiWorking = testData.message === 'API is working';
-} catch (error) {
-  console.error('Test API failed:', error);
-}
-
 // Fetch Spotify data
 let spotifyData = {
   isPlaying: false,

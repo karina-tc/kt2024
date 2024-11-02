@@ -7,7 +7,7 @@ interface Props {
   additionalClasses?: string;
 }
 
-const { activePage, additionalClasses = '' } = Astro.props;
+const { activePage = '', additionalClasses = '' } = Astro.props;
 
 const navigationItems = [
   { path: '/', label: 'Home', image: '/house.png' },
@@ -429,7 +429,7 @@ const navigationItems = [
     const shortcutText = document.getElementById('shortcutText');
     
     // Detect OS for showing correct shortcut
-    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const isMac = /Mac|iPhone|iPod|iPad/.test(navigator.userAgent);
     const shortcut = isMac ? '⌘ K' : '⌃ K';
     
     if (shortcutText) {
@@ -521,7 +521,7 @@ const navigationItems = [
       resetMenuContent();
       
       // Reset shortcut text
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isMac = /Mac|iPhone|iPod|iPad/.test(navigator.userAgent);
       if (shortcutText) {
         shortcutText.textContent = isMac ? '⌘ K' : '⌃ K';
       }

@@ -6,7 +6,6 @@ interface Props {
   onClick?: string;
   type?: 'link' | 'button' | 'textual' | 'textual-button';
   additionalClasses?: string;
-  children: any;
   'data-section'?: string;
   confetti?: boolean;
 }
@@ -17,12 +16,10 @@ const {
   onClick, 
   type = 'button', 
   additionalClasses = '', 
-  children,
   'data-section': dataSection,
   confetti = false
 } = Astro.props;
 ---
-
 {type === 'link' ? (
   <a 
     href={href} 
@@ -85,3 +82,4 @@ const {
     @apply after:origin-bottom-left after:scale-x-100;
   }
 </style>
+
