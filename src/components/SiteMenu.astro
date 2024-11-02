@@ -2,12 +2,6 @@
 import * as Icon from '@astropub/icons'
 import Button from './buttons/Button.astro';
 
-interface Props {
-  activePage?: string;
-  additionalClasses?: string;
-}
-
-const { activePage = '', additionalClasses = '' } = Astro.props;
 
 const navigationItems = [
   { path: '/', label: 'Home', image: '/house.png' },
@@ -249,6 +243,12 @@ const navigationItems = [
         section.classList.remove('opacity-100', 'pointer-events-auto');
       }
     });
+    
+    // Reset illustration state
+    if (linksIllustration) {
+      linksIllustration.classList.remove('opacity-50', 'opacity-100');
+      linksIllustration.classList.add('opacity-0');
+    }
     
     // Show main menu with fade
     if (linksContent) {
