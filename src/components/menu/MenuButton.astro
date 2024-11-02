@@ -15,6 +15,10 @@ import * as Icon from '@astropub/icons'
     justify-center relative z-[102] max-lg:mx-auto;
   }
 
+  .trigger[aria-expanded="true"] {
+    @apply max-lg:sticky max-lg:top-0;
+  }
+
   .menu-icon {
     @apply relative flex items-center justify-center z-[1] cursor-pointer mt-[1px];
   }

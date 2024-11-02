@@ -32,7 +32,7 @@ import Guestbook from './menu/Guestbook.astro';
   }
 
   .menu-container[aria-expanded="true"] {
-    @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)] max-lg:min-h-screen;
+    @apply bg-white w-[calc(100vw-80px)] h-[calc(100vh-80px)] max-lg:overflow-scroll max-lg:pb-10 max-lg:min-h-screen;
   }
 
   .menu-container[aria-expanded="true"]::after {
@@ -46,7 +46,6 @@ import Guestbook from './menu/Guestbook.astro';
     @apply absolute inset-0 flex flex-col items-center justify-center w-full max-w-md mx-auto lg:mt-10 gap-8 opacity-0 pointer-events-none transition-all 
     duration-300 overflow-hidden max-lg:p-10;
   }
-
   .footer-links {
     @apply w-full flex items-center gap-2 text-sm font-medium text-inkLight justify-center mt-10 pt-10 border-t border-inkLighter/50 
     z-10 max-lg:flex-col max-lg:text-center;
