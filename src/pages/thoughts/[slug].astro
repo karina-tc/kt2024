@@ -1,5 +1,5 @@
 ---
-import ThoughtLayout from '../../layouts/ThoughtLayout.astro';
+import ContentLayout from '../../layouts/ContentLayout.astro';
 import { getThoughts, getThoughtContent } from '../../lib/notion';
 import { renderNotionBlock } from '../../lib/notionRenderer';
 
@@ -20,7 +20,8 @@ if (!thought) {
 }
 ---
 
-<ThoughtLayout
+<ContentLayout 
+  variant="thought"
   title={thought.title}
   date={thought.date}
   categories={thought.categories}
@@ -29,4 +30,4 @@ if (!thought) {
   {thought.content.map(block => (
     <Fragment set:html={renderNotionBlock(block)} />
   ))}
-</ThoughtLayout>
+</ContentLayout>

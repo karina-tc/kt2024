@@ -83,7 +83,7 @@ export function renderNotionBlocks(blocks: any[]) {
   let html = '';
   let isInList = false;
 
-  blocks.forEach((block, index) => {
+  blocks.forEach((block) => {
     if (block.type === 'bulleted_list_item') {
       if (!isInList) {
         html += '<ul class="list-disc list-inside space-y-2">';

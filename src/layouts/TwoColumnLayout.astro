@@ -1,7 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import AsideTitle from '../components/AsideTitle.astro';
+import AsideTitle from '../components/structural/AsideTitle.astro';
 
 interface Props {
   title: string;
@@ -33,31 +33,27 @@ const {
   title={title}
   body_classes={layout_body_classes}
 >
-  <main class={`two-col-basis ${additionalClasses} relative`}>
+  <section class={`two-columns-wrapper ${additionalClasses}`}>
     {bgImage && (
-      <div class={`absolute [&>img]:mx-auto -bottom-20 z-0 flex`}>
-        <img src={bgImage} alt="Background" class={`w-full h-full object-cover ${bgImageClasses}`} />
+      <div class="bg-image-container">
+        <img src={bgImage} alt="Background" class={` ${bgImageClasses}`} />
       </div>
     )}
-    <aside class="two-col-left-column" transition:animate="fade">
-      <div class="two-col-left-contents">
-        <Breadcrumbs 
-          crumbs={breadcrumbs}
-          transition:persist 
-          transition:name="breadcrumbs" 
-        />
-        <AsideTitle 
-          line1={asideTitle.line1}
-          line2={asideTitle.line2}
-        />
-        {subtitle && <p class="two-col-subtitle">
-          {subtitle}
-        </p>}
-        <slot name="left-column-extra" />
-      </div>
+    <aside transition:animate="fade">
+      <Breadcrumbs 
+        crumbs={breadcrumbs}
+        transition:persist 
+        transition:name="breadcrumbs" 
+      />
+      <AsideTitle 
+        line1={asideTitle.line1}
+        line2={asideTitle.line2}
+      />
+        {subtitle && <p class="subtitle">{subtitle}</p>}
+      <slot name="left-column-extra" />
     </aside>
-    <section class="two-col-right-column" transition:animate="slide">
+    <main transition:animate="slide">
       <slot />
-    </section>
-  </main>
+    </main>
+  </section>
 </Layout>

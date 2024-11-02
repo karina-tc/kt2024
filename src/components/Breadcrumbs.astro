@@ -1,7 +1,7 @@
 ---
-import Button from '../components/Button.astro';
+import Button from '../components/buttons/Button.astro';
 import * as Icon from '@astropub/icons'
-import BackButton from './BackButton.astro';
+import BackButton from '../components/buttons/BackButton.astro';
 export interface Crumb {
   text: string;
   href: string;
@@ -48,7 +48,7 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
             {!showDropdown ? (
               <div class="back-group group">
                 <BackButton href={crumb.href} />
-                <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
+                <Button variant="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
               </div>
             ) : isIndexPage && !isChildPage ? (
               <button id="lastCrumbDropdown" class="dropdown-menu-trigger" data-page-title={crumb.text}>
@@ -82,7 +82,7 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
           showDropdown && (
             <div class="back-group group">
               <BackButton href={crumb.href} />
-              <Button type="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
+              <Button variant="textual" additionalClasses="text-ink text-base" href={crumb.href}>{crumb.text}</Button>
             </div>
           )
         )}
@@ -108,7 +108,7 @@ const updatedCrumbs = crumbs.map((crumb, index) =>
     @apply absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-inkDark ring-1 ring-inkDark ring-opacity-5;
   }
   .dropdown-menu-item {
-    @apply block px-4 py-2 text-sm !text-paper hover:bg-ink;
+    @apply block px-4 py-2 text-sm !text-white text-left hover:bg-ink;
   }
   .back-group {
     @apply flex items-center gap-2;

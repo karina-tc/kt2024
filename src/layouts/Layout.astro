@@ -1,8 +1,8 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-import CoordinateGrid from '../components/CoordinateGrid.astro';
-import '../styles/layout.css';
-import LoadingBar from '../components/LoadingBar.astro';
+import '../styles/global.css';
+import CoordinateGrid from '../components/structural/CoordinateGrid.astro';
+import LoadingBar from '../components/structural/LoadingBar.astro';
 import SiteMenu from '../components/SiteMenu.astro';
 
 interface Props {
@@ -32,10 +32,8 @@ const { title, body_classes = '' } = Astro.props;
 	<body class={`relative ${body_classes}`}>
 		<LoadingBar />
 		<CoordinateGrid />
-		<div class="relative z-10">
-			<SiteMenu activePage={Astro.url.pathname} />
-			<slot />
-		</div>
+		<SiteMenu activePage={Astro.url.pathname} />
+		<slot />
 	</body>
 </html>
 
@@ -71,6 +69,8 @@ const { title, body_classes = '' } = Astro.props;
 			white 60%
 		);
 		--loading-progress-color: #BCAD8F;
+		--content-width: 1280px;
+    --content-width-small: 920px;
 
 		/* Light theme colors (default) */
 		--color-ink: 85 78 63; /* #554E3F */
@@ -112,16 +112,13 @@ const { title, body_classes = '' } = Astro.props;
 			monospace;
 	}
 	body {
-		@apply relative min-h-screen text-ink max-w-[100vw] overflow-x-hidden;
-	}
-	.content {
-		@apply relative z-10;
+		@apply relative min-h-screen text-ink flex;
 	}
 
   h1 {
-    @apply font-instrument text-9xl text-inkDark leading-none;
+    @apply font-instrument text-6xl text-inkDark leading-none;
   }
   h2 {
-    @apply text-3xl text-inkDark;
+    @apply font-instrument text-4xl text-inkDark my-4;
   }
 </style>

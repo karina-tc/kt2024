@@ -7,7 +7,9 @@ import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [
+    tailwind(),
+  ],
   output: 'server',
   adapter: netlify(),
   vite: {
@@ -19,6 +21,13 @@ export default defineConfig({
       'process.env.SPOTIFY_REFRESH_TOKEN': JSON.stringify(process.env.SPOTIFY_REFRESH_TOKEN),
       'process.env.NOTION_API_KEY': JSON.stringify(process.env.NOTION_API_KEY),
       'process.env.NOTION_DATABASE_ID': JSON.stringify(process.env.NOTION_DATABASE_ID)
+    },
+    build: {
+      terserOptions: {
+        compress: {
+          drop_console: true
+        }
+      }
     }
   },
 });

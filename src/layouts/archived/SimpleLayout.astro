@@ -1,0 +1,48 @@
+---
+import Layout from './../Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ShowcaseImage from '../../components/ShowcaseImage.astro';
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{ text: string; href: string }>;
+  subtitle?: string;
+  additionalClasses?: string;
+  showcaseImage?: string;
+  showcaseImageAlt?: string;
+}
+
+const {
+  title,
+  breadcrumbs,
+  subtitle,
+  additionalClasses = '',
+  showcaseImage = '',
+  showcaseImageAlt = '',
+} = Astro.props;
+---
+
+<Layout title={title}>
+  <section class="landscape"></section>
+  <main class="simple-wrapper">
+    <article class="simple-container prose prose-lg">
+      <Breadcrumbs crumbs={breadcrumbs} showDropdown={false} />
+      <header class="header">
+        <h1>{title}</h1>
+        {subtitle && <div class="subdetails">{subtitle}</div>}
+      </header>
+
+      {showcaseImage && (
+        <ShowcaseImage
+          src={showcaseImage}
+          alt={showcaseImageAlt}
+          shineColor="rgba(255, 255, 255, 0.25)"
+        />
+      )}
+
+      <section class={`details-content animate-slide ${additionalClasses}`}>
+        <slot />
+      </section>
+    </article>
+  </main>
+</Layout>

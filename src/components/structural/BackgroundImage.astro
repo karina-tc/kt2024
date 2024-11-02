@@ -10,3 +10,9 @@ const { src, classes = '' } = Astro.props;
 <div class={`layout-background ${classes}`}>
   <img src={src} alt="Background" class="w-full h-full object-cover" />
 </div>
+
+<style>
+  .layout-background {
+    @apply absolute inset-0 z-0 flex;
+  }
+</style>

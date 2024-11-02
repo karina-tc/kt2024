@@ -2,7 +2,7 @@
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
 import Row from '../components/Row.astro';
 import { getThoughts } from '../lib/notion';
-import CategoryPill from '../components/CategoryPill.astro';
+import CategoryPill from '../components/buttons/CategoryPill.astro';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' },
@@ -21,7 +21,7 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
   layout_body_classes="bg-[url('/landscape-two.png')] bg-cover bg-center"
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
-  additionalClasses="[&>.right-column]:h-full"
+  additionalClasses=""
   asideTitle={{
     line1: "Thinking",
     line2: "Experiences"
@@ -45,7 +45,7 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
     </ul>
   </div>
 
-  <section id="thoughts-container" class="w-full max-h-[80vh] max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start pr-10 py-5 hide-scrollbar">
+  <section id="thoughts-container" class="listing">
     {thoughts.map(thought => (
       <Row
         title={thought.title}
@@ -68,6 +68,10 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
   }
   [data-row] {
     transition: all 0.3s ease-in-out;
+  }
+
+  .listing {
+    @apply w-full max-h-[80vh] 2xl:max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start py-5 hide-scrollbar;
   }
   .hide-scrollbar {
     @apply overflow-auto;

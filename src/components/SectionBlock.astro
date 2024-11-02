@@ -7,15 +7,12 @@ interface Props {
 const { size, classNames } = Astro.props;
 ---
 
-<section class={`block ${classNames} ${size === 'small' ? 'max-w-5xl' : ''}`}>
+<section class={`block ${classNames} ${size === 'small' ? 'max-w-7xl' : ''}`}>
   <slot />
 </section>
 
 <style>
   .block {
-    @apply flex-1 w-full mx-auto flex flex-col gap-3 justify-center;
-  }
-  .block :global(h2) {
-    @apply text-5xl font-medium font-instrument;
+    @apply flex-1 w-full mx-auto flex flex-col gap-3 justify-center [&:not(:last-of-type)]:mb-20;
   }
 </style>

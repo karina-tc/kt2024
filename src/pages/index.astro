@@ -1,24 +1,14 @@
 ---
 import TwoColumnLayout from '../layouts/TwoColumnLayout.astro';
-import Button from '../components/Button.astro';
+import Button from '../components/buttons/Button.astro';
 import SocialIcons from '../components/SocialIcons.astro';
+import SpotifyHoverCard from '../components/integrated/SpotifyHoverCard.astro';
+import ButtonGroup from '../components/buttons/ButtonGroup.astro';
 import * as Icon from '@astropub/icons'
-import SpotifyHoverCard from '../components/SpotifyHoverCard.astro';
-import ButtonGroup from '../components/ButtonGroup.astro';
 
 const breadcrumbs = [
   { text: 'Karina Tovar', href: '/' }
 ];
-
-// Test API endpoint first
-let apiWorking = false;
-try {
-  const testResponse = await fetch(`${Astro.url.origin}/api/test`);
-  const testData = await testResponse.json();
-  apiWorking = testData.message === 'API is working';
-} catch (error) {
-  console.error('Test API failed:', error);
-}
 
 // Fetch Spotify data
 let spotifyData = {
@@ -80,6 +70,7 @@ const tabsContent: TabContent[] = [
 
 <TwoColumnLayout
   layout_body_classes="bg-[url('/index-landscape.png')] bg-cover bg-center"
+  additionalClasses=""
   title="Karina Tovar - Product Designer"
   breadcrumbs={breadcrumbs}
   asideTitle={{
@@ -89,14 +80,14 @@ const tabsContent: TabContent[] = [
 >
   <div slot="left-column-extra">
     <div class="flex items-center gap-4">
-      <Button type="link" href="/work" additionalClasses="fles items-center min-h-10 !text-white">
+      <Button variant="link" href="/work" additionalClasses="fles items-center min-h-10 !text-white">
         <span class="text-lg group-hover:mr-2 transition-all bg-carbon z-[1]">My Work</span>
         <Icon.ArrowRight size="20" class="ml-2 inline-block opacity-100 delay-0 group-hover:absolute group-hover:opacity-0" />
         <Icon.ArrowTopRight size="20" class="opacity-0 absolute transition-all group-hover:relative group-hover:opacity-100 inline-block delay-100" />
       </Button>
       <SocialIcons />
     </div>
-    <div class="flex items-center gap-1.5 mt-8">
+    <div class="flex items-center gap-1.5 w-fit mt-8 max-lg:mx-auto">
       <SpotifyHoverCard {...spotifyData} />
     </div>
   </div>
@@ -109,7 +100,7 @@ const tabsContent: TabContent[] = [
         //confetti: true
       }))}
     />
-      <div class="bg-white/70 rounded-xl backdrop-blur p-6 flex flex-col gap-2 mt-6 shadow-md shadow-inkLighter/20">
+      <div class="container">
         <div class="flex-1 min-h-[120px]">
           {tabsContent.map(tab => (
             <h2 id={tab.id} class={`section-content ${!tab.isDefault ? 'hidden' : ''}`}>
@@ -126,10 +117,18 @@ const tabsContent: TabContent[] = [
 
 <style>
   .manifesto {
-    @apply flex-1 flex-col space-y-6 max-w-lg p-4 min-h-[380px];
+    @apply flex flex-col space-y-6 max-w-lg p-4 min-h-[380px] mx-auto items-center justify-center lg:items-start lg:justify-start;
+  }
+
+  .manifesto .container {
+    @apply bg-white/70 rounded-xl backdrop-blur p-6 pt-2 flex flex-col gap-2 mt-6 shadow-md shadow-inkLighter/20;
   }
   .manifesto p {
     @apply text-sm font-medium leading-6 text-inkLight;
+  }
+
+  .manifesto h2 {
+    @apply font-sans;
   }
   .highlight {
     @apply font-bold;

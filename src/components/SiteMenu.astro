@@ -1,14 +1,7 @@
 ---
 import * as Icon from '@astropub/icons'
-import ThemeToggle from '../components/ThemeToggle.astro';
-import Button from './Button.astro';
+import Button from './buttons/Button.astro';
 
-interface Props {
-  activePage?: string;
-  additionalClasses?: string;
-}
-
-const { activePage, additionalClasses = '' } = Astro.props;
 
 const navigationItems = [
   { path: '/', label: 'Home', image: '/house.png' },
@@ -47,7 +40,7 @@ const navigationItems = [
       }
     </nav>
     <div id="colophon-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
-      <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
+      <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
       <div class="relative w-72 h-72 mx-auto overflow-hidden shadow-2xl shadow-inkLighter/50 border-10 border-white bg-contain rounded-full bg-[url('/computer.png')] group">
         <div class="binary-screen">
           <div class="binary-scroll">
@@ -59,14 +52,14 @@ const navigationItems = [
       <p class="text-sm text-inkLight">Long live our AI underlords. May we humans prosper.</p>
     </div>
     <div id="backlog-content" class="opacity-0 pointer-events-none absolute inset-0 space-y-5 text-center font-medium transition-all duration-300">
-      <Button type="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
+      <Button variant="textual-button" additionalClasses="back-to-menu mb-8">← Back to menu</Button>
       <h2 class="text-inkLight font-instrument text-5xl">Enjoyed your stay?</h2>
       <span class="text-sm text-inkLight font-medium block my-4">Leave me a little note to cherish your presence:</span>
-      <form class="max-w-lg mx-auto">
+      <form name="guestbook" class="max-w-lg mx-auto" method="POST" data-netlify="true">
         <textarea id="guestbook-message" name="message" rows="4"
           class="w-full mb-4 p-4 placeholder:text-ink/50 rounded-lg border border-inkLighter/30 bg-white/80 focus:outline-none focus:ring-2 focus:ring-inkLighter/50 resize-none"
           placeholder="Share your thoughts..."></textarea>
-        <Button type="button" additionalClasses="w-full">
+        <Button type="submit" variant="button" additionalClasses="w-full">
           Sign Guestbook
         </Button>
       </form>
@@ -216,28 +209,10 @@ const navigationItems = [
         link.addEventListener('click', () => {
           trigger.setAttribute('aria-expanded', 'false');
           menuContainer.setAttribute('aria-expanded', 'false');
+          resetMenuContent();
         });
       });
     }
-
-    const hoverIllustration = document.querySelector('#hover-illustration') as HTMLElement;
-    const menuLinks = document.querySelectorAll('.menu-link');
-
-    menuLinks.forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        const image = link.getAttribute('data-image');
-        if (image && hoverIllustration) {
-          hoverIllustration.style.backgroundImage = `url('${image}')`;
-          hoverIllustration.classList.add('opacity-40');
-        }
-      });
-
-      link.addEventListener('mouseleave', () => {
-        if (hoverIllustration) {
-          hoverIllustration.classList.remove('opacity-40');
-        }
-      });
-    });
   }
 
   function handleMenuClick() {
@@ -248,6 +223,37 @@ const navigationItems = [
       const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
       trigger.setAttribute('aria-expanded', (!isExpanded).toString());
       menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
+
+      if (isExpanded) {
+        resetMenuContent();
+      }
+    }
+  }
+
+  function resetMenuContent() {
+    const linksContent = document.getElementById('links-content');
+    const colophonContent = document.getElementById('colophon-content');
+    const backlogContent = document.getElementById('backlog-content');
+    const linksIllustration = document.getElementById('links-illustration');
+
+    // Hide secondary sections
+    [colophonContent, backlogContent].forEach(section => {
+      if (section) {
+        section.classList.add('opacity-0', 'pointer-events-none');
+        section.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    });
+    
+    // Reset illustration state
+    if (linksIllustration) {
+      linksIllustration.classList.remove('opacity-50', 'opacity-100');
+      linksIllustration.classList.add('opacity-0');
+    }
+    
+    // Show main menu with fade
+    if (linksContent) {
+      linksContent.classList.remove('opacity-0', 'pointer-events-none');
+      linksContent.classList.add('opacity-100', 'pointer-events-auto');
     }
   }
 
@@ -404,7 +410,7 @@ const navigationItems = [
     const shortcutText = document.getElementById('shortcutText');
     
     // Detect OS for showing correct shortcut
-    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const isMac = /Mac|iPhone|iPod|iPad/.test(navigator.userAgent);
     const shortcut = isMac ? '⌘ K' : '⌃ K';
     
     if (shortcutText) {
@@ -421,6 +427,10 @@ const navigationItems = [
           trigger.setAttribute('aria-expanded', (!isExpanded).toString());
           menuContainer.setAttribute('aria-expanded', (!isExpanded).toString());
           
+          if (isExpanded) {
+            resetMenuContent();
+          }
+          
           if (shortcutText) {
             shortcutText.textContent = !isExpanded ? 'ESC' : shortcut;
           }
@@ -432,6 +442,7 @@ const navigationItems = [
         if (trigger && menuContainer) {
           trigger.setAttribute('aria-expanded', 'false');
           menuContainer.setAttribute('aria-expanded', 'false');
+          resetMenuContent();
           if (shortcutText) {
             shortcutText.textContent = shortcut;
           }
@@ -488,9 +499,10 @@ const navigationItems = [
     if (trigger && menuContainer) {
       trigger.setAttribute('aria-expanded', 'false');
       menuContainer.setAttribute('aria-expanded', 'false');
+      resetMenuContent();
       
       // Reset shortcut text
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isMac = /Mac|iPhone|iPod|iPad/.test(navigator.userAgent);
       if (shortcutText) {
         shortcutText.textContent = isMac ? '⌘ K' : '⌃ K';
       }
