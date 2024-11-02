@@ -5,13 +5,10 @@ import tailwind from '@astrojs/tailwind';
 
 import netlify from '@astrojs/netlify';
 
-import AstroDevtoolbarTailwind from "astro-devtoolbar-tailwind";
-
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     tailwind(),
-    AstroDevtoolbarTailwind(),
   ],
   output: 'server',
   adapter: netlify(),
