@@ -29,7 +29,7 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
   subtitle="Diary of thoughts from a pixel philosopher"
 >
   <div slot="left-column-extra" class="categories-list">
-    <ul class="flex flex-wrap gap-2">
+    <ul class="flex flex-wrap gap-2 max-lg:justify-center">
       <CategoryPill 
         category="All" 
         isButton={true} 
@@ -71,7 +71,7 @@ const initialCategory = Astro.url.searchParams.get('category') || 'all';
   }
 
   .listing {
-    @apply w-full max-h-[80vh] 2xl:max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start py-5 hide-scrollbar;
+    @apply w-full max-h-[80vh] 2xl:max-w-[640px] overflow-y-auto flex flex-col gap-3 justify-start max-lg:items-center py-5 hide-scrollbar;
   }
   .hide-scrollbar {
     @apply overflow-auto;
