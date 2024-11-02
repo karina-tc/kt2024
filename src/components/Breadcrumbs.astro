@@ -2,14 +2,11 @@
 import Button from '../components/buttons/Button.astro';
 import * as Icon from '@astropub/icons'
 import BackButton from '../components/buttons/BackButton.astro';
-export interface Crumb {
-  text: string;
-  href: string;
-}
 
 interface Props {
-  crumbs: Crumb[];
+  crumbs: Array<{ text: string; href: string }>;
   showDropdown?: boolean;
+  transition?: any;
 }
 
 const { crumbs, showDropdown = true } = Astro.props;
@@ -19,6 +16,7 @@ const pageTitles: { [key: string]: string } = {
   'work': 'Work',
   'thoughts': 'Thoughts',
   'about': 'About',
+  'cv': "CV",
 }
 
 const currentPath = Astro.url.pathname;
