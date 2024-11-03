@@ -1,0 +1,139 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+import CoordinateGrid from '../components/structural/CoordinateGrid.astro';
+import LoadingBar from '../components/structural/LoadingBar.astro';
+import BaseNav from '../components/navigation/BaseNav.astro';
+
+interface Props {
+	title: string;
+	body_classes?: string;
+}
+
+const { title, body_classes = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+  <body class="relative">
+    <CoordinateGrid />
+    <LoadingBar />
+    <div class={`base-layout ${body_classes}`}>
+      <BaseNav />
+      <main class="base-content flex-col">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const loadingBar = document.getElementById('loading-bar');
+		if (loadingBar) {
+			loadingBar.style.display = 'none';
+		}
+	});
+
+	document.addEventListener('astro:before-preparation', () => {
+		const loadingBar = document.getElementById('loading-bar');
+		if (loadingBar) {
+			loadingBar.style.display = 'block';
+		}
+	});
+	import { initConfetti } from '../scripts/confetti';
+      document.addEventListener('DOMContentLoaded', () => {
+        initConfetti();
+    });
+</script>
+
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+		--loading-progress-color: #BCAD8F;
+		--content-width: 1280px;
+    --content-width-small: 920px;
+
+		/* Light theme colors (default) */
+		--color-ink: 85 78 63; /* #554E3F */
+		--color-ink-light: 124 116 98; /* #7C7462 */
+		--color-ink-lighter: 188 173 143; /* #BCAD8F */
+		--color-ink-dark: 42 38 30; /* #2A261E */
+		--color-paper: 255 255 255; /* #FFFFFF */
+    --color-brand: 221 78 29; /* #dd4e1d */
+
+		/* Images */
+		--image-hero: url('/hero.png');
+		--image-hero-dark: url('/hero-dark.png');
+	}
+
+		/* Dark theme colors (flipped) */
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--color-ink: 230 228 225; /* #E6E4E1 */
+				--color-ink-light: 169 167 162; /* #A9A7A2 */
+				--color-ink-lighter: 140 132 117; /* #8C8475 */
+				--color-ink-dark: 245 244 242; /* #F5F4F2 */
+				--color-paper: 26 24 22; /* #1A1816 */
+
+				--image-hero: var(--image-hero-dark);
+		}
+	}
+	html {
+		@apply bg-paper text-ink;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+	body {
+		@apply text-ink text-base bg-desk;
+	}
+  
+  .base-layout {
+    @apply flex flex-col 
+    w-full h-full min-h-screen 
+    bg-cover bg-center 
+    lg:flex-row;
+  }
+
+  .base-content {
+    @apply flex-1 flex py-20;
+  }
+
+  h1 {
+    @apply font-instrument text-7xl text-inkDark leading-none max-lg:text-6xl;
+  }
+  h2 {
+    @apply font-instrument text-4xl text-inkDark my-4;
+  }
+</style>

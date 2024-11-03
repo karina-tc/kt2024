@@ -1,0 +1,84 @@
+---
+import IconButton from '../buttons/IconButton.astro';
+import * as Icon from '@astropub/icons';
+
+interface NavItem {
+  label: string;
+  icon: keyof typeof Icon;
+  target: string;
+  pressed?: boolean;
+}
+
+const middleNavItems: NavItem[] = [
+  { label: 'Home', icon: 'Home', target: '/index2' },
+  { label: 'Thoughts', icon: 'Bookmark', target: '/index2' },
+  { label: 'Work', icon: 'CardStack', target: '/index2' },
+  { label: 'Gallery', icon: 'Component2', target: '/index2' },
+  { label: 'Globe', icon: 'Globe', target: '/index2' },
+];
+
+interface Props {
+  additionalClasses?: string;
+}
+
+const { additionalClasses = '' } = Astro.props;
+---
+
+<nav class:list={["base-navigation", additionalClasses]}>
+  <div class="anchors">
+    <IconButton 
+      target="/index2" 
+      label="Menu" 
+      pressed={true}
+    >
+      <Icon.HamburgerMenu size="16" />
+    </IconButton>
+
+    <div class="middle-links">
+      {middleNavItems.map(({ label, icon, target, pressed }) => {
+        const IconComponent = Icon[icon];
+        return (
+          <IconButton {target} {label} pressed={pressed}>
+            <IconComponent size="16" />
+          </IconButton>
+        );
+      })}
+    </div>
+
+    <IconButton 
+      target="/index2" 
+      label="Settings" 
+      pressed={true} 
+      additionalClasses="!bg-desk/70"
+    >
+      <Icon.Gear size="16" />
+    </IconButton>
+  </div>
+  <div class="extras hidden">
+    some test
+  </div>
+</nav>
+
+<style>
+  .base-navigation {
+    @apply flex items-center justify-start 
+    lg:max-h-screen sticky lg:top-0 max-lg:bottom-0
+    lg:border-r max-lg:border-t border-inkLighter/50 
+    max-lg:order-2;
+  }
+
+  .base-navigation .anchors {
+    @apply bg-desk/20 backdrop-blur-md
+    h-full w-full flex items-center justify-between gap-2 
+    lg:flex-col 
+    lg:px-4 lg:py-10 p-4 pb-6;
+  }
+
+  .base-navigation .extras {
+    @apply flex-1 w-40 h-full bg-inkLighter;
+  }
+
+  .base-navigation .middle-links {
+    @apply flex flex-row gap-2 lg:flex-col lg:gap-4;
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro'
+import IconButton from '../components/buttons/IconButton.astro'
+import BaseNav from '../components/navigation/BaseNav.astro';
+import * as Icon from '@astropub/icons'
+
+---
+
+<Base title="test" body_classes="bg-[url('/backgrounds/03.png')]">
+    <section class="w-full max-w-[720px] m-auto text-center space-y-8 p-10">
+      <h4 class="font-mono text-xs uppercase tracking-widest text-inkLighter">Karina Tovar</h4>
+      <h1>
+        <span class="block">Product Designer</span>
+        <span class="block">Pixel Philosopher</span>
+      </h1>
+      <p>My motivation is to craft products that aim to help people have happier days so that they—and their loved ones—can have better lives. If you believe the same, I am your designer.</p>
+    </section>
+</Base>
+
+
+<style>
+  .base-main {
+    @apply flex-1 flex py-20;
+  }
+</style>
+
+<script>
+  import '../scripts/TabsSwitcher';
+</script>
