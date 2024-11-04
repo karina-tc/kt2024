@@ -9,13 +9,15 @@ interface NavItem {
   pressed?: boolean;
 }
 
+const currentPath = Astro.url.pathname;
+
 const middleNavItems: NavItem[] = [
   { label: 'Home', icon: 'Home', target: '/index2' },
-  {label: 'About', icon: 'Cube', target: '/about2' }, 
-  {label: 'Thoughts', icon: 'Bookmark', target: '/index2' }, 
-  { label: 'Work', icon: 'CardStack', target: '/index2' },
-  { label: 'Gallery', icon: 'Component2', target: '/index2' },
-  { label: 'Globe', icon: 'Globe', target: '/index2' },
+  { label: 'About', icon: 'Cube', target: '/about2' }, 
+  { label: 'Thoughts', icon: 'Bookmark', target: '/thoughts2' }, 
+  { label: 'Work', icon: 'CardStack', target: '/work2' },
+  { label: 'Gallery', icon: 'Component2', target: '/gallery' },
+  { label: 'Globe', icon: 'Globe', target: '/globe' },
 ];
 
 interface Props {
@@ -38,8 +40,14 @@ const { additionalClasses = '' } = Astro.props;
     <div class="middle-links">
       {middleNavItems.map(({ label, icon, target, pressed }) => {
         const IconComponent = Icon[icon];
+        const isActive = currentPath === target;
         return (
-          <IconButton {target} {label} pressed={pressed}>
+          <IconButton 
+            {target} 
+            {label} 
+            pressed={pressed}
+            active={isActive}
+          >
             <IconComponent size="16" />
           </IconButton>
         );

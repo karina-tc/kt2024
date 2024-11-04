@@ -7,13 +7,15 @@ interface Props extends HTMLAttributes<'button'> {
   pressed?: boolean;
   target?: string;
   additionalClasses?: string;
+  active?: boolean;
 }
 
 const { 
   label, 
   pressed = false, 
   target = "#",
-  additionalClasses = ""
+  additionalClasses = "",
+  active = false
 } = Astro.props;
 ---
 
@@ -22,6 +24,7 @@ const {
   class:list={[
     'icon-button group relative',
     pressed && 'pressed',
+    active && 'active',
     additionalClasses
   ]}
 >
@@ -40,6 +43,10 @@ const {
 
   .icon-button.pressed {
     @apply hover:bg-inkLighter/40 hover:text-ink;
+  }
+
+  .icon-button.active {
+    @apply bg-brand text-white hover:bg-brandDark;
   }
 
   .tooltip {
