@@ -29,13 +29,21 @@ const { additionalClasses = '' } = Astro.props;
 
 <nav class:list={["base-navigation", additionalClasses]}>
   <div class="anchors">
-    <IconButton 
-      target="/index2" 
-      label="Menu" 
-      pressed={true}
-    >
-      <Icon.HamburgerMenu size="16" />
-    </IconButton>
+    <a href="/index2">
+      <svg width="36" height="30" viewBox="0 0 40 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="meshGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ff5e2b" />
+            <stop offset="50%" style="stop-color:#f87f5a" />
+            <stop offset="100%" style="stop-color:#ff5e2b" />
+          </linearGradient>
+        </defs>
+        <path fill-rule="evenodd" clip-rule="evenodd" 
+          d="M14.6604 0.333253L16.3527 4.26843L18.045 0.333253L40 0.333252L28.1115 15.9795L40 33.6666H18.9329L16.3518 29.2684L13.7707 33.6666H2.7451C1.22902 33.6666 1.32e-06 32.4376 1.25184e-06 30.9215L0 3.07835C-6.8163e-08 1.56228 1.22902 0.333254 2.7451 0.333254L14.6604 0.333253Z" 
+          fill="url(#meshGradient)"
+        />
+      </svg>
+    </a>
 
     <div class="middle-links">
       {middleNavItems.map(({ label, icon, target, pressed }) => {

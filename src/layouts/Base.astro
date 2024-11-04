@@ -133,7 +133,7 @@ const { title, body_classes = '', bg_classes = '' } = Astro.props;
   }
 
   .base-background {
-    @apply bg-cover w-full h-screen fixed inset-0 z-0;
+    @apply bg-cover bg-center w-full h-screen fixed inset-0 z-0;
   }
 
   .text--eyebrow {
@@ -152,4 +152,10 @@ const { title, body_classes = '', bg_classes = '' } = Astro.props;
   h2 {
     @apply font-instrument text-4xl text-inkDark my-4;
   }
+
+  .mesh-bg {
+    background-color: hsla(65, 60%, 97%, 1);
+    background-image: radial-gradient(circle at 92% 93%, hsla(190, 56%, 91%, 0.53) 11%, transparent 79%), radial-gradient(circle at 24% 86%, hsla(13, 52%, 90%, 1) 16%, transparent 83%), radial-gradient(circle at 11% 94%, hsla(43, 55%, 90%, 1) 16%, transparent 51%), radial-gradient(circle at 36% 38%, hsla(81, 82%, 98%, 1) 3%, transparent 59%), radial-gradient(circle at 44% 9%, hsla(252.79411764705875, 81%, 51%, 0.48) 13%, transparent 83%);
+    background-blend-mode: normal, normal, normal, normal, normal;
+}
 </style>
