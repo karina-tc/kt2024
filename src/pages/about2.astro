@@ -5,6 +5,23 @@ import { tenets } from '../data/tenets';
 import { experience } from '../data/experience';
 import * as Icon from '@astropub/icons'
 
+const interests = [
+  {
+    image: '/interests/anthropocene.png',
+    title: 'The Anthropocene',
+    author: 'By John Green'
+  },
+  {
+    image: '/interests/moonwalking.png',
+    title: 'Moonwalking with Einstein',
+    author: 'By Joshua Foer'
+  },
+  {
+    image: '/interests/make.png',
+    title: 'Moonwalking with Einstein',
+    author: 'By Joshua Foer'
+  }
+];
 ---
 
 <!-- bg-[url('landscape.png')] opacity-80 -->
@@ -15,6 +32,7 @@ import * as Icon from '@astropub/icons'
         <span class="block">Designing for Human</span>
         <span class="block">Prosperity</span>
       </h1>
+      <img class="mx-auto" src="ktc.png" width="140px" draggable="false" />
       <p class="text--intro !text-center">
         Artist turned product designer. Obsessed with the intersection of tech and human hapiness.
       </p>
@@ -52,6 +70,7 @@ import * as Icon from '@astropub/icons'
     <section class="base-section--small">
       <h4 class="text--eyebrow">Superpowers</h4>
       <h2>Anthro Technologist</h2>
+      <img class="mx-auto mix-blend-multiply" src="interests/test.png" width="200px" draggable="false" />
       <p class="text-base leading-7">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </p>
@@ -76,10 +95,23 @@ import * as Icon from '@astropub/icons'
 
     <section class="base-section--small">
       <h4 class="text--eyebrow">Humanity</h4>
-      <h2>My Person</h2>
+      <h2>My Interests</h2>
       <p class="text-base leading-7">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </p>
+      <div class="interests">
+        {interests.map(({ image, title, author }) => (
+          <div class="list">
+            <div class="thumbnail">
+              <img src={image} alt={title} />
+            </div>
+            <div class="flex-1 text-left">
+              <p class="">{title}</p>
+              <p class="text-xs font-mono">{author}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
 
     <img src="/backgrounds/03.png" class="-mb-20" />
@@ -87,6 +119,23 @@ import * as Icon from '@astropub/icons'
 
 
 <style>
+  .interests {
+    @apply w-full max-w-sm mx-auto flex flex-col;
+  }
+  .interests .list {
+    @apply flex-1 flex justify-start items-center gap-4 
+    bg-inkLighter/20 p-4 shadow-inner shadow-inkLight/20 
+    border-b-2 border-inkLighter/50;
+    &:first-of-type {
+      @apply rounded-ss-lg rounded-se-lg;
+    }
+  }
+
+  .interests .thumbnail {
+    @apply w-16 rounded-md overflow-hidden 
+    flex items-center justify-center relative
+    border border-white shadow-md;
+  }
   .base-main {
     @apply flex-1 flex py-20;
   }

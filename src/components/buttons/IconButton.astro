@@ -37,16 +37,16 @@ const {
     @apply w-10 h-10 rounded-md bg-transparent
     flex items-center justify-center text-center
     shadow-inkLighter/50 relative transition-all
-    hover:shadow-inner hover:bg-inkLighter hover:text-white
+    hover:shadow-inner hover:bg-brand hover:text-brandDark
     z-0;
   }
 
   .icon-button.pressed {
-    @apply hover:bg-inkLighter/40 hover:text-ink;
+    @apply hover:!bg-brand hover:text-brandDark;
   }
 
   .icon-button.active {
-    @apply bg-inkDark text-white hover:bg-inkLighter;
+    @apply bg-brandDark text-white hover:bg-inkLighter;
   }
 
   .tooltip {
