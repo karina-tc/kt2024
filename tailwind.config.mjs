@@ -8,7 +8,7 @@ export default {
 				'sans': ['Raleway', 'sans-serif'],
 			},
 			colors: {
-				desk: '#fffaf5',
+				desk: '#fefefe',
 				ink: 'rgb(var(--color-ink) / <alpha-value>)',
 				inkLight: 'rgb(var(--color-ink-light) / <alpha-value>)',
 				inkLighter: 'rgb(var(--color-ink-lighter) / <alpha-value>)',
