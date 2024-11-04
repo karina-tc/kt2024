@@ -8,9 +8,10 @@ import BaseNav from '../components/navigation/BaseNav.astro';
 interface Props {
 	title: string;
 	body_classes?: string;
+  bg_classes?: string;
 }
 
-const { title, body_classes = '' } = Astro.props;
+const { title, body_classes = '', bg_classes = '' } = Astro.props;
 ---
 
 <!doctype html>
@@ -29,9 +30,10 @@ const { title, body_classes = '' } = Astro.props;
 		<title>{title}</title>
 		<ViewTransitions />
 	</head>
-  <body class="relative">
+  <body>
     <CoordinateGrid />
     <LoadingBar />
+    {bg_classes && <div class={`base-background ${bg_classes}`}></div>}
     <div class={`base-layout ${body_classes}`}>
       <BaseNav />
       <main class="base-content flex-col">
@@ -101,9 +103,6 @@ const { title, body_classes = '' } = Astro.props;
 				--image-hero: var(--image-hero-dark);
 		}
 	}
-	html {
-		@apply bg-paper text-ink;
-	}
 	code {
 		font-family:
 			Menlo,
@@ -115,12 +114,15 @@ const { title, body_classes = '' } = Astro.props;
 			Courier New,
 			monospace;
 	}
+  html {
+    @apply text-ink text-base bg-desk w-screen overflow-x-hidden relative max-w-[100vw];
+  }
 	body {
-		@apply text-ink text-base bg-desk;
+		@apply relative;
 	}
   
   .base-layout {
-    @apply flex flex-col 
+    @apply flex flex-col relative
     w-full h-full min-h-screen 
     bg-cover bg-center 
     lg:flex-row;
@@ -128,6 +130,20 @@ const { title, body_classes = '' } = Astro.props;
 
   .base-content {
     @apply flex-1 flex py-20;
+  }
+
+  .base-background {
+    @apply bg-cover w-full h-full absolute inset-0 z-0;
+  }
+
+  .text--eyebrow {
+    @apply font-mono text-xs uppercase tracking-widest text-inkLight;
+  }
+
+  .text--intro {
+    @apply text-lg text-left leading-8 
+    lg:text-2xl lg:leading-10
+    font-serif font-normal;
   }
 
   h1 {

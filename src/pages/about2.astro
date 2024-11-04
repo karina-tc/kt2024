@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro'
+import Button from '../components/buttons/Button.astro';
+import { tenets } from '../data/tenets';
+import { experience } from '../data/experience';
+import * as Icon from '@astropub/icons'
+
+---
+
+<!-- bg-[url('landscape.png')] opacity-80 -->
+<Base title="test" bg_classes="">
+    <section class="base-section--small">
+      <h4 class="text--eyebrow">About Me</h4>
+      <h1>
+        <span class="block">Designing for Human</span>
+        <span class="block">Prosperity</span>
+      </h1>
+      <p class="text--intro !text-center">
+        Artist turned product designer. Obsessed with the intersection of tech and human hapiness.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left text-sm leading-7">
+        <p>In my 10+ years of experience, I've helped startups of all sizes evolve from ideas to thoughtfully crafted products. I have worked in Email Marketing, Ad Tech, HR and FinTech. Specializing in technical software.</p>
+        <p>I work tirelessly to make the tedious simple while bringing joy in every strategy meeting, every pixel and line of code. These days, I work leading design at Tropic focusing on AI for finance and procurement teams.</p>
+      </div>
+    </section>
+
+    <section class="base-section--small">
+      <h4 class="text--eyebrow">Experience</h4>
+      <h2>Mini CV</h2>
+      <p class="text-base text-left leading-7">
+        I've helped startups of all sizes become thoughtfully crafted products. I have worked in Email Marketing, Ad Tech, HR and FinTech. Specializing in technical software.
+      </p>
+      <ul class="experience-list pb-10">
+        {experience.map(({ company, title, years }) => (
+          <li>
+            <p>
+              <span><Icon.File size="14" /></span>
+              <span>{company}</span>
+              <span class="text-inkLighter">{title}</span>
+            </p>
+            <p>{years}</p>
+          </li>
+        ))}
+      </ul>
+      <Button variant="icon-link" href="/work2">
+        My Work
+        <Icon.ArrowRight slot="default-icon" size="20" />
+        <Icon.ArrowTopRight slot="hover-icon" size="20" />
+      </Button>
+    </section>
+
+    <section class="base-section--small">
+      <h4 class="text--eyebrow">Superpowers</h4>
+      <h2>Anthro Technologist</h2>
+      <p class="text-base leading-7">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+    </section>
+
+    <section class="base-section--small">
+      <h4 class="text--eyebrow">Tenets</h4>
+      <h2>Keep it Simple</h2>
+      <p class="text-base leading-7">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <div class="postit-grid text-left">
+        {tenets.map(({ digits, title, description, bgColor }) => (
+          <div class={`postit ${bgColor}`}>
+            <span>{digits}</span>
+            <strong>{title}</strong>
+            <p>{description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="base-section--small">
+      <h4 class="text--eyebrow">Humanity</h4>
+      <h2>My Person</h2>
+      <p class="text-base leading-7">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      
+      
+    </section>
+
+    <img src="/public/backgrounds/03.png" class="-mb-20" />
+</Base>
+
+
+<style>
+  .base-main {
+    @apply flex-1 flex py-20;
+  }
+  .base-section--small {
+    @apply w-full max-w-[720px] m-auto 
+    text-center p-10 
+    flex flex-col justify-center space-y-8;
+    &:not(:first-of-type) {
+      @apply mt-10;
+      &::before {
+        @apply h-0.5 w-10 bg-brand mx-auto mb-10;
+        content: '';
+      }
+    }
+  }
+  .base-section--large {
+    @apply w-full max-w-[1200px] m-auto 
+    text-center p-10 
+    flex flex-col justify-center space-y-8;
+    &:not(:first-of-type) {
+      @apply mt-10;
+      &::before {
+        @apply h-0.5 w-10 bg-brand mx-auto mb-10;
+        content: '';
+      }
+    }
+  }
+  .experience-list li {
+    @apply flex flex-col justify-start md:justify-between max-md:gap-2 md:flex-row text-sm 
+    py-4 border-b border-dashed [&:first-of-type]:border-t border-inkLighter/50 transition-all
+    hover:px-2 hover:bg-inkLighter/10;
+  }
+  .experience-list p:first-of-type {
+    @apply flex gap-3 items-center font-medium;
+  }
+  .experience-list p:last-of-type {
+    @apply font-mono text-sm uppercase font-normal text-left md:text-right;
+  }
+  .postit-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  }
+
+  .postit {
+    @apply p-6 rounded-lg shadow-md !shadow-inkLighter/20 border border-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .postit strong {
+    @apply block mb-3 text-lg leading-5 font-semibold pb-4 border-dashed border-b border-inkLighter/50;
+  }
+
+  .postit p {
+    @apply text-sm font-medium leading-relaxed text-inkDark/80;
+  }
+
+  .postit span {
+    @apply text-xs font-medium font-mono leading-relaxed text-inkLighter mb-4 block;
+  }
+
+  .postit:hover span {
+    @apply text-brand;
+  }
+</style>

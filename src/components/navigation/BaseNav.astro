@@ -11,7 +11,8 @@ interface NavItem {
 
 const middleNavItems: NavItem[] = [
   { label: 'Home', icon: 'Home', target: '/index2' },
-  { label: 'Thoughts', icon: 'Bookmark', target: '/index2' },
+  {label: 'About', icon: 'Cube', target: '/about2' }, 
+  {label: 'Thoughts', icon: 'Bookmark', target: '/index2' }, 
   { label: 'Work', icon: 'CardStack', target: '/index2' },
   { label: 'Gallery', icon: 'Component2', target: '/index2' },
   { label: 'Globe', icon: 'Globe', target: '/index2' },
@@ -64,7 +65,7 @@ const { additionalClasses = '' } = Astro.props;
     @apply flex items-center justify-start 
     lg:max-h-screen sticky lg:top-0 max-lg:bottom-0
     lg:border-r max-lg:border-t border-inkLighter/50 
-    max-lg:order-2;
+    max-lg:order-2 z-10;
   }
 
   .base-navigation .anchors {
