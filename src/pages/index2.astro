@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro'
+import Button from '../components/buttons/Button.astro';
+import SocialIcons from '../components/SocialIcons.astro';
+import SpotifyHoverCard from '../components/integrated/SpotifyHoverCard.astro';
+import * as Icon from '@astropub/icons'
+
+
+// Fetch Spotify data
+let spotifyData = {
+  isPlaying: false,
+  artist: 'Not playing',
+  songName: '',
+  albumArt: '',
+  songUrl: ''
+};
+
+try {
+  const response = await fetch(`${Astro.url.origin}/api/spotify-now-playing`);
+  spotifyData = await response.json();
+} catch (error) {
+  console.error('Failed to fetch Spotify data:', error);
+}
+
+---
+<!-- bg-[url('landscape.png')] opacity-80 -->
+<Base title="Home" bg_classes="bg-[url('/public/landscape.png')] mix-blend-multiply opacity-50">
+    <section class="base-section--small">
+      <h4 class="text--eyebrow">Karina Tovar</h4>
+      <h1>
+        <span class="block">Product Designer</span>
+        <span class="block">Pixel Philosopher</span>
+      </h1>
+      <p class="text-intro">My motivation is to craft products that aim to help people have happier days so that they—and their loved ones—can have better lives. Our lives are too short to be runied by bad software. If you believe the same, I am your designer.</p>
+      <div class="flex flex-col items-center gap-4 flex-wrap justify-center">
+        <Button variant="icon-link" href="/work">
+          My Work
+          <Icon.ArrowRight slot="default-icon" size="20" />
+          <Icon.ArrowTopRight slot="hover-icon" size="20" />
+        </Button>
+        <SocialIcons />
+      </div>
+      <div class="flex items-center gap-1.5 w-fit mt-8 mx-auto">
+        <SpotifyHoverCard {...spotifyData} />
+      </div>
+    </section>
+    <img src="/public/kt.png" class="mix-blend-multiply -mb-20" draggable="false" />
+</Base>
+
+
+<style>
+  .base-main {
+    @apply flex-1 flex py-20;
+  }
+  .base-section--small {
+    @apply w-full max-w-[720px] m-auto 
+    text-center p-10 
+    flex flex-col justify-center space-y-8;
+    &:not(:first-of-type) {
+      @apply mt-10;
+      &::before {
+        @apply h-0.5 w-10 bg-inkLighter mx-auto mb-10;
+        content: '';
+      }
+    }
+  }
+</style>
+

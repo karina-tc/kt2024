@@ -1,0 +1,89 @@
+---
+import IconButton from '../buttons/IconButton.astro';
+import * as Icon from '@astropub/icons';
+
+interface NavItem {
+  label: string;
+  icon: keyof typeof Icon;
+  target: string;
+  pressed?: boolean;
+}
+
+const currentPath = Astro.url.pathname;
+
+const middleNavItems: NavItem[] = [
+  { label: 'Home', icon: 'Home', target: '/index2' },
+  { label: 'About', icon: 'Cube', target: '/about2' }, 
+  { label: 'Thoughts', icon: 'Bookmark', target: '/thoughts2' }, 
+  { label: 'Work', icon: 'CardStack', target: '/work2' },
+  { label: 'Gallery', icon: 'Component2', target: '/gallery' },
+  { label: 'Globe', icon: 'Globe', target: '/globe' },
+];
+
+interface Props {
+  additionalClasses?: string;
+}
+
+const { additionalClasses = '' } = Astro.props;
+---
+
+<nav class:list={["base-navigation", additionalClasses]}>
+  <div class="anchors">
+    <a href="/index2">
+      <img src="/public/logo.png" width="32px" />
+    </a>
+
+    <div class="middle-links">
+      {middleNavItems.map(({ label, icon, target, pressed }) => {
+        const IconComponent = Icon[icon];
+        const isActive = currentPath === target;
+        return (
+          <IconButton 
+            {target} 
+            {label} 
+            pressed={pressed}
+            active={isActive}
+          >
+            <IconComponent size="16" />
+          </IconButton>
+        );
+      })}
+    </div>
+
+    <IconButton 
+      target="/index2" 
+      label="Settings" 
+      pressed={true} 
+      additionalClasses="!bg-desk/70"
+    >
+      <Icon.Gear size="16" />
+    </IconButton>
+  </div>
+  <div class="extras hidden">
+    some test
+  </div>
+</nav>
+
+<style>
+  .base-navigation {
+    @apply flex items-center justify-start 
+    lg:max-h-screen sticky lg:top-0 max-lg:bottom-0
+    lg:border-r max-lg:border-t border-inkLighter/50 
+    max-lg:order-2 z-10;
+  }
+
+  .base-navigation .anchors {
+    @apply bg-desk/20 backdrop-blur-md
+    h-full w-full flex items-center justify-between gap-2 
+    lg:flex-col 
+    lg:px-4 lg:py-10 p-4 pb-6;
+  }
+
+  .base-navigation .extras {
+    @apply flex-1 w-40 h-full bg-inkLighter;
+  }
+
+  .base-navigation .middle-links {
+    @apply flex flex-row gap-2 lg:flex-col lg:gap-4;
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+import * as Icon from '@astropub/icons'
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'button'> {
+  label: string;
+  pressed?: boolean;
+  target?: string;
+  additionalClasses?: string;
+  active?: boolean;
+}
+
+const { 
+  label, 
+  pressed = false, 
+  target = "#",
+  additionalClasses = "",
+  active = false
+} = Astro.props;
+---
+
+<a
+  href={target}
+  class:list={[
+    'icon-button group relative',
+    pressed && 'pressed',
+    active && 'active',
+    additionalClasses
+  ]}
+>
+  <slot></slot>
+  <span class="tooltip">{label}</span>
+</a>
+
+<style>
+  .icon-button {
+    @apply w-10 h-10 rounded-md bg-transparent
+    flex items-center justify-center text-center
+    shadow-inkLighter/50 relative transition-all
+    hover:shadow-inner hover:bg-brand hover:text-brandDark
+    z-0;
+  }
+
+  .icon-button.pressed {
+    @apply hover:!bg-brand hover:text-brandDark;
+  }
+
+  .icon-button.active {
+    @apply bg-brandDark text-white hover:bg-inkLighter;
+  }
+
+  .tooltip {
+    @apply text-xs text-ink text-center
+    font-mono tracking-widest uppercase
+    flex items-center justify-center
+    w-fit bg-white px-2.5 py-1.5 rounded-sm
+    absolute mx-auto z-50
+    lg:left-full lg:ml-2
+    max-lg:bottom-full max-lg:mb-2
+    opacity-0 transition-all duration-200
+    pointer-events-none
+    shadow-lg shadow-inkLighter/25
+    group-hover:opacity-100 group-hover:visible;
+  }
+
+  .tooltip::before {
+    content: '';
+    @apply absolute w-2 h-2 bg-white rotate-45
+    shadow-lg shadow-inkLighter/25
+    lg:left-[-4px] lg:top-[50%] lg:translate-y-[-50%]
+    max-lg:bottom-[-4px] max-lg:left-[50%] max-lg:translate-x-[-50%];
+  }
+</style>
